@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Home"
+        android:icon="@drawable/homelogo"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/Menu"
+        android:icon="@drawable/menulogo"
+        android:title="Menu"/>
+
+    <item
+        android:id="@+id/Cart"
+        android:title=""
+        />
+
+    <item
+        android:id="@+id/Payment"
+        android:icon="@drawable/paymentlogo"
+        android:title="Payment"/>
+
+    <item
+        android:id="@+id/Settings"
+        android:icon="@drawable/settingslogo"
+        android:title="Settings"/>
+</menu>

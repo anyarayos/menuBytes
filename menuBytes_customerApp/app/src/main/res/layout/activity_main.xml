@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="185dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:text="Hi table 1!"
+            android:textColor="#FFC61D25"
+            android:textSize="25sp"
+            app:fontFamily="@font/bungee"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="187dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:text="Search and Order"
+            android:textColor="@color/design_default_color_on_secondary"
+            android:textSize="20sp"
+            app:fontFamily="@font/viga"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <com.synnapps.carouselview.CarouselView
+            android:id="@+id/carousel"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:radius="6dp"
+            app:slideInterval="3000"
+            tools:layout_editor_absoluteX="0dp">
+
+        </com.synnapps.carouselview.CarouselView>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="109dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/userdp" />
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="338dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/purple_200"
+            android:text="Search desired food here"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/carousel">
+
+
+        </SearchView>
+
+        <ImageButton
+            android:id="@+id/menuButton1"
+            android:layout_width="155dp"
+            android:layout_height="94dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toStartOf="@+id/menuButton2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchView"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/homebutton1"
+            android:background="@color/purple_500"/>
+
+        <ImageButton
+            android:id="@+id/menuButton2"
+            android:layout_width="155dp"
+            android:layout_height="94dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/menuButton1"
+            app:layout_constraintTop_toBottomOf="@+id/searchView"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/homebutton2"
+            android:background="@color/purple_500"/>
+        <ImageButton
+            android:id="@+id/menuButton3"
+            android:layout_width="155dp"
+            android:layout_height="94dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/menuButton4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/menuButton1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/homebutton3"
+            android:background="@color/purple_500"/>
+
+        <ImageButton
+            android:id="@+id/menuButton4"
+            android:layout_width="155dp"
+            android:layout_height="94dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/menuButton3"
+            app:layout_constraintTop_toBottomOf="@+id/menuButton2"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/homebutton4"
+            android:background="@color/purple_500"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:id="@+id/bottomAppBar"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="10dp"
+        app:fabCradleVerticalOffset="10dp">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottomNavigationView"
+            android:layout_marginRight="16dp"
+            app:menu="@menu/bottom_nav_menu"
+            android:background="@drawable/transparent_background">
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fab"
+        android:src="@drawable/cartlogo"
+        app:layout_anchor="@id/bottomAppBar">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

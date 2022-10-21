@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Shawarma"
+        android:icon="@drawable/shawarmalogo"
+        android:title="Shawarma"
+        app:cnb_textColor="#C61D25"
+        app:cnb_iconColor="#C61D25"
+        app:cnb_backgroundColor="#FFFFFF"/>
+    <item
+        android:id="@+id/Bowl"
+        android:icon="@drawable/bowllogo"
+        android:title="Rice Bowl"
+        app:cnb_textColor="#C61D25"
+        app:cnb_iconColor="#C61D25"
+        app:cnb_backgroundColor="#FFFFFF"/>
+    <item
+        android:id="@+id/Wings"
+        android:icon="@drawable/wingslogo"
+        android:title="Wings"
+        app:cnb_textColor="#C61D25"
+        app:cnb_iconColor="#C61D25"
+        app:cnb_backgroundColor="#FFFFFF"/>
+    <item
+        android:id="@+id/Beverages"
+        android:icon="@drawable/bevlogo"
+        android:title="Beverages"
+        app:cnb_textColor="#C61D25"
+        app:cnb_iconColor="#C61D25"
+        app:cnb_backgroundColor="#FFFFFF"/>
+    <item
+        android:id="@+id/Addons"
+        android:icon="@drawable/addonslogo"
+        android:title="Add Ons"
+        app:cnb_textColor="#C61D25"
+        app:cnb_iconColor="#C61D25"
+        app:cnb_backgroundColor="#FFFFFF"/>
+</menu>
