@@ -55,6 +55,8 @@ public class Task extends AsyncTask<String, String, Object> {
         try {
             if (method.equals(RETRIEVE_PRODUCTS_BY_CATEGORY)) {
                 statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByCategory());
+                String category =params[0];
+                statement.setString(1,category);
                 resultSet = statement.executeQuery();
                 if (!resultSet.isBeforeFirst()) {
                     Log.d("resultSet:", "NO DATA FOUND");
@@ -66,8 +68,8 @@ public class Task extends AsyncTask<String, String, Object> {
                                 resultSet.getString(2),
                                 resultSet.getString(3),
                                 resultSet.getString(4),
-                                resultSet.getString(    5),
-                                resultSet.getString(    6)
+                                resultSet.getString(5),
+                                resultSet.getString(6)
                         ));
                     }
                     return productListClassArrayList;

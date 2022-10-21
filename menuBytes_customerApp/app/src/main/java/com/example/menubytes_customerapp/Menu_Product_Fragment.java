@@ -3,6 +3,7 @@ package com.example.menubytes_customerapp;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -25,12 +26,13 @@ public class Menu_Product_Fragment extends Fragment {
 
     //i added this
     String tmpMealTotal,tempQty;
-    int priceTotal=0,addonsTotal=0, tempIntQty=0;
+    double priceTotal=0,addonsTotal=0, tempIntQty=0;
     TextView qtyTxt, mealTotal;
     Button minusQty, addQty, addToCart;
     RadioButton soloRad, b1t1Rad;
     RadioGroup radioGroup;
     CheckBox cbJava, cbCheese, cbGarlic, cbAllMeat;
+    ConstraintLayout constraintLayout;
 
     int PRODUCT_ID=-1;
 
@@ -69,7 +71,7 @@ public class Menu_Product_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
 
             int product_id = PRODUCT_ID;
-            Log.d("onCreate", "PRODUCT ID: "+ product_id);
+
             if(product_id!=-1 && product_id!=-0){
                 Task task = new Task("retrieveProductsByID", new AsyncResponse() {
                     @Override
@@ -81,6 +83,14 @@ public class Menu_Product_Fragment extends Fragment {
                             txtItemDescription.setText(productListClassArrayList.get(0).getDesShawarma());
                             soloPrice.setText(productListClassArrayList.get(0).getPriceShawarma());
                             b1t1Price.setText(productListClassArrayList.get(0).getProductBundle());
+                            priceTotal = Double.parseDouble(soloPrice.getText().toString());
+                            mealTotal.setText(Double.toString(priceTotal));
+                            if(productListClassArrayList.get(0).getProductBundle()==null){
+                                b1t1Rad = getView().findViewById(R.id.b1t1RadioButton);
+                                b1t1Rad.setVisibility(View.GONE);
+                            }
+
+                            constraintLayout.setVisibility(View.VISIBLE);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -114,10 +124,12 @@ public class Menu_Product_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_product,null);
+        
+        constraintLayout = view.findViewById(R.id.fragment_frameLayout);
 
         //meal total changing
         mealTotal = (TextView) view.findViewById(R.id.mealTotalText);
-        mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*tempIntQty)+".00");
+
 
         //quantity changing
         imgViewItemMenu = view.findViewById(R.id.imgViewItemMenu);
@@ -135,13 +147,13 @@ public class Menu_Product_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 tempQty =  qtyTxt.getText().toString();
-                tempIntQty = Integer.parseInt(tempQty)-1;
-                tempQty = Integer.toString(tempIntQty);
+                tempIntQty = Double.parseDouble(tempQty)-1;
+                tempQty = Integer.toString((int) tempIntQty);
                 qtyTxt.setText(tempQty);
                 if (tempIntQty==0){
                     minusQty.setEnabled(false);
                 }
-                mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*Integer.parseInt(qtyTxt.getText().toString()))+".00");
+                mealTotal.setText(Double.toString((priceTotal+addonsTotal)* Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
         });
         addQty.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +169,7 @@ public class Menu_Product_Fragment extends Fragment {
                 else if (tempIntQty>0){
                     minusQty.setEnabled(true);
                 }
-                mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*Integer.parseInt(qtyTxt.getText().toString()))+".00");
+                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
         });
 
@@ -169,12 +181,12 @@ public class Menu_Product_Fragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.soloRadioButton:
-                        priceTotal = 45;
-                        mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*Integer.parseInt(qtyTxt.getText().toString()))+".00");
+                        priceTotal = Double.parseDouble(soloPrice.getText().toString());
+                        mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                     case R.id.b1t1RadioButton:
-                        priceTotal = 79;
-                        mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*Integer.parseInt(qtyTxt.getText().toString()))+".00");
+                        priceTotal = Double.parseDouble(b1t1Price.getText().toString());
+                        mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                 }
 
@@ -197,7 +209,7 @@ public class Menu_Product_Fragment extends Fragment {
                 else if (isChecked_java == false){
                     addonsTotal = addonsTotal - 15;
                 }
-                mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*Integer.parseInt(qtyTxt.getText().toString()))+".00");
+                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
         });
 
@@ -211,7 +223,7 @@ public class Menu_Product_Fragment extends Fragment {
                 else if (isChecked_cheese == false){
                     addonsTotal = addonsTotal - 10;
                 }
-                mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*Integer.parseInt(qtyTxt.getText().toString()))+".00");
+                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
         });
 
@@ -225,7 +237,7 @@ public class Menu_Product_Fragment extends Fragment {
                 else if (isChecked_garlic == false){
                     addonsTotal = addonsTotal - 10;
                 }
-                mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*Integer.parseInt(qtyTxt.getText().toString()))+".00");
+                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
         });
 
@@ -239,7 +251,7 @@ public class Menu_Product_Fragment extends Fragment {
                 else if (isChecked_allmeat == false){
                     addonsTotal = addonsTotal - 10;
                 }
-                mealTotal.setText(Integer.toString((priceTotal+addonsTotal)*Integer.parseInt(qtyTxt.getText().toString()))+".00");
+                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
         });
 
