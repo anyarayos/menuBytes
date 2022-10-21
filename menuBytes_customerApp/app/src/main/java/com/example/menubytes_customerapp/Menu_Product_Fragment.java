@@ -124,7 +124,7 @@ public class Menu_Product_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_product,null);
-        
+
         constraintLayout = view.findViewById(R.id.fragment_frameLayout);
 
         //meal total changing
