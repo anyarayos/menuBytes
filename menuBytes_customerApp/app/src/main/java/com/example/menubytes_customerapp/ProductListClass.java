@@ -22,7 +22,7 @@ public class ProductListClass {
         NameShawarma = name;
         PriceShawarma = price;
         DesShawarma = des;
-        productBundle = productBundle;
+        this.productBundle = productBundle;
     }
 
     public int getId() {

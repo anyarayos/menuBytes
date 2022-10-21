@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_cart.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/custom_dialog.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_bowl.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu_product.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu_ssbr.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu_swl.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu_swr.xml" value="0.2" />
+        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_product_item_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_shawarma.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/list_shawarma.xml" value="0.23854166666666668" />
       </map>

@@ -50,10 +50,10 @@ public class MenuShawarmaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_shawarma,null);
+        View view = inflater.inflate(R.layout.fragment_product_item_list,null);
 
         //creating list for shawarma
-        ListView listViewShawarma = (ListView) view.findViewById(R.id.shawarmaListView);
+        ListView listViewShawarma = (ListView) view.findViewById(R.id.productsListView);
         Task task = new Task(getContext(),Task.RETRIEVE_PRODUCTS_BY_CATEGORY, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
@@ -71,7 +71,7 @@ public class MenuShawarmaFragment extends Fragment {
                 });
             }
         });
-        task.execute();
+        task.execute("shawarma");
 
         //attempt to onclicklistener hehe
 
