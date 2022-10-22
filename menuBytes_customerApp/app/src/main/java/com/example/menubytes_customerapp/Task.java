@@ -94,7 +94,7 @@ public class Task extends AsyncTask<String, String, Object> {
                                 resultSet.getString(5)
                         ));
                     }
-                    Log.d("resultSet:", "DATA FOUND" + productListClassArrayList.get(0).getImageShawarma());
+                    Log.d("resultSet:", "DATA FOUND" + productListClassArrayList.get(0).getImage());
                     return productListClassArrayList;
                 }
             }

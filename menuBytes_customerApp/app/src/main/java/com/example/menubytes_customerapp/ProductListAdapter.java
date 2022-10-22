@@ -33,16 +33,16 @@ public class ProductListAdapter extends ArrayAdapter<ProductListClass> {
         convertView = layoutInflater.inflate(mResource,parent,false);
         ImageView imageView = convertView.findViewById(R.id.imageShawarma);
         try {
-            imageView.setImageDrawable(getDrawableFromAssets(getItem(position).getImageShawarma()));
+            imageView.setImageDrawable(getDrawableFromAssets(getItem(position).getImage()));
         } catch (IOException e) {
             e.printStackTrace();
         }
         TextView txtName = convertView.findViewById(R.id.txtNameShawarma);
-        txtName.setText(getItem(position).getNameShawarma());
+        txtName.setText(getItem(position).getName());
         TextView txtPrice = convertView.findViewById(R.id.txtPriceShawarma);
-        txtPrice.setText(getItem(position).getPriceShawarma());
+        txtPrice.setText(getItem(position).getPrice());
         TextView txtDes = convertView.findViewById(R.id.txtDesShawarma);
-        txtDes.setText(getItem(position).getDesShawarma());
+        txtDes.setText(getItem(position).getDescription());
         return convertView;
     }
 

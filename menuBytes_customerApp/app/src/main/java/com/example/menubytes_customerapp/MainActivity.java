@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,6 +17,9 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
 public class MainActivity extends AppCompatActivity {
+
+    Context context = MainActivity.this;
+
     private int[] mImages = new int[]{
         R.drawable.carousel0,R.drawable.carousel1,R.drawable.carousel2,R.drawable.carousel3
     };
