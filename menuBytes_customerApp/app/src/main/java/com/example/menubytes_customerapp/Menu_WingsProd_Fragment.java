@@ -33,6 +33,7 @@ import java.util.List;
  */
 public class Menu_WingsProd_Fragment extends Fragment {
 
+    LoadingDialog loadingDialog;
     private TextView txtItemTitle;
     private TextView txtItemDescription;
     private TextView mealTotalText;
@@ -83,6 +84,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadingDialog = new LoadingDialog(this.getActivity());
         int product_id = PRODUCT_ID;
 
         if(product_id!=-1 && product_id!=-0){
@@ -99,6 +101,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
                         mealTotalText.setText(Double.toString(priceTotal));
 
                         constraintLayout.setVisibility(View.VISIBLE);
+                        loadingDialog.dismissDialog();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -131,7 +134,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu__wingsprod,null);
-
+        loadingDialog.startLoadingDialog();
         txtItemTitle = view.findViewById(R.id.txtItemTitle);
         txtItemDescription = view.findViewById(R.id.txtItemDescription);
         mealTotalText = view.findViewById(R.id.mealTotalText);

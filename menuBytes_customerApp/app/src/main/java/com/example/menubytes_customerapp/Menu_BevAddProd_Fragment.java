@@ -33,7 +33,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
     private Button addQtyButton;
     private Button minusQtyButton;
     private ConstraintLayout constraintLayout;
-
+    LoadingDialog loadingDialog;
     private double priceTotal=0,addonsTotal=0, tempIntQty=0;
 
     String tempQty;
@@ -67,7 +67,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int product_id = PRODUCT_ID;
-
+        loadingDialog = new LoadingDialog(this.getActivity());
         if(product_id!=-1 && product_id!=-0){
             Task task = new Task("retrieveProductsByID", new AsyncResponse() {
                 @Override
@@ -82,6 +82,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                         mealTotalText.setText(Double.toString(priceTotal));
 
                         constraintLayout.setVisibility(View.VISIBLE);
+                        loadingDialog.dismissDialog();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -114,7 +115,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu__bevaddprod,null);
-
+        loadingDialog.startLoadingDialog();
         constraintLayout = view.findViewById(R.id.frameLayoutwings);
         imgViewItemMenu = view.findViewById(R.id.imgViewItemMenu);
         txtItemTitle = view.findViewById(R.id.txtItemTitle);

@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class MenuBeveragesFragment extends Fragment {
     public final static String PRODUCT_ID= "PRODUCT_ID";
-
+    LoadingDialog loadingDialog;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -45,6 +45,7 @@ public class MenuBeveragesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadingDialog = new LoadingDialog(this.getActivity());
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -55,7 +56,7 @@ public class MenuBeveragesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_item_list,null);
-
+        loadingDialog.startLoadingDialog();
         ListView listViewProducts = (ListView) view.findViewById(R.id.productsListView);
         Task task = new Task(getContext(),Task.RETRIEVE_PRODUCTS_BY_CATEGORY, new AsyncResponse() {
             @Override
@@ -63,6 +64,7 @@ public class MenuBeveragesFragment extends Fragment {
                 productListClassArrayList = (ArrayList<ProductListClass>)output;
                 ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_shawarma, productListClassArrayList);
                 listViewProducts.setAdapter(productListAdapter);
+                loadingDialog.dismissDialog();
                 listViewProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

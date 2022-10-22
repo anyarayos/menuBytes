@@ -33,7 +33,7 @@ public class Menu_Product_Fragment extends Fragment {
     RadioGroup radioGroup;
     CheckBox cbJava, cbCheese, cbGarlic, cbAllMeat;
     ConstraintLayout constraintLayout;
-
+    LoadingDialog loadingDialog;
     int PRODUCT_ID=-1;
 
     ImageView imgViewItemMenu;
@@ -69,7 +69,7 @@ public class Menu_Product_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        loadingDialog = new LoadingDialog(this.getActivity());
             int product_id = PRODUCT_ID;
 
             if(product_id!=-1 && product_id!=-0){
@@ -91,6 +91,7 @@ public class Menu_Product_Fragment extends Fragment {
                             }
 
                             constraintLayout.setVisibility(View.VISIBLE);
+                            loadingDialog.dismissDialog();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -124,7 +125,7 @@ public class Menu_Product_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_product,null);
-
+        loadingDialog.startLoadingDialog();
         constraintLayout = view.findViewById(R.id.fragment_frameLayout);
 
         //meal total changing
