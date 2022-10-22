@@ -2,11 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_frameLayout"
+    android:id="@+id/frameLayoutbev"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Menu_Product_Fragment"
-    android:visibility="gone">
+    tools:context=".Menu_WingsProd_Fragment" >
 
     <TextView
         android:id="@+id/textView7"
@@ -17,32 +16,20 @@
         android:text="Select Quantity"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
-
-    <TextView
-        android:id="@+id/cheesePrice2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
-        android:text="10.00"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/garlicSaucePrice" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_garlic" />
 
     <TextView
         android:id="@+id/mealTotalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="53dp"
         android:text="0.00"
         android:textColor="#FFC61D25"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/addButton"
         app:layout_constraintStart_toEndOf="@+id/addQtyButton"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_garlic" />
 
     <TextView
         android:id="@+id/garlicSaucePrice"
@@ -81,15 +68,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <CheckBox
-        android:id="@+id/checkBox_allmeat"
-        android:layout_width="233dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:text="Shawarma All Meat"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_garlic" />
-
-    <CheckBox
         android:id="@+id/checkBox_garlic"
         android:layout_width="233dp"
         android:layout_height="wrap_content"
@@ -103,21 +81,23 @@
         android:layout_width="204dp"
         android:layout_height="18dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="74dp"
         android:text="Optional"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/typeRadioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/category_chip_group" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="11dp"
         android:text="Choose Add Ons"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeRadioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/category_chip_group" />
 
     <TextView
         android:id="@+id/qtyText"
@@ -167,34 +147,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:text="Choose Type"
+        android:text="Choose Flavors"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtItemDescription" />
-
-    <TextView
-        android:id="@+id/soloPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="25dp"
-        android:text="00.00"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPick" />
-
-    <TextView
-        android:id="@+id/b1t1Price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
-        android:text="00.00"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/soloPrice" />
 
     <TextView
         android:id="@+id/txtPick"
@@ -205,28 +161,6 @@
         android:text="Pick 1"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/txtItemDescription" />
-
-    <RadioGroup
-        android:id="@+id/typeRadioGroup"
-        android:layout_width="235dp"
-        android:layout_height="102dp"
-        android:layout_marginStart="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
-
-        <RadioButton
-            android:id="@+id/soloRadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="Solo" />
-
-        <RadioButton
-            android:id="@+id/b1t1RadioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buy 1 Take 1" />
-    </RadioGroup>
 
     <CheckBox
         android:id="@+id/checkBox_java"
@@ -250,11 +184,11 @@
         android:id="@+id/addButton"
         android:layout_width="117dp"
         android:layout_height="60dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
         android:text="Add to Cart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
         android:id="@+id/minusQtyButton"
@@ -262,11 +196,11 @@
         android:layout_width="43dp"
         android:layout_height="60dp"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="5dp"
         android:text="-"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
         android:id="@+id/addQtyButton"
@@ -274,10 +208,67 @@
         android:layout_width="43dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="5dp"
         android:text="+"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toEndOf="@+id/minusQtyButton"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/category_chip_group"
+        android:layout_width="320dp"
+        android:layout_height="107dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/garlicPar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Garlic Parmesan"
+            tools:layout_editor_absoluteX="25dp"
+            tools:layout_editor_absoluteY="282dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/saltedEgg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salted Egg"
+            tools:layout_editor_absoluteX="25dp"
+            tools:layout_editor_absoluteY="330dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/buffaloFlav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buffalo"
+            tools:layout_editor_absoluteX="25dp"
+            tools:layout_editor_absoluteY="282dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/bulgogiFlav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bulgogi"
+            tools:layout_editor_absoluteX="25dp"
+            tools:layout_editor_absoluteY="330dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/soyGarlic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Soy Garlic"
+            tools:layout_editor_absoluteX="25dp"
+            tools:layout_editor_absoluteY="282dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/sesameHoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sesame Honey"
+            tools:layout_editor_absoluteX="25dp"
+            tools:layout_editor_absoluteY="330dp" />
+    </com.google.android.material.chip.ChipGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

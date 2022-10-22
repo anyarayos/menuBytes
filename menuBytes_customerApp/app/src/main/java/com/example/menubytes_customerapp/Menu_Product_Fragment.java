@@ -78,10 +78,10 @@ public class Menu_Product_Fragment extends Fragment {
                     public void onFinish(Object output) {
                         ArrayList <ProductListClass> productListClassArrayList = (ArrayList<ProductListClass>)output;
                         try {
-                            imgViewItemMenu.setImageDrawable(getDrawableFromAssets(productListClassArrayList.get(0).getImageShawarma()));
-                            txtItemTitle.setText(productListClassArrayList.get(0).getNameShawarma());
-                            txtItemDescription.setText(productListClassArrayList.get(0).getDesShawarma());
-                            soloPrice.setText(productListClassArrayList.get(0).getPriceShawarma());
+                            imgViewItemMenu.setImageDrawable(getDrawableFromAssets(productListClassArrayList.get(0).getImage()));
+                            txtItemTitle.setText(productListClassArrayList.get(0).getName());
+                            txtItemDescription.setText(productListClassArrayList.get(0).getDescription());
+                            soloPrice.setText(productListClassArrayList.get(0).getPrice());
                             b1t1Price.setText(productListClassArrayList.get(0).getProductBundle());
                             priceTotal = Double.parseDouble(soloPrice.getText().toString());
                             mealTotal.setText(Double.toString(priceTotal));

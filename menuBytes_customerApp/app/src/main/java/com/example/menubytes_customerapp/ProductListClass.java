@@ -2,26 +2,26 @@ package com.example.menubytes_customerapp;
 
 public class ProductListClass {
     int id;
-    String ImageShawarma;
-    String NameShawarma;
-    String PriceShawarma;
-    String DesShawarma;
+    String Image;
+    String Name;
+    String Price;
+    String Description;
     String productBundle;
 
     public ProductListClass(int id, String image, String name, String price, String des, String productBundle) {
         this.id = id;
-        ImageShawarma = image;
-        NameShawarma = name;
-        PriceShawarma = price;
-        DesShawarma = des;
+        Image = image;
+        Name = name;
+        Price = price;
+        Description = des;
         this.productBundle = productBundle;
     }
 
     public ProductListClass(String image, String name, String price, String des, String productBundle) {
-        ImageShawarma = image;
-        NameShawarma = name;
-        PriceShawarma = price;
-        DesShawarma = des;
+        Image = image;
+        Name = name;
+        Price = price;
+        Description = des;
         this.productBundle = productBundle;
     }
 
@@ -41,35 +41,35 @@ public class ProductListClass {
         this.productBundle = productBundle;
     }
 
-    public String getImageShawarma() {
-        return ImageShawarma;
+    public String getImage() {
+        return Image;
     }
 
-    public void setImageShawarma(String imageShawarma) {
-        ImageShawarma = imageShawarma;
+    public void setImage(String image) {
+        Image = image;
     }
 
-    public String getNameShawarma() {
-        return NameShawarma;
+    public String getName() {
+        return Name;
     }
 
-    public void setNameShawarma(String nameShawarma) {
-        NameShawarma = nameShawarma;
+    public void setName(String name) {
+        Name = name;
     }
 
-    public String getPriceShawarma() {
-        return PriceShawarma;
+    public String getPrice() {
+        return Price;
     }
 
-    public void setPriceShawarma(String priceShawarma) {
-        PriceShawarma = priceShawarma;
+    public void setPrice(String priceShawarma) {
+        Price = priceShawarma;
     }
 
-    public String getDesShawarma() {
-        return DesShawarma;
+    public String getDescription() {
+        return Description;
     }
 
-    public void setDesShawarma(String desShawarma) {
-        DesShawarma = desShawarma;
+    public void setDescription(String description) {
+        Description = description;
     }
 }
