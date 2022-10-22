@@ -70,14 +70,13 @@ public class MenuWingsFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
                         Fragment fragment = null;
-                        fragment = new Menu_Product_Fragment(productListClassArrayList.get(position).getId());
+                        fragment = new Menu_WingsProd_Fragment(productListClassArrayList.get(position).getId());
                         fm.replace(R.id.menu_container,fragment).commit();
                     }
                 });
             }
         });
         task.execute("wings");
-
 
         return view;
     }

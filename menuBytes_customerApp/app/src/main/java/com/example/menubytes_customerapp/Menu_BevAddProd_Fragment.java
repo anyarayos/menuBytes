@@ -115,7 +115,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu__bevaddprod,null);
 
-        constraintLayout = view.findViewById(R.id.frameLayoutbev);
+        constraintLayout = view.findViewById(R.id.frameLayoutwings);
         imgViewItemMenu = view.findViewById(R.id.imgViewItemMenu);
         txtItemTitle = view.findViewById(R.id.txtItemTitle);
         txtItemDescription = view.findViewById(R.id.txtItemDescription);
