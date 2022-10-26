@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +39,10 @@ public class Menu_Product_Fragment extends Fragment {
     ConstraintLayout constraintLayout;
     LoadingDialog loadingDialog;
     int PRODUCT_ID=-1;
+    String OrderAddOns_1 ="";
+    String OrderAddOns_2 ="";
+    String OrderAddOns_3 ="";
+    String OrderAddOns_4 ="";
 
     ImageView imgViewItemMenu;
     TextView txtItemTitle;
@@ -73,7 +81,7 @@ public class Menu_Product_Fragment extends Fragment {
             int product_id = PRODUCT_ID;
 
             if(product_id!=-1 && product_id!=-0){
-                Task task = new Task("retrieveProductsByID", new AsyncResponse() {
+                Task task = new Task(Task.RETRIEVE_PRODUCTS_BY_ID, new AsyncResponse() {
                     @Override
                     public void onFinish(Object output) {
                         ArrayList <ProductListClass> productListClassArrayList = (ArrayList<ProductListClass>)output;
@@ -84,7 +92,7 @@ public class Menu_Product_Fragment extends Fragment {
                             soloPrice.setText(productListClassArrayList.get(0).getPrice());
                             b1t1Price.setText(productListClassArrayList.get(0).getProductBundle());
                             priceTotal = Double.parseDouble(soloPrice.getText().toString());
-                            mealTotal.setText(Double.toString(priceTotal));
+                            mealTotal.setText(Double.toString(priceTotal)+"0");
                             if(productListClassArrayList.get(0).getProductBundle()==null){
                                 b1t1Rad = getView().findViewById(R.id.b1t1RadioButton);
                                 b1t1Rad.setVisibility(View.GONE);
@@ -206,6 +214,7 @@ public class Menu_Product_Fragment extends Fragment {
                 boolean isChecked_java = cbJava.isChecked();
                 if (isChecked_java == true){
                     addonsTotal = addonsTotal + 15;
+                    OrderAddOns_1 = "Java Rice";
                 }
                 else if (isChecked_java == false){
                     addonsTotal = addonsTotal - 15;
@@ -220,6 +229,7 @@ public class Menu_Product_Fragment extends Fragment {
                 boolean isChecked_cheese = cbCheese.isChecked();
                 if (isChecked_cheese == true){
                     addonsTotal = addonsTotal + 10;
+                    OrderAddOns_2 = "Cheese Sauce";
                 }
                 else if (isChecked_cheese == false){
                     addonsTotal = addonsTotal - 10;
@@ -234,6 +244,7 @@ public class Menu_Product_Fragment extends Fragment {
                 boolean isChecked_garlic = cbGarlic.isChecked();
                 if (isChecked_garlic == true){
                     addonsTotal = addonsTotal + 10;
+                    OrderAddOns_3 = "Garlic Sauce";
                 }
                 else if (isChecked_garlic == false){
                     addonsTotal = addonsTotal - 10;
@@ -248,6 +259,7 @@ public class Menu_Product_Fragment extends Fragment {
                 boolean isChecked_allmeat = cbAllMeat.isChecked();
                 if (isChecked_allmeat == true){
                     addonsTotal = addonsTotal + 10;
+                    OrderAddOns_4 = "Shawarma All Meat";
                 }
                 else if (isChecked_allmeat == false){
                     addonsTotal = addonsTotal - 10;
@@ -255,8 +267,30 @@ public class Menu_Product_Fragment extends Fragment {
                 mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
         });
+        ChipNavigationBar chipNavigationBar = view.findViewById(R.id.foodMenuBar);
+
+        addToCart = view.findViewById(R.id.addButton);
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                fragment = new MenuShawarmaFragment();
+                fm.replace(R.id.menu_container,fragment).commit();
+                Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
+                String finalName = txtItemTitle.getText().toString();
+                String finalTotal = mealTotal.getText().toString();
+                String finalQty = qtyTxt.getText().toString();
 
 
+//                OrderListClass order = new OrderListClass(finalName, finalTotal, finalQty, OrderAddOns_1,
+//                        OrderAddOns_2,OrderAddOns_3,OrderAddOns_4);
+                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, OrderAddOns_1,
+                        OrderAddOns_2,OrderAddOns_3,OrderAddOns_4);
+                Utils.getInstance().addToOrders(order);
+
+            }
+        });
         return view;
     }
 }

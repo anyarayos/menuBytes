@@ -1,5 +1,6 @@
 package com.example.menubytes_customerapp;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -51,6 +53,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
 
     private double priceTotal=0,addonsTotal=0, tempIntQty=0,price=0;
 
+    private int wingsPiecesSellected, requiredFlavor;
     String tempQty;
 
     int PRODUCT_ID=-1;
@@ -88,7 +91,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
         int product_id = PRODUCT_ID;
 
         if(product_id!=-1 && product_id!=-0){
-            Task task = new Task("retrieveProductsByID", new AsyncResponse() {
+            Task task = new Task(Task.RETRIEVE_PRODUCTS_BY_ID, new AsyncResponse() {
                 @Override
                 public void onFinish(Object output) {
                     ArrayList <ProductListClass> productListClassArrayList = (ArrayList<ProductListClass>)output;
@@ -98,7 +101,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
                         txtItemDescription.setText(productListClassArrayList.get(0).getDescription());
                         mealTotalText.setText(productListClassArrayList.get(0).getPrice());
                         priceTotal = Double.parseDouble(mealTotalText.getText().toString());
-                        mealTotalText.setText(Double.toString(priceTotal));
+                        mealTotalText.setText(Double.toString(priceTotal)+"0");
 
                         constraintLayout.setVisibility(View.VISIBLE);
                         loadingDialog.dismissDialog();
@@ -259,6 +262,31 @@ public class Menu_WingsProd_Fragment extends Fragment {
                 mealTotalText.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyText.getText().toString()))+"0");
             }
         });
+
+
+        /*
+        ChipGroup wingChipGroup = view.findViewById(R.id.category_chip_group);
+        wingChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(@NonNull ChipGroup group, int checkedId) {
+                Chip wingChip = view.findViewById(checkedId);
+                if (wingChip !=null) {
+                    Toast.makeText(new Activity(), wingChip.getText().toString()+" ITU", Toast.LENGTH_SHORT).show();
+                }
+
+                wingChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                       if (isChecked){
+                           List<Integer>ids = wingChipGroup.getCheckedChipIds();
+                           if (ids.size()>2) {
+
+                           }
+                       }
+                    }
+                });
+            }
+        });*/
 
         return view;
     }

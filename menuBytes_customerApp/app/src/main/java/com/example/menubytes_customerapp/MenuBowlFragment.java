@@ -63,7 +63,7 @@ public class MenuBowlFragment extends Fragment {
             @Override
             public void onFinish(Object output) {
                 productListClassArrayList = (ArrayList<ProductListClass>)output;
-                ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_shawarma, productListClassArrayList);
+                ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_product, productListClassArrayList);
                 listViewProducts.setAdapter(productListAdapter);
                 loadingDialog.dismissDialog();
                 listViewProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {

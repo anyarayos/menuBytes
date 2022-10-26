@@ -5,8 +5,8 @@
     android:id="@+id/frameLayoutwings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Menu_WingsProd_Fragment"
-    android:visibility="gone">
+    android:visibility="visible"
+    tools:context=".Menu_WingsProd_Fragment">
 
     <TextView
         android:id="@+id/textView7"
@@ -218,13 +218,15 @@
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/category_chip_group"
         android:layout_width="320dp"
-        android:layout_height="107dp"
+        android:layout_height="125dp"
         android:layout_marginStart="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:selectionRequired="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/garlicPar"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Garlic Parmesan"
@@ -233,6 +235,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/saltedEgg"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Salted Egg"
@@ -241,6 +244,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/buffaloFlav"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buffalo"
@@ -249,14 +253,18 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/bulgogiFlav"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
+            android:clickable="true"
             android:text="Bulgogi"
             tools:layout_editor_absoluteX="25dp"
             tools:layout_editor_absoluteY="330dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/soyGarlic"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Soy Garlic"
@@ -265,6 +273,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/sesameHoney"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sesame Honey"

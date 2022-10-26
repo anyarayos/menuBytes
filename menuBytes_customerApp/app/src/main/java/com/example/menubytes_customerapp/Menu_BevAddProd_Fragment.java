@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +34,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
     private TextView mealTotalText;
     private Button addQtyButton;
     private Button minusQtyButton;
+    private Button addToCartButton;
     private ConstraintLayout constraintLayout;
     LoadingDialog loadingDialog;
     private double priceTotal=0,addonsTotal=0, tempIntQty=0;
@@ -69,7 +72,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
         int product_id = PRODUCT_ID;
         loadingDialog = new LoadingDialog(this.getActivity());
         if(product_id!=-1 && product_id!=-0){
-            Task task = new Task("retrieveProductsByID", new AsyncResponse() {
+            Task task = new Task(Task.RETRIEVE_PRODUCTS_BY_ID, new AsyncResponse() {
                 @Override
                 public void onFinish(Object output) {
                     ArrayList<ProductListClass> productListClassArrayList = (ArrayList<ProductListClass>)output;
@@ -79,7 +82,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                         txtItemDescription.setText(productListClassArrayList.get(0).getDescription());
                         mealTotalText.setText(productListClassArrayList.get(0).getPrice());
                         priceTotal = Double.parseDouble(mealTotalText.getText().toString());
-                        mealTotalText.setText(Double.toString(priceTotal));
+                        mealTotalText.setText(Double.toString(priceTotal)+"0");
 
                         constraintLayout.setVisibility(View.VISIBLE);
                         loadingDialog.dismissDialog();
@@ -124,7 +127,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
         mealTotalText = view.findViewById(R.id.mealTotalText);
         addQtyButton = view.findViewById(R.id.addQtyButton);
         minusQtyButton = view.findViewById(R.id.minusQtyButton);
-
+        addToCartButton = view.findViewById(R.id.addToCartButton);
         tempQty =  qtyText.getText().toString();
         qtyText.setText(tempQty);
 
@@ -158,6 +161,21 @@ public class Menu_BevAddProd_Fragment extends Fragment {
             }
         });
 
+        addToCartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                fragment = new MenuShawarmaFragment();
+                fm.replace(R.id.menu_container,fragment).commit();
+                Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
+                String finalName = txtItemTitle.getText().toString();
+                String finalTotal = mealTotalText.getText().toString();
+                String finalQty = qtyText.getText().toString();
+                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty);
+                Utils.getInstance().addToOrders(order);
+            }
+        });
         // Inflate the layout for this fragment
         return view;
     }

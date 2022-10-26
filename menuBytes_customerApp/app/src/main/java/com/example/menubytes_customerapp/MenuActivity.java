@@ -17,6 +17,8 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 public class MenuActivity extends AppCompatActivity {
     Intent intent;
 
+    int fragIdentifier;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,5 +91,16 @@ public class MenuActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.menu_container, fragment).commit();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0){
+            super.onBackPressed();
+        }
+        else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:padding="16dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/txtOrderQty"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="3dp"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:text="0"/>
+
+    <TextView
+        android:id="@+id/txtOrderName"
+        android:layout_marginLeft="40dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:text="Order Name"/>
+
+    <TextView
+        android:id="@+id/txtOrderPrice"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtOrderName"
+        style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+        android:maxLength="50"
+        android:singleLine="True"
+        android:text="00.00"/>
+
+    <TextView
+        android:id="@+id/txtOrderAddOns"
+        android:layout_marginLeft="40dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtOrderPrice"
+        android:maxLength="100"
+        android:text="Description"/>
+</RelativeLayout>
