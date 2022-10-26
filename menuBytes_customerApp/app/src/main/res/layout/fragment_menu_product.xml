@@ -5,8 +5,8 @@
     android:id="@+id/fragment_frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Menu_Product_Fragment"
-    android:visibility="gone">
+    android:visibility="gone"
+    tools:context=".Menu_Product_Fragment">
 
     <TextView
         android:id="@+id/textView7"

@@ -2,6 +2,7 @@ package com.example.menubytes_customerapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 
 public class LoadingDialog {
@@ -20,6 +21,7 @@ public class LoadingDialog {
         builder.setCancelable(false);
 
         dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.show();
     }
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu_BevAddProd_Fragment"
-    android:visibility="gone">
+    android:visibility="visible">
 
     <TextView
         android:id="@+id/textView7"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/addButton"
+        android:id="@+id/addToCartButton"
         android:layout_width="117dp"
         android:layout_height="60dp"
         android:layout_marginTop="40dp"

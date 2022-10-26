@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class MenuBeveragesFragment extends Fragment {
     public final static String PRODUCT_ID= "PRODUCT_ID";
     LoadingDialog loadingDialog;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -62,7 +64,7 @@ public class MenuBeveragesFragment extends Fragment {
             @Override
             public void onFinish(Object output) {
                 productListClassArrayList = (ArrayList<ProductListClass>)output;
-                ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_shawarma, productListClassArrayList);
+                ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_product, productListClassArrayList);
                 listViewProducts.setAdapter(productListAdapter);
                 loadingDialog.dismissDialog();
                 listViewProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {

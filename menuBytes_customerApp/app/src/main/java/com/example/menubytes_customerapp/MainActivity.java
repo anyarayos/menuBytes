@@ -90,5 +90,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //CartActivity.getInstance();
+        //Utils.getInstance();
     }
 }

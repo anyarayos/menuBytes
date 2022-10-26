@@ -60,7 +60,7 @@ public class MenuShawarmaFragment extends Fragment {
             @Override
             public void onFinish(Object output) {
                 productListClassArrayList = (ArrayList<ProductListClass>)output;
-                ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_shawarma, productListClassArrayList);
+                ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_product, productListClassArrayList);
                 listViewShawarma.setAdapter(productListAdapter);
                 loadingDialog.dismissDialog();
                 listViewShawarma.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,10 +75,6 @@ public class MenuShawarmaFragment extends Fragment {
             }
         });
         task.execute("shawarma");
-
-        //attempt to onclicklistener hehe
-
-
 
         return view;
     }
