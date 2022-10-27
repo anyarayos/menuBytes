@@ -73,7 +73,7 @@
         android:layout_width="233dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:text="GarlicSauce"
+        android:text="Garlic Sauce"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox_cheese" />
 

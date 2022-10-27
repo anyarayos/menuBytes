@@ -119,13 +119,36 @@ public class CartActivity extends AppCompatActivity {
                                         String.valueOf(orders.get(index).getOrderID()),
                                         orders.get(index).getOrderQty(),
                                         String.valueOf(orders.get(index).isOrderBundle()));
+                            /*Check if order has Add-Ons
+                            * */
+                                if(orders.get(index).getOrderAddOns_1()!=""){
+                                    Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
+                                    placeOrderAddons.execute(String.valueOf(order_id),
+                                            orders.get(index).getOrderAddOns_1(),
+                                            String.valueOf(orders.get(index).isOrderBundle()));
+                                }
+                                if(orders.get(index).getOrderAddOns_2()!=""){
+                                    Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
+                                    placeOrderAddons.execute(String.valueOf(order_id),
+                                            orders.get(index).getOrderAddOns_2(),
+                                            String.valueOf(orders.get(index).isOrderBundle()));
+                                }
+                                if(orders.get(index).getOrderAddOns_3()!=""){
+                                    Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
+                                    placeOrderAddons.execute(String.valueOf(order_id),
+                                            orders.get(index).getOrderAddOns_3(),
+                                            String.valueOf(orders.get(index).isOrderBundle()));
+                                }
+                                if(orders.get(index).getOrderAddOns_4()!=""){
+                                    Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
+                                    placeOrderAddons.execute(String.valueOf(order_id),
+                                            orders.get(index).getOrderAddOns_3(),
+                                            String.valueOf(orders.get(index).isOrderBundle()));
+                                }
                             }
-
                     }
                 });
                 placeOrderTask.execute(subTotal.getText().toString());
-
-
             }
         });
 
