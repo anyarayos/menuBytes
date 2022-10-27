@@ -58,6 +58,8 @@ public class Menu_Product_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private  boolean productBundle_checked = false;
+
     public Menu_Product_Fragment() {
     }
 
@@ -152,6 +154,9 @@ public class Menu_Product_Fragment extends Fragment {
         addQty = (Button) view.findViewById(R.id.addQtyButton);
         tempQty =  qtyTxt.getText().toString();
         qtyTxt.setText(tempQty);
+
+
+
         minusQty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,10 +198,12 @@ public class Menu_Product_Fragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.soloRadioButton:
+                        productBundle_checked = false;
                         priceTotal = Double.parseDouble(soloPrice.getText().toString());
                         mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                     case R.id.b1t1RadioButton:
+                        productBundle_checked = true;
                         priceTotal = Double.parseDouble(b1t1Price.getText().toString());
                         mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
@@ -286,10 +293,9 @@ public class Menu_Product_Fragment extends Fragment {
                 String finalTotal = mealTotal.getText().toString();
                 String finalQty = qtyTxt.getText().toString();
 
-
-//                OrderListClass order = new OrderListClass(finalName, finalTotal, finalQty, OrderAddOns_1,
+//                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, OrderAddOns_1,
 //                        OrderAddOns_2,OrderAddOns_3,OrderAddOns_4);
-                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, OrderAddOns_1,
+                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, productBundle_checked, OrderAddOns_1,
                         OrderAddOns_2,OrderAddOns_3,OrderAddOns_4);
                 Utils.getInstance().addToOrders(order);
 
