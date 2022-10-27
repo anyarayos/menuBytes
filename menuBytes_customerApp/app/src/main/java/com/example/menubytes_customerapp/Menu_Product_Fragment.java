@@ -161,6 +161,7 @@ public class Menu_Product_Fragment extends Fragment {
                 qtyTxt.setText(tempQty);
                 if (tempIntQty==0){
                     minusQty.setEnabled(false);
+                    addToCart.setEnabled(false);
                 }
                 mealTotal.setText(Double.toString((priceTotal+addonsTotal)* Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
@@ -168,6 +169,7 @@ public class Menu_Product_Fragment extends Fragment {
         addQty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String tempQty =  qtyTxt.getText().toString();
                 int tempIntQty = Integer.parseInt(tempQty)+1;
                 tempQty = Integer.toString(tempIntQty);
@@ -177,6 +179,7 @@ public class Menu_Product_Fragment extends Fragment {
                 }
                 else if (tempIntQty>0){
                     minusQty.setEnabled(true);
+                    addToCart.setEnabled(true);
                 }
                 mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
@@ -270,6 +273,7 @@ public class Menu_Product_Fragment extends Fragment {
         ChipNavigationBar chipNavigationBar = view.findViewById(R.id.foodMenuBar);
 
         addToCart = view.findViewById(R.id.addButton);
+
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

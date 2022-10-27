@@ -25,8 +25,15 @@ public class Utils {
             }
         }
 
+
     public boolean addToOrders (OrderListClass order) {
         return orders.add(order);
+    }
+
+    public boolean removeFromOrders (OrderListClass order) {return orders.remove(order);}
+
+    public void changeQuantity (int index, String quantity){
+        orders.get(index).setOrderQty(quantity);
     }
 
     public static ArrayList<OrderListClass> getOrders() {
