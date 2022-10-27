@@ -115,8 +115,10 @@ public class CartActivity extends AppCompatActivity {
                         placeOrderStatus.execute(String.valueOf(order_id));
                             for(int index = 0; index < orders.size(); index++){
                                 Task placeOrderItems = new Task(Task.INSERT_INTO_ORDER_ITEMS);
-                                placeOrderItems.execute(String.valueOf(order_id),String.valueOf(orders.get(index).getOrderID()),
-                                        orders.get(index).getOrderQty());
+                                placeOrderItems.execute(String.valueOf(order_id),
+                                        String.valueOf(orders.get(index).getOrderID()),
+                                        orders.get(index).getOrderQty(),
+                                        String.valueOf(orders.get(index).isOrderBundle()));
                             }
 
                     }

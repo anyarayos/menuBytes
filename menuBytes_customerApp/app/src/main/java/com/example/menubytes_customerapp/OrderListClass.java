@@ -1,18 +1,21 @@
 package com.example.menubytes_customerapp;
 
 public class OrderListClass {
-    int OrderID;
-    String OrderName;
-    String OrderPrice;
-    String OrderQty;
-    String OrderAddOns_1="";
-    String OrderAddOns_2="";
-    String OrderAddOns_3="";
-    String OrderAddOns_4="";
+    private int OrderID;
 
-    String OrderFlavor_1="";
-    String OrderFlavor_2="";
-    String OrderFlavor_3="";
+
+
+    private String OrderName;
+    private String OrderPrice;
+    private String OrderQty;
+    private boolean OrderBundle=false;
+    private String OrderAddOns_1="";
+    private String OrderAddOns_2="";
+    private String OrderAddOns_3="";
+    private String OrderAddOns_4="";
+    private String OrderFlavor_1="";
+    private String OrderFlavor_2="";
+    private String OrderFlavor_3="";
 
 
     public OrderListClass(int orderID, String orderName, String orderPrice, String orderQty){
@@ -22,7 +25,9 @@ public class OrderListClass {
         OrderQty = orderQty;
     }
 
-    public OrderListClass(String orderName, String orderPrice, String orderQty, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4) {
+
+    public OrderListClass(int orderID, String orderName, String orderPrice, String orderQty, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4) {
+        OrderID = orderID;
         OrderName = orderName;
         OrderPrice = orderPrice;
         OrderQty = orderQty;
@@ -32,11 +37,13 @@ public class OrderListClass {
         OrderAddOns_4 = orderAddOns_4;
     }
 
-    public OrderListClass(int orderID, String orderName, String orderPrice, String orderQty, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4) {
+    public OrderListClass(int orderID, String orderName, String orderPrice, String orderQty,
+                          boolean orderBundle, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4) {
         OrderID = orderID;
         OrderName = orderName;
         OrderPrice = orderPrice;
         OrderQty = orderQty;
+        OrderBundle = orderBundle;
         OrderAddOns_1 = orderAddOns_1;
         OrderAddOns_2 = orderAddOns_2;
         OrderAddOns_3 = orderAddOns_3;
@@ -56,6 +63,9 @@ public class OrderListClass {
         OrderFlavor_3 = orderFlavor_3;
     }
 
+    public boolean isOrderBundle() {
+        return OrderBundle;
+    }
 
     public int getOrderID() {
         return OrderID;

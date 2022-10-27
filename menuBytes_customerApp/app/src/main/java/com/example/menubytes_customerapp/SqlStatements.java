@@ -23,8 +23,8 @@ public class SqlStatements {
             "((SELECT user_name from user where user_id = 3))\n" +
             ");";
 
-    private String insertIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity)\n" +
-            "VALUES((?),(?),(?));";
+    private String insertIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle)\n" +
+            "VALUES((?),(?),(?),(?));";
 
     public String getInsertIntoOrderItems() {
         return insertIntoOrderItems;

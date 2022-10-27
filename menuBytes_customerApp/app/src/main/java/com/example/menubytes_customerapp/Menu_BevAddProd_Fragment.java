@@ -131,6 +131,8 @@ public class Menu_BevAddProd_Fragment extends Fragment {
         tempQty =  qtyText.getText().toString();
         qtyText.setText(tempQty);
 
+
+
         minusQtyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

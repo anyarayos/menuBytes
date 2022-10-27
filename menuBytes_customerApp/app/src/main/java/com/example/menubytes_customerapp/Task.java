@@ -144,9 +144,11 @@ public class Task extends AsyncTask<String, String, Object> {
                 int order_id = Integer.valueOf(params[0]);
                 int product_id = Integer.valueOf(params[1]);
                 String quantity = params[2];
+                boolean product_bundle = Boolean.valueOf(params[3]);
                 statement.setInt(1, order_id);
                 statement.setInt(2,product_id);
                 statement.setString(3,quantity);
+                statement.setBoolean(4,product_bundle);
                 statement.executeUpdate();
 
             }
