@@ -47,4 +47,8 @@ public class Utils {
     public static void setOrder_id(int order_id) {
         Utils.order_id = order_id;
     }
+
+    public static void removeAll(){
+        orders.clear();
+    }
 }
