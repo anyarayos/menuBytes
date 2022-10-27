@@ -24,6 +24,7 @@ public class CartActivity extends AppCompatActivity {
     private TextView subTotal;
     private Button btnPlaceOrder;
     private TextView notifyOrders;
+    private int ORDER_ID;
 
     public ArrayList<OrderListClass> orders = new ArrayList<>();
 
@@ -149,8 +150,17 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
                 placeOrderTask.execute(subTotal.getText().toString());
+                //TODO: EMPTY UTILS ARRAYLIST AND CART ARRAYLIST
+                Utils.getInstance().removeAll();
+                orders.clear();
+                refreshActivity();
             }
         });
 
+    }
+
+    private void refreshActivity(){
+        finish();
+        startActivity(getIntent());
     }
 }

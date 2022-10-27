@@ -59,6 +59,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
     int PRODUCT_ID=-1;
 
     List<String> flavors = new ArrayList<String>();
+    String flavour="";
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -192,32 +193,34 @@ public class Menu_WingsProd_Fragment extends Fragment {
             }
         });
 
+        String TAG = "category_chip_debug";
         category_chip_group.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
                 for(int id=0 ; id < checkedIds.size();id++){
                     switch(checkedIds.get(id)){
                         case R.id.garlicPar:
-                            flavors.add("garlic parmesan");
+                            checkIfFlavorExist("garlic parmesan");
                             break;
                         case R.id.saltedEgg:
-                            flavors.add("salted egg");
+                            checkIfFlavorExist("salted egg");
                             break;
                         case R.id.buffaloFlav:
-                            flavors.add("buffalo");
+                            checkIfFlavorExist("buffalo");
                             break;
                         case R.id.bulgogiFlav:
-                            flavors.add("bulgogi");
+                            checkIfFlavorExist("bulgogi");
                             break;
                         case R.id.soyGarlic:
-                            flavors.add("soy garlic");
+                            checkIfFlavorExist("soy garlic");
                             break;
                         case R.id.sesameHoney:
-                            flavors.add("sesame honey");
+                            checkIfFlavorExist("sesame honey");
                             break;
+
                     }
                 }
-
+                printFlavors();
             }
         });
 
@@ -289,5 +292,20 @@ public class Menu_WingsProd_Fragment extends Fragment {
         });*/
 
         return view;
+    }
+
+    public void checkIfFlavorExist(String flavour){
+        if(!(flavors.contains(flavour))){
+            flavors.add(flavour);
+            Log.d("TAG", "checkIfFlavorExist: ");
+        }
+    }
+
+    public void printFlavors(){
+        if(!flavors.isEmpty()){
+            for(int index = 0 ; index < flavors.size(); index++){
+                Log.d("TAG", "printFlavors: " + flavors.get(index));
+            }
+        }
     }
 }
