@@ -26,6 +26,14 @@ public class SqlStatements {
     private String insertIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle)\n" +
             "VALUES((?),(?),(?),(?));";
 
+    private String insertAddOnsIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle)\n" +
+            "VALUES((?),(SELECT product_id from product where product_name = (?)),(1),(?));";
+
+
+    public String getInsertAddOnsIntoOrderItems() {
+        return insertAddOnsIntoOrderItems;
+    }
+
     public String getInsertIntoOrderItems() {
         return insertIntoOrderItems;
     }
@@ -33,6 +41,7 @@ public class SqlStatements {
     public String getInsertIntoOrderStatus() {
         return insertIntoOrderStatus;
     }
+
     public String getRetrieveProductsByCategory() {
         return retrieveProductsByCategory;
     }

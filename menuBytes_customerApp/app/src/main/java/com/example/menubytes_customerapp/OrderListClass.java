@@ -2,9 +2,6 @@ package com.example.menubytes_customerapp;
 
 public class OrderListClass {
     private int OrderID;
-
-
-
     private String OrderName;
     private String OrderPrice;
     private String OrderQty;

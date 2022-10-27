@@ -33,6 +33,7 @@ public class Task extends AsyncTask<String, String, Object> {
     public final static String INSERT_INTO_ORDERS = "insertIntoOrders";
     public final static String INSERT_INTO_ORDER_STATUS = "insertIntoOrderStatus";
     public final static String INSERT_INTO_ORDER_ITEMS = "insertIntoOrderItems";
+    public final static String INSERT_ADDONS_INTO_ORDER_ITEMS = "insertAddOnsIntoOrderItems";
 
     public Task(String method) {
         this.method = method;
@@ -150,7 +151,16 @@ public class Task extends AsyncTask<String, String, Object> {
                 statement.setString(3,quantity);
                 statement.setBoolean(4,product_bundle);
                 statement.executeUpdate();
-
+            }
+            if(method.equals(INSERT_ADDONS_INTO_ORDER_ITEMS)){
+                statement = connection.prepareStatement(sqlStatements.getInsertAddOnsIntoOrderItems());
+                int order_id = Integer.valueOf(params[0]);
+                String product_name = params[1];
+                boolean product_bundle = Boolean.valueOf(params[2]);
+                statement.setInt(1, order_id);
+                statement.setString(2,product_name);
+                statement.setBoolean(3,product_bundle);
+                statement.executeUpdate();
             }
 
         }
