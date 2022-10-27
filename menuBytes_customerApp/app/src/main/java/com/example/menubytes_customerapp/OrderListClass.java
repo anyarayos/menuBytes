@@ -14,6 +14,7 @@ public class OrderListClass {
     String OrderFlavor_2="";
     String OrderFlavor_3="";
 
+
     public OrderListClass(int orderID, String orderName, String orderPrice, String orderQty){
         OrderID  = orderID;
         OrderName = orderName;
@@ -86,6 +87,10 @@ public class OrderListClass {
 
     public String getOrderQty() {
         return OrderQty;
+    }
+
+    public void setOrderQty(String orderQty) {
+        OrderQty = orderQty;
     }
 
     public String getOrderFlavor_1() {

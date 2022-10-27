@@ -23,14 +23,7 @@ public class CartActivity extends AppCompatActivity {
     private ListView cartView;
     private TextView subTotal;
     private Button btnPlaceOrder;
-
-    public ArrayList<OrderListClass> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(ArrayList<OrderListClass> orders) {
-        this.orders = orders;
-    }
+    private TextView notifyOrders;
 
     public ArrayList<OrderListClass> orders = new ArrayList<>();
 
@@ -83,26 +76,29 @@ public class CartActivity extends AppCompatActivity {
         cartView = findViewById(R.id.orderListView);
         subTotal = findViewById(R.id.subTotal);
         btnPlaceOrder = findViewById(R.id.btnPlaceOrder);
+        notifyOrders = findViewById(R.id.notifyOrders);
 
         if(!(Utils.getInstance().getOrders().isEmpty())){
+            notifyOrders.setVisibility(View.GONE);
             this.orders = Utils.getInstance().getOrders();
-        }else{}
-
-        if(orders.isEmpty()){
+            if(orders.isEmpty()){
 //            Toast.makeText(this, "orders.isEmpty()", Toast.LENGTH_SHORT).show();
-        }else{
+            }else{
 //            Toast.makeText(this, "orders has values.", Toast.LENGTH_SHORT).show();
-            cartView = findViewById(R.id.orderListView);
-            OrderListAdapter orderListAdapter = new OrderListAdapter(this,R.layout.list_cart, orders);
-            cartView.setAdapter(orderListAdapter);
+                cartView = findViewById(R.id.orderListView);
+                OrderListAdapter orderListAdapter = new OrderListAdapter(this,R.layout.list_cart, orders);
+                cartView.setAdapter(orderListAdapter);
 
-            double total_price=0;
-            for(int index=0 ; index <orders.size(); index++){
-                double price = Double.parseDouble(orders.get(index).getOrderPrice());
-                total_price += price;
+                double total_price=0;
+                for(int index=0 ; index <orders.size(); index++){
+                    double price = Double.parseDouble(orders.get(index).getOrderPrice());
+                    total_price += price;
+                }
+                subTotal.setText(String.valueOf(total_price));
             }
-            subTotal.setText(String.valueOf(total_price));
         }
+
+
 
         btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,8 +113,6 @@ public class CartActivity extends AppCompatActivity {
                         Log.d("order_id_debug", "onFinish: " + String.valueOf(order_id));
                         Task placeOrderStatus = new Task(Task.INSERT_INTO_ORDER_STATUS);
                         placeOrderStatus.execute(String.valueOf(order_id));
-
-
                             for(int index = 0; index < orders.size(); index++){
                                 Task placeOrderItems = new Task(Task.INSERT_INTO_ORDER_ITEMS);
                                 placeOrderItems.execute(String.valueOf(order_id),String.valueOf(orders.get(index).getOrderID()),

@@ -140,6 +140,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                 qtyText.setText(tempQty);
                 if (tempIntQty==0){
                     minusQtyButton.setEnabled(false);
+                    addToCartButton.setEnabled(false);
                 }
                 mealTotalText.setText(Double.toString((priceTotal+addonsTotal)* Double.parseDouble(qtyText.getText().toString()))+"0");
             }
@@ -156,6 +157,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                 }
                 else if (tempIntQty>0){
                     minusQtyButton.setEnabled(true);
+                    addToCartButton.setEnabled(true);
                 }
                 mealTotalText.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyText.getText().toString()))+"0");
             }
