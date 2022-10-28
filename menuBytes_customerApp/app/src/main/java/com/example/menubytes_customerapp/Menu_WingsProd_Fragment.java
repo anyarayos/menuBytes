@@ -1,12 +1,12 @@
 package com.example.menubytes_customerapp;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +48,9 @@ public class Menu_WingsProd_Fragment extends Fragment {
     private Button addButton;
     private Button addQtyButton;
     private Button minusQtyButton;
+    private Button btnAddToCart;
     private ConstraintLayout constraintLayout;
+    private String category;
 
     private double priceTotal=0,addonsTotal=0, tempIntQty=0,price=0;
 
@@ -71,8 +72,9 @@ public class Menu_WingsProd_Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    public Menu_WingsProd_Fragment(int PRODUCT_ID) {
+    public Menu_WingsProd_Fragment(int PRODUCT_ID, String CATEGORY) {
         this.PRODUCT_ID = PRODUCT_ID;
+        this.category = CATEGORY;
     }
 
 
@@ -154,10 +156,11 @@ public class Menu_WingsProd_Fragment extends Fragment {
         checkBox_java = view.findViewById(R.id.checkBox_java);
         checkBox_cheese = view.findViewById(R.id.checkBox_cheese);
         checkBox_garlic = view.findViewById(R.id.checkBox_garlic);
-        addButton = view.findViewById(R.id.addButton);
+        addButton = view.findViewById(R.id.btnAddToCart);
         addQtyButton = view.findViewById(R.id.addQtyButton);
         minusQtyButton = view.findViewById(R.id.minusQtyButton);
         constraintLayout = view.findViewById(R.id.frameLayoutwings);
+        btnAddToCart = view.findViewById(R.id.btnAddToCart);
 
         tempQty =  qtyText.getText().toString();
         qtyText.setText(tempQty);
@@ -263,6 +266,17 @@ public class Menu_WingsProd_Fragment extends Fragment {
                     addonsTotal = addonsTotal - 10;
                 }
                 mealTotalText.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyText.getText().toString()))+"0");
+            }
+        });
+
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                fragment = new MenuWingsFragment();
+                fm.replace(R.id.menu_container,fragment).commit();
+                Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
             }
         });
 

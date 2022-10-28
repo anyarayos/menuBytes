@@ -39,6 +39,7 @@ public class Menu_Product_Fragment extends Fragment {
     ConstraintLayout constraintLayout;
     LoadingDialog loadingDialog;
     int PRODUCT_ID=-1;
+    String category;
     String OrderAddOns_1 ="";
     String OrderAddOns_2 ="";
     String OrderAddOns_3 ="";
@@ -65,6 +66,10 @@ public class Menu_Product_Fragment extends Fragment {
 
     public Menu_Product_Fragment(int PRODUCT_ID) {
         this.PRODUCT_ID = PRODUCT_ID;
+    }
+    public Menu_Product_Fragment(int PRODUCT_ID,String CATEGORY) {
+        this.PRODUCT_ID = PRODUCT_ID;
+        this.category = CATEGORY;
     }
 
     public static Menu_Product_Fragment newInstance(String param1, String param2) {
@@ -279,14 +284,22 @@ public class Menu_Product_Fragment extends Fragment {
         });
         ChipNavigationBar chipNavigationBar = view.findViewById(R.id.foodMenuBar);
 
-        addToCart = view.findViewById(R.id.addButton);
+        addToCart = view.findViewById(R.id.btnAddToCart);
 
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment fragment = null;
-                fragment = new MenuShawarmaFragment();
+
+                switch(category){
+                    case "shawarma":
+                        fragment = new MenuShawarmaFragment();
+                        break;
+                    case "bowl":
+                        fragment = new MenuBowlFragment();
+                }
+
                 fm.replace(R.id.menu_container,fragment).commit();
                 Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
                 String finalName = txtItemTitle.getText().toString();

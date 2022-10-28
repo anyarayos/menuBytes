@@ -38,6 +38,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
     private ConstraintLayout constraintLayout;
     LoadingDialog loadingDialog;
     private double priceTotal=0,addonsTotal=0, tempIntQty=0;
+    private String category;
 
     String tempQty;
 
@@ -55,6 +56,11 @@ public class Menu_BevAddProd_Fragment extends Fragment {
 
     public Menu_BevAddProd_Fragment(int PRODUCT_ID) {
         this.PRODUCT_ID = PRODUCT_ID;
+    }
+
+    public Menu_BevAddProd_Fragment(int PRODUCT_ID, String CATEGORY) {
+        this.PRODUCT_ID = PRODUCT_ID;
+        this.category = CATEGORY;
     }
 
     public static Menu_BevAddProd_Fragment newInstance(String param1, String param2) {
@@ -168,7 +174,15 @@ public class Menu_BevAddProd_Fragment extends Fragment {
             public void onClick(View v) {
                 FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment fragment = null;
-                fragment = new MenuShawarmaFragment();
+                switch(category){
+                    case "additional":
+                        fragment = new MenuAddonsFragment();
+                        break;
+                    case "beverage":
+                        fragment = new MenuBeveragesFragment();
+                        break;
+                }
+
                 fm.replace(R.id.menu_container,fragment).commit();
                 Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
                 String finalName = txtItemTitle.getText().toString();
