@@ -135,21 +135,21 @@ public class CartActivity extends AppCompatActivity {
                                 if(orders.get(index).getOrderAddOns_2()!=""){
                                     Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
                                     placeOrderAddons.execute(String.valueOf(order_id),
-                                            orders.get(index).getOrderAddOns_1(),
+                                            orders.get(index).getOrderAddOns_2(),
                                             orders.get(index).getOrderQty(),
                                             String.valueOf(orders.get(index).isOrderBundle()));
                                 }
                                 if(orders.get(index).getOrderAddOns_3()!=""){
                                     Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
                                     placeOrderAddons.execute(String.valueOf(order_id),
-                                            orders.get(index).getOrderAddOns_1(),
+                                            orders.get(index).getOrderAddOns_3(),
                                             orders.get(index).getOrderQty(),
                                             String.valueOf(orders.get(index).isOrderBundle()));
                                 }
                                 if(orders.get(index).getOrderAddOns_4()!=""){
                                     Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
                                     placeOrderAddons.execute(String.valueOf(order_id),
-                                            orders.get(index).getOrderAddOns_1(),
+                                            orders.get(index).getOrderAddOns_4(),
                                             orders.get(index).getOrderQty(),
                                             String.valueOf(orders.get(index).isOrderBundle()));
                                 }
