@@ -308,6 +308,7 @@ public class Menu_Product_Fragment extends Fragment {
 
                 OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, category ,productBundle_checked, OrderAddOns_1,
                         OrderAddOns_2,OrderAddOns_3,OrderAddOns_4);
+                Log.d("", "onClick: "+OrderAddOns_1+OrderAddOns_2+OrderAddOns_3+OrderAddOns_3+OrderAddOns_4);
                 Utils.getInstance().addToOrders(order);
 
             }
