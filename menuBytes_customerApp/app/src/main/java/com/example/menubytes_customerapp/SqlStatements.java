@@ -27,8 +27,13 @@ public class SqlStatements {
             "VALUES((?),(?),(?),(?));";
 
     private String insertAddOnsIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle)\n" +
-            "VALUES((?),(SELECT product_id from product where product_name = (?)),(1),(?));";
+            "VALUES((?),(SELECT product_id from product where product_name = (?)),(?),(?));";
 
+    private String retrieveOrderItemsUsingIdStatus = "";
+
+    public String getRetrieveOrderItemsUsingIdStatus() {
+        return retrieveOrderItemsUsingIdStatus;
+    }
 
     public String getInsertAddOnsIntoOrderItems() {
         return insertAddOnsIntoOrderItems;

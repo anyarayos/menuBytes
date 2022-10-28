@@ -9,6 +9,8 @@ public class Utils {
 
     private static int order_id;
 
+    private static ArrayList<Integer> order_id_list = new ArrayList<Integer>();
+
     private static ArrayList<OrderListClass> orders = new ArrayList<>();
 
     private Utils(){
@@ -32,6 +34,10 @@ public class Utils {
 
     public boolean removeFromOrders (OrderListClass order) {return orders.remove(order);}
 
+    public boolean addToOrderIds (int order_id){
+        return  order_id_list.add(order_id);
+    }
+    
     public void changeQuantity (int index, String quantity){
         orders.get(index).setOrderQty(quantity);
     }
