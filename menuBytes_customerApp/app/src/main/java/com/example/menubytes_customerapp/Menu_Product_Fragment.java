@@ -306,9 +306,7 @@ public class Menu_Product_Fragment extends Fragment {
                 String finalTotal = mealTotal.getText().toString();
                 String finalQty = qtyTxt.getText().toString();
 
-//                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, OrderAddOns_1,
-//                        OrderAddOns_2,OrderAddOns_3,OrderAddOns_4);
-                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, productBundle_checked, OrderAddOns_1,
+                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, category ,productBundle_checked, OrderAddOns_1,
                         OrderAddOns_2,OrderAddOns_3,OrderAddOns_4);
                 Utils.getInstance().addToOrders(order);
 

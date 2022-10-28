@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -116,7 +119,7 @@ public class CartActivity extends AppCompatActivity {
                             for(int index = 0; index < orders.size(); index++){
                                 Task placeOrderItems = new Task(Task.INSERT_INTO_ORDER_ITEMS);
                                 placeOrderItems.execute(String.valueOf(order_id),
-                                        String.valueOf(orders.get(index).getOrderID()),
+                                        String.valueOf(orders.get(index).getProductID()),
                                         orders.get(index).getOrderQty(),
                                         String.valueOf(orders.get(index).isOrderBundle()));
                             /*Check if order has Add-Ons
@@ -146,12 +149,13 @@ public class CartActivity extends AppCompatActivity {
                                             String.valueOf(orders.get(index).isOrderBundle()));
                                 }
                             }
+                        Utils.getInstance().removeAll();
+                        orders.clear();
+                        refreshActivity();
                     }
                 });
                 placeOrderTask.execute(subTotal.getText().toString());
-                Utils.getInstance().removeAll();
-                orders.clear();
-                refreshActivity();
+
             }
         });
 
@@ -159,7 +163,14 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(CartActivity.this, "Clicked on:"+orders.get(position).getOrderName(), Toast.LENGTH_SHORT).show();
-
+                //Open Specific Product Fragment to Edit
+                String order_category = orders.get(position).getOrderCategory();
+//                switch(order_category){
+//                    case "shawarma":
+//                        break;
+//                    default:
+//                        break;
+//                }
             }
         });
     }
