@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -99,8 +100,6 @@ public class CartActivity extends AppCompatActivity {
             }
         }
 
-
-
         btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,13 +149,19 @@ public class CartActivity extends AppCompatActivity {
                     }
                 });
                 placeOrderTask.execute(subTotal.getText().toString());
-                //TODO: EMPTY UTILS ARRAYLIST AND CART ARRAYLIST
                 Utils.getInstance().removeAll();
                 orders.clear();
                 refreshActivity();
             }
         });
 
+        cartView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(CartActivity.this, "Clicked on:"+orders.get(position).getOrderName(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     private void refreshActivity(){

@@ -18,7 +18,7 @@ public class MenuAddonsFragment extends Fragment {
     LoadingDialog loadingDialog;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private String category = "additional";
     private String mParam1;
     private String mParam2;
 
@@ -64,7 +64,7 @@ public class MenuAddonsFragment extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
                         Fragment fragment = null;
-                        fragment = new Menu_BevAddProd_Fragment(productListClassArrayList.get(position).getId());
+                        fragment = new Menu_BevAddProd_Fragment(productListClassArrayList.get(position).getId(),category);
                         fm.replace(R.id.menu_container, fragment).commit();
                     }
                 });
