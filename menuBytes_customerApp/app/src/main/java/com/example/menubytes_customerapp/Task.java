@@ -26,6 +26,7 @@ public class Task extends AsyncTask<String, String, Object> {
     private String TAG = "TASK_DEBUG";
 
     private ArrayList<ProductListClass> productListClassArrayList = new ArrayList<>();
+    private ArrayList<OrderListClass> orderList = new ArrayList<>();
     private int order_id;
 
     public final static String RETRIEVE_PRODUCTS_BY_CATEGORY="retrieveProductsByCategory";
@@ -34,6 +35,7 @@ public class Task extends AsyncTask<String, String, Object> {
     public final static String INSERT_INTO_ORDER_STATUS = "insertIntoOrderStatus";
     public final static String INSERT_INTO_ORDER_ITEMS = "insertIntoOrderItems";
     public final static String INSERT_ADDONS_INTO_ORDER_ITEMS = "insertAddOnsIntoOrderItems";
+    public final static String RETRIEVE_ORDERS_USING_ID_STATUS = "retrieveOrderItemsUsingIdStatus";
 
     public Task(String method) {
         this.method = method;
@@ -156,11 +158,15 @@ public class Task extends AsyncTask<String, String, Object> {
                 statement = connection.prepareStatement(sqlStatements.getInsertAddOnsIntoOrderItems());
                 int order_id = Integer.valueOf(params[0]);
                 String product_name = params[1];
-                boolean product_bundle = Boolean.valueOf(params[2]);
+                String quantity = params[2];
+                boolean product_bundle = Boolean.valueOf(params[3]);
                 statement.setInt(1, order_id);
                 statement.setString(2,product_name);
-                statement.setBoolean(3,product_bundle);
+                statement.setString(3,quantity);
+                statement.setBoolean(4,product_bundle);
                 statement.executeUpdate();
+            }
+            if(method.equals(RETRIEVE_ORDERS_USING_ID_STATUS)){
             }
 
         }
