@@ -34,10 +34,10 @@ public class OrderListAdapter extends ArrayAdapter<OrderListClass> {
         TextView orderQty = convertView.findViewById(R.id.txtOrderQty);
         orderQty.setText(getItem(position).getOrderQty());
         TextView orderAddOns = convertView.findViewById(R.id.txtOrderAddOns);
-        AddOnData = getItem(position).getOrderAddOns_1() + " " + getItem(position).getOrderAddOns_2() +
-        " " + getItem(position).getOrderAddOns_3() + " " + getItem(position).getOrderAddOns_4();
-//        orderAddOns.setText(getItem(position).getOrderAddOns_1());
+        AddOnData = getItem(position).getOrderAddOns_1() +" "+ getItem(position).getOrderAddOns_2() +" "+
+                    getItem(position).getOrderAddOns_3() +" "+ getItem(position).getOrderAddOns_4();
         orderAddOns.setText(AddOnData);
+
         return convertView;
     }
 }

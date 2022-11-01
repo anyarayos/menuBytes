@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context=".Menu_WingsProd_Fragment">
+    tools:context=".CartEdit_WingProduct_Fragment">
 
     <TextView
         android:id="@+id/textView7"
@@ -43,6 +43,18 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cheesePrice" />
+
+    <Button
+        android:id="@+id/backToCartBtn"
+        android:layout_width="170dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:text="Go Back to Cart"
+        android:backgroundTint="#F0F0F0"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/cheesePrice"
@@ -117,10 +129,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="15dp"
         android:text="Item Name"
         app:layout_constraintStart_toEndOf="@+id/imgViewItemMenu"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/backToCartBtn" />
 
     <TextView
         android:id="@+id/txtItemDescription"
@@ -137,10 +149,10 @@
         android:layout_width="111dp"
         android:layout_height="99dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="15dp"
         android:src="@drawable/menubyteslogo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/backToCartBtn" />
 
     <TextView
         android:id="@+id/textView5"
@@ -187,7 +199,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="25dp"
-        android:text="Add to Cart"
+        android:text="Update Order"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 

@@ -4,10 +4,19 @@ import java.util.ArrayList;
 
 public class Utils {
 
-    /*Call this singleton class everytime you add an item to the cart*/
+    private String user_id = "3";
+
     private static Utils instance;
 
     private static int order_id;
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
     private static ArrayList<Integer> order_id_list = new ArrayList<Integer>();
 
@@ -32,7 +41,7 @@ public class Utils {
         return orders.add(order);
     }
 
-    public boolean removeFromOrders (OrderListClass order) {return orders.remove(order);}
+    public void removeFromOrders (int position) {this.orders.remove(position);}
 
     public boolean addToOrderIds (int order_id){
         return  order_id_list.add(order_id);

@@ -156,11 +156,11 @@ public class Menu_WingsProd_Fragment extends Fragment {
         checkBox_java = view.findViewById(R.id.checkBox_java);
         checkBox_cheese = view.findViewById(R.id.checkBox_cheese);
         checkBox_garlic = view.findViewById(R.id.checkBox_garlic);
-        addButton = view.findViewById(R.id.btnAddToCart);
+        addButton = view.findViewById(R.id.btnUpdateOrder);
         addQtyButton = view.findViewById(R.id.addQtyButton);
         minusQtyButton = view.findViewById(R.id.minusQtyButton);
         constraintLayout = view.findViewById(R.id.frameLayoutwings);
-        btnAddToCart = view.findViewById(R.id.btnAddToCart);
+        btnAddToCart = view.findViewById(R.id.btnUpdateOrder);
 
         tempQty =  qtyText.getText().toString();
         qtyText.setText(tempQty);
@@ -276,6 +276,10 @@ public class Menu_WingsProd_Fragment extends Fragment {
                 Fragment fragment = null;
                 fragment = new MenuWingsFragment();
                 fm.replace(R.id.menu_container,fragment).commit();
+
+                /*
+                * TODO: ADD WINGS TO CART
+                * */
                 Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
             }
         });

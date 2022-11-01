@@ -3,19 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_cart.xml" value="0.2" />
-        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_menu.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu__wingsprod.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu_product.xml" value="0.1358695652173913" />
-        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_product_item_list.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/list_cart.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_cart.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_payment.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu__bevaddprod.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu__wingsprod.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_menu_product.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_cart_edit_product.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_orders_pending.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/list_cart.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>

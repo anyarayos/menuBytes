@@ -5,7 +5,7 @@
     android:id="@+id/fragment_frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="gone"
+    android:visibility="visible"
     tools:context=".Menu_Product_Fragment">
 
     <TextView
@@ -40,7 +40,7 @@
         android:textColor="#FFC61D25"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddToCart"
+        app:layout_constraintEnd_toStartOf="@+id/btnUpdateOrder"
         app:layout_constraintStart_toEndOf="@+id/addQtyButton"
         app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
 
@@ -247,7 +247,7 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBox_java" />
 
     <Button
-        android:id="@+id/btnAddToCart"
+        android:id="@+id/btnUpdateOrder"
         android:layout_width="117dp"
         android:layout_height="60dp"
         android:layout_marginTop="40dp"

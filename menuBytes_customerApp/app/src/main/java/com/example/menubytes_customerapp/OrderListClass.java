@@ -30,6 +30,14 @@ public class OrderListClass {
         OrderQty = orderQty;
     }
 
+    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty, String orderCategory) {
+        ProductID = productID;
+        OrderName = orderName;
+        OrderPrice = orderPrice;
+        OrderQty = orderQty;
+        OrderCategory = orderCategory;
+    }
+
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
                           boolean orderBundle, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4) {
         ProductID = productID;
@@ -42,6 +50,8 @@ public class OrderListClass {
         OrderAddOns_3 = orderAddOns_3;
         OrderAddOns_4 = orderAddOns_4;
     }
+
+
 
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
                           String orderCategory, boolean orderBundle,

@@ -111,9 +111,11 @@ public class Task extends AsyncTask<String, String, Object> {
             if (method.equals(INSERT_INTO_ORDERS)) {
                 statement = connection.prepareStatement(sqlStatements.getInsertIntoOrders(), Statement.RETURN_GENERATED_KEYS);
                 double total = Double.valueOf(params[0]);
+                String user_id = params[1];
                 String created_at = returnDateTime();
                 statement.setDouble(1,total);
                 statement.setString(2,created_at);
+                statement.setInt(3,Integer.valueOf(user_id));
                 statement.executeUpdate();
 
                 resultSet = statement.getGeneratedKeys();
@@ -137,9 +139,11 @@ public class Task extends AsyncTask<String, String, Object> {
             if(method.equals(INSERT_INTO_ORDER_STATUS)){
                 statement = connection.prepareStatement(sqlStatements.getInsertIntoOrderStatus());
                 int order_id = Integer.valueOf(params[0]);
+                String user_id = params[1];
                 statement.setInt(1, order_id);
                 statement.setString(2,"PENDING");
                 statement.setInt(3,order_id);
+                statement.setInt(4,Integer.valueOf(user_id));
                 statement.executeUpdate();
             }
             if(method.equals(INSERT_INTO_ORDER_ITEMS)){
@@ -159,11 +163,10 @@ public class Task extends AsyncTask<String, String, Object> {
                 int order_id = Integer.valueOf(params[0]);
                 String product_name = params[1];
                 String quantity = params[2];
-                boolean product_bundle = Boolean.valueOf(params[3]);
                 statement.setInt(1, order_id);
                 statement.setString(2,product_name);
                 statement.setString(3,quantity);
-                statement.setBoolean(4,product_bundle);
+                statement.setBoolean(4,false);
                 statement.executeUpdate();
             }
             if(method.equals(RETRIEVE_ORDERS_USING_ID_STATUS)){
