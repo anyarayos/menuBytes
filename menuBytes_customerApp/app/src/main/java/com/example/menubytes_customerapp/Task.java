@@ -54,7 +54,7 @@ public class Task extends AsyncTask<String, String, Object> {
 
     private void setConnection() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://aws-simplified.ccnp1cnd7apy.ap-northeast-1.rds.amazonaws.com:3306/menubytes", "admin", "P0Y9aixM7jUZr6Cg");
+            connection = DriverManager.getConnection("jdbc:mysql://192.168.1.11:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -113,9 +113,10 @@ public class Task extends AsyncTask<String, String, Object> {
                 double total = Double.valueOf(params[0]);
                 String user_id = params[1];
                 String created_at = returnDateTime();
-                statement.setDouble(1,total);
-                statement.setString(2,created_at);
-                statement.setInt(3,Integer.valueOf(user_id));
+                statement.setInt(1,Integer.valueOf(user_id));
+                statement.setDouble(2,total);
+                statement.setString(3,created_at);
+                statement.setInt(4,Integer.valueOf(user_id));
                 statement.executeUpdate();
 
                 resultSet = statement.getGeneratedKeys();

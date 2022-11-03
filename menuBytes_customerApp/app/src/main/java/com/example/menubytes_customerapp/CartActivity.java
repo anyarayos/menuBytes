@@ -127,6 +127,7 @@ public class CartActivity extends AppCompatActivity {
                         }
                         Log.d("order_id_debug", "onFinish: " + String.valueOf(order_id));
                         Task placeOrderStatus = new Task(Task.INSERT_INTO_ORDER_STATUS);
+
                         placeOrderStatus.execute(String.valueOf(order_id),Utils.getInstance().getUser_id());
                             for(int index = 0; index < orders.size(); index++){
                                 if(index == orders.size()-1){
