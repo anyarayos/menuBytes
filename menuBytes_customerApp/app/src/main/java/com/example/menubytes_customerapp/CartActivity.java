@@ -174,8 +174,7 @@ public class CartActivity extends AppCompatActivity {
                         Utils.getInstance().removeAll();
                         orders.clear();
                         refreshActivity();
-
-
+                        overridePendingTransition(0,0);
                     }
                 });
                 placeOrderTask.execute(subTotal.getText().toString(),Utils.getInstance().getUser_id());

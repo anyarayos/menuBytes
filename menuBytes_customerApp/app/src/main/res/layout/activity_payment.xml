@@ -92,7 +92,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
-            android:text="Your Bill Summary"
+            android:text="View all your orders here."
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -136,7 +136,8 @@
             android:layout_marginTop="25dp"
             android:text="G-CASH"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+            app:layout_constraintTop_toBottomOf="@+id/textView16"
+            />
 
         <Button
             android:id="@+id/cashButton"

@@ -19,16 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pendingOrderListView" />
 
-    <TextView
-        android:id="@+id/notifyOrders3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="You don't have Pending Order."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
-
     <ListView
         android:id="@+id/pendingOrderListView"
         android:layout_width="match_parent"
@@ -64,7 +54,7 @@
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:text="Status"
         android:textStyle="normal"
@@ -75,11 +65,22 @@
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="45dp"
         android:layout_marginTop="10dp"
-        android:text="Order No. (w/ Orders)"
+        android:text="Order Number"
         android:textStyle="normal"
         app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:text="Qty."
+        android:textStyle="normal"
+        app:layout_constraintStart_toEndOf="@+id/textView17"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView

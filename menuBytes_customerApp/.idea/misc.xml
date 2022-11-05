@@ -3,10 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/63927/Documents/GitHub/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_payment.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_cart.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_cart_edit_product.xml" value="0.22826086956521738" />
-        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/fragment_orders_pending.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/list_cart.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/63927/Documents/menuBytes/menuBytes_customerApp/app/src/main/res/layout/activity_payment.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>

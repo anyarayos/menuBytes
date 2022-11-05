@@ -30,10 +30,38 @@ public class SqlStatements {
     private String insertAddOnsIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle)\n" +
             "VALUES((?),(SELECT product_id from product where product_name = (?)),(?),(?));";
 
-    private String retrieveOrderItemsUsingIdStatus = "";
+    private String insertGcashPayment = "INSERT INTO payment \n" +
+            "(payment_amount,\n" +
+            "payment_method,\n" +
+            "payment_status,\n" +
+            "created_at,\n" +
+            "created_by)\n" +
+            "VALUES\n" +
+            "((0), \n" +
+            "\"GCASH\",\n" +
+            "\"PENDING\",\n" +
+            "current_timestamp(),\n" +
+            "(SELECT user_name from user where user_id = (?))\n" +
+            ");";
 
-    public String getRetrieveOrderItemsUsingUserIDStatus() {
-        return retrieveOrderItemsUsingIdStatus;
+    private String retrieveTotalAmount = "SELECT \n" +
+            "SUM(orders.total) AS total_amount\n" +
+            "FROM orders\n" +
+            "INNER JOIN\n" +
+            "order_status ON order_status.order_id = orders.order_id\n" +
+            "LEFT JOIN\n" +
+            "payment ON payment.created_by = orders.created_by \n" +
+            "WHERE order_status != \"REJECTED\" \n" +
+            "AND orders.created_by = (SELECT user_name from user WHERE user_id = (?)) \n" +
+            "AND (payment.payment_status IS NULL OR payment.payment_status = \"PENDING\")\n" +
+            "AND DATE(orders.created_at) = curdate(); ";
+
+    public String getRetrieveTotalAmount() {
+        return retrieveTotalAmount;
+    }
+
+    public String getInsertGcashPayment() {
+        return insertGcashPayment;
     }
 
     public String getInsertAddOnsIntoOrderItems() {

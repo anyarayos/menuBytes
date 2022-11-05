@@ -36,6 +36,8 @@ public class Task extends AsyncTask<String, String, Object> {
     public final static String INSERT_INTO_ORDER_ITEMS = "insertIntoOrderItems";
     public final static String INSERT_ADDONS_INTO_ORDER_ITEMS = "insertAddOnsIntoOrderItems";
     public final static String RETRIEVE_ORDERS_USING_ID_STATUS = "retrieveOrderItemsUsingIdStatus";
+    public final static String RETRIEVE_TOTAL_AMOUNT = "RetrieveTotalAmount";
+    public final static String INSERT_GCASH_PAYMENT = "InsertGcashPayment";
 
     public Task(String method) {
         this.method = method;
@@ -170,7 +172,29 @@ public class Task extends AsyncTask<String, String, Object> {
                 statement.setBoolean(4,false);
                 statement.executeUpdate();
             }
-            if(method.equals(RETRIEVE_ORDERS_USING_ID_STATUS)){
+
+            if(method.equals(RETRIEVE_TOTAL_AMOUNT)){
+                statement = connection.prepareStatement(sqlStatements.getRetrieveTotalAmount());
+                String user_id = Utils.getInstance().getUser_id();
+                statement.setInt(1,Integer.valueOf(user_id));
+                resultSet = statement.executeQuery();
+                String total_amount = "";
+                if (!resultSet.isBeforeFirst()) {
+                    Log.d(TAG, "NO DATA FOUND");
+                } else {
+                    Log.d(TAG, "DATA FOUND");
+                    while (resultSet.next()) {
+                        total_amount = resultSet.getString(1);
+                    }
+                    return total_amount;
+                }
+            }
+
+            if(method.equals(INSERT_GCASH_PAYMENT)){
+                statement = connection.prepareStatement(sqlStatements.getInsertGcashPayment());
+                String user_id = Utils.getInstance().getUser_id();
+                statement.setInt(1, Integer.valueOf(user_id));
+                statement.executeUpdate();
             }
 
         }
