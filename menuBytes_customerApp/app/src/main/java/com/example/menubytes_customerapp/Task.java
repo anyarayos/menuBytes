@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class Task extends AsyncTask<String, String, Object> {
 
-
     private AsyncResponse asyncResponse;
     private String method;
     private Connection connection;
@@ -45,6 +44,7 @@ public class Task extends AsyncTask<String, String, Object> {
     public final static String DISPLAY_COMPLETED_ORDERS = "retrieveAllCompletedOrdersByTable";
     public static final String CHECK_PAYMENT_COUNT = "checkPaymentCount";
     public static final String CHECK_PENDING_COUNT = "checkPendingCount" ;
+    public static final String CHECK_COMPLETED_COUNT = "checkCompletedCount" ;
 
     public Task(String method) {
         this.method = method;
@@ -239,6 +239,24 @@ public class Task extends AsyncTask<String, String, Object> {
             if(method.equals(CHECK_PENDING_COUNT)){
                 int count = 0;
                 statement = connection.prepareStatement(sqlStatements.getCheckPendingOrders());
+                String user_id = Utils.getInstance().getUser_id();
+                statement.setInt(1,Integer.valueOf(user_id));
+                resultSet = statement.executeQuery();
+
+                if (!resultSet.isBeforeFirst()) {
+                    Log.d(TAG, "NO DATA FOUND");
+                } else {
+                    Log.d(TAG, "DATA FOUND");
+                    while (resultSet.next()) {
+                        count = resultSet.getInt(1);
+                    }
+                    return count;
+                }
+            }
+
+            if(method.equals(CHECK_COMPLETED_COUNT)){
+                int count = 0;
+                statement = connection.prepareStatement(sqlStatements.getCheckCompletedOrders());
                 String user_id = Utils.getInstance().getUser_id();
                 statement.setInt(1,Integer.valueOf(user_id));
                 resultSet = statement.executeQuery();

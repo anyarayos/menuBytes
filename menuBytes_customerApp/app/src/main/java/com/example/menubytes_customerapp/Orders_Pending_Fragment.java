@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,10 +29,13 @@ public class Orders_Pending_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    ListView pendingListView;
-    Dialog pendingDialog;
-    ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
-    ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
+    private ListView pendingListView;
+    private Dialog pendingDialog;
+    private ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
+    private ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
+    private PendingListAdapter pendingListAdapter;
+
+    private TextView notifyIfEmpty;
 
     public Orders_Pending_Fragment() {
     }
@@ -56,28 +62,54 @@ public class Orders_Pending_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_orders_pending,null);
-
-
-
-        //order
+        notifyIfEmpty = view.findViewById(R.id.notifyIfEmpty);
+        //initialize the listview
         pendingListView = view.findViewById(R.id.pendingOrderListView);
 
         //dialog
         pendingDialog = new Dialog(getActivity());
 
         //populate arraylist
-//        pendingArrayList.add(new PendingListClass("IN THE KITCHEN","001","5","150.00"));
         Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
                 if(output!=null){
                     pendingArrayList = (ArrayList<PendingListClass>) output;
-                    PendingListAdapter pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+                    pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
                     pendingListView.setAdapter(pendingListAdapter);
                 }
             }
         });
         task.execute();
+
+        final Handler refreshHandler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // do updates
+                Toast.makeText(getActivity(), "pending orders refreshed", Toast.LENGTH_SHORT).show();
+                Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        if(output==null){
+                            notifyIfEmpty.setVisibility(View.VISIBLE);
+                            pendingArrayList.clear();
+                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+                            pendingListView.setAdapter(pendingListAdapter);
+                        }
+                        if(output!=null){
+                            notifyIfEmpty.setVisibility(View.GONE);
+                            pendingArrayList = (ArrayList<PendingListClass>) output;
+                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+                            pendingListView.setAdapter(pendingListAdapter);
+                        }
+                    }
+                });
+                task.execute();
+                refreshHandler.postDelayed(this, 3 * 1000);
+            }
+        };
+        refreshHandler.postDelayed(runnable, 3 * 1000);
 
 
 

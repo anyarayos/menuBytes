@@ -4,16 +4,20 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class Orders_History_Fragment extends Fragment {
+
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -38,6 +42,7 @@ public class Orders_History_Fragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+
     }
 
     @Override
@@ -62,24 +67,50 @@ public class Orders_History_Fragment extends Fragment {
         completedOrdersListView = view.findViewById(R.id.orderListView);
 
         //Populate the arraylist
-            Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
-                @Override
-                public void onFinish(Object output) {
-                    if(output!=null){
-                        completedOrdersArrayList = (ArrayList<OrderListClass>) output;
-                        if(!completedOrdersArrayList.isEmpty()){notifyOrderExistence.setVisibility(View.GONE);}
-                        orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
-                        completedOrdersListView.setAdapter(orderListAdapter);
-                    }
+        Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output!=null){
+                    completedOrdersArrayList = (ArrayList<OrderListClass>) output;
+                    if(!completedOrdersArrayList.isEmpty()){notifyOrderExistence.setVisibility(View.GONE);}
+                    orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
+                    completedOrdersListView.setAdapter(orderListAdapter);
                 }
-            });
-            task.execute();
+            }
+        });
+        task.execute();
 
-        //Instantiate the Adapter, select a layout
-        orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart,	completedOrdersArrayList);
+        final Handler refreshHandler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // do updates
+                Toast.makeText(getActivity(), "completed orders refreshed", Toast.LENGTH_SHORT).show();
+                Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        if(output==null){
+                            notifyOrderExistence.setVisibility(View.VISIBLE);
+                            completedOrdersArrayList.clear();
+                            orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
+                            completedOrdersListView.setAdapter(orderListAdapter);
+                        }
+                        if(output!=null){
+                            notifyOrderExistence.setVisibility(View.GONE);
+                            completedOrdersArrayList = (ArrayList<OrderListClass>) output;
+                            orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
+                            completedOrdersListView.setAdapter(orderListAdapter);
+                        }
+                    }
+                });
+                task.execute();
+                refreshHandler.postDelayed(this, 3 * 1000);
+            }
+        };
+        refreshHandler.postDelayed(runnable, 3 * 1000);
 
-        //Make your created listview set an adapter
-        completedOrdersListView.setAdapter(orderListAdapter);
         return view;
     }
+
+
 }

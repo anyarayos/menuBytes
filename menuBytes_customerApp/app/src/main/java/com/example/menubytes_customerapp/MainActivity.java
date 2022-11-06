@@ -22,13 +22,62 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView pendingListView;
     private ArrayList<PendingListClass> pendingArrayList = new ArrayList<>();
-    private ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
+    private PendingListAdapter pendingListAdapter;
     private TextView notifyOrders3;
+    private Timer autoUpdate;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        autoUpdate = new Timer();
+        autoUpdate.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        update();
+                    }
+                });
+            }
+        }, 0, 5000); // updates each 5 secs
+    }
+
+    private void update(){
+        // your logic here
+        Toast.makeText(context, "refreshed", Toast.LENGTH_SHORT).show();
+        Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output==null){
+                    notifyOrders3.setVisibility(View.VISIBLE);
+                    pendingArrayList.clear();
+                    pendingListAdapter = new PendingListAdapter(MainActivity.this,R.layout.list_pending,pendingArrayList);
+                    pendingListView.setAdapter(pendingListAdapter);
+                }
+                if(output!=null){
+                    notifyOrders3.setVisibility(View.GONE);
+                    pendingArrayList = (ArrayList<PendingListClass>) output;
+                    pendingListAdapter = new PendingListAdapter(MainActivity.this,R.layout.list_pending,pendingArrayList);
+                    pendingListView.setAdapter(pendingListAdapter);
+                }
+            }
+        });
+        task.execute();
+    }
+
+    @Override
+    public void onPause() {
+        autoUpdate.cancel();
+        super.onPause();
+    }
+
 
     Context context = MainActivity.this;
 
@@ -46,22 +95,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.Home);
 
         notifyOrders3 = findViewById(R.id.notifyOrders3);
-        //order
+
         pendingListView = findViewById(R.id.pendingOrderListView);
 
-        Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
-            @Override
-            public void onFinish(Object output) {
-                if(output!=null){
-                    pendingArrayList = (ArrayList<PendingListClass>) output;
-                    if(!pendingArrayList.isEmpty()){
-                        notifyOrders3.setVisibility(View.GONE);
-                    PendingListAdapter pendingListAdapter = new PendingListAdapter(MainActivity.this,R.layout.list_pending,pendingArrayList);
-                    pendingListView.setAdapter(pendingListAdapter);}
-                }
-            }
-        });
-        task.execute();
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

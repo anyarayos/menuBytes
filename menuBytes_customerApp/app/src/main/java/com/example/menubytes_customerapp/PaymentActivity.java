@@ -39,6 +39,8 @@ public class PaymentActivity extends AppCompatActivity {
 
     private int count = 0;
 
+    private TextView notifyItemsPayment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,8 @@ public class PaymentActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        notifyItemsPayment = findViewById(R.id.notifyItemsPayment);
 
         subTotal = findViewById(R.id.subTotal);
         totalSum = findViewById(R.id.totalSum);
@@ -71,6 +75,8 @@ public class PaymentActivity extends AppCompatActivity {
 
         gcashButton = findViewById(R.id.gcashButton);
         cashButton = findViewById(R.id.cashButton);
+        gcashButton.setEnabled(false);
+        cashButton.setEnabled(false);
 
 
         gcashButton.setOnClickListener(new View.OnClickListener() {
@@ -153,13 +159,18 @@ public class PaymentActivity extends AppCompatActivity {
         Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
-                if(output!=null){
-                    completedOrdersArrayList = (ArrayList<OrderListClass>) output;
-                    if(!completedOrdersArrayList.isEmpty()){
-                        orderListAdapter = new OrderListAdapter(PaymentActivity.this,R.layout.list_cart, completedOrdersArrayList);
-                        completedOrdersListView.setAdapter(orderListAdapter);
-                    }
+                if(output==null){
+                    notifyItemsPayment.setVisibility(View.VISIBLE);
+                    completedOrdersArrayList.clear();
+                    orderListAdapter = new OrderListAdapter(PaymentActivity.this,R.layout.list_cart, completedOrdersArrayList);
+                    completedOrdersListView.setAdapter(orderListAdapter);
 
+                }
+                if(output!=null){
+                    notifyItemsPayment.setVisibility(View.GONE);
+                    completedOrdersArrayList = (ArrayList<OrderListClass>) output;
+                    orderListAdapter = new OrderListAdapter(PaymentActivity.this,R.layout.list_cart, completedOrdersArrayList);
+                    completedOrdersListView.setAdapter(orderListAdapter);
                 }
             }
         });
@@ -171,20 +182,32 @@ public class PaymentActivity extends AppCompatActivity {
             public void onFinish(Object output) {
                 count = (int) output;
                 if(count>0){
-                    builder.setMessage("You cannot pay while we prepare your orders.")
-                            .setCancelable(true).setNegativeButton("close", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    //  Action for 'NO' Button
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+//                    builder.setMessage("You cannot pay while we prepare your orders.")
+//                            .setCancelable(true).setNegativeButton("close", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    //  Action for 'NO' Button
+//                                    dialog.cancel();
+//                                }
+//                            });
+//                    AlertDialog alert = builder.create();
+//                    alert.show();
                     gcashButton.setEnabled(false);
                     cashButton.setEnabled(false);
                 }else{
-                    gcashButton.setEnabled(true);
-                    cashButton.setEnabled(true);
+                    Task checkCompletedCount = new Task(Task.CHECK_COMPLETED_COUNT, new AsyncResponse() {
+                        @Override
+                        public void onFinish(Object output) {
+                            int count = 0;
+                            count = (int)output;
+                            if(output!=null){
+                                if(count>0){
+                                    gcashButton.setEnabled(true);
+                                    cashButton.setEnabled(true);
+                                }
+                            }
+                        }
+                    });checkCompletedCount.execute();
+
                 }
 
             }

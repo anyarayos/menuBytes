@@ -12,6 +12,15 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/notifyItemsPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You do not have any completed orders!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/orderListView" />
+
+        <TextView
             android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -126,7 +135,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" >
+
+        </ListView>
 
         <Button
             android:id="@+id/gcashButton"

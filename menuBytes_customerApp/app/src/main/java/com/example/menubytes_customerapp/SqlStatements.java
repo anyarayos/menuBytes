@@ -75,6 +75,11 @@ public class SqlStatements {
             "WHERE orders.created_by = (SELECT user_name from user WHERE user_id = (?))\n" +
             "AND (order_status.order_status = \"IN QUEUE\" OR order_status.order_status = \"PREPARING\")\n" +
             ";";
+    private String checkCompletedOrders = "SELECT COUNT(orders.order_id) FROM orders\n" +
+            "INNER JOIN order_status ON orders.order_id = order_status.order_id\n" +
+            "WHERE orders.created_by = (SELECT user_name from user WHERE user_id = (?))\n" +
+            "AND (order_status.order_status = \"COMPLETED\")\n" +
+            ";";
 
     private String retrieveTotalAmount = "SELECT \n" +
             "SUM(orders.total) AS total_amount\n" +
@@ -106,6 +111,10 @@ public class SqlStatements {
             "order_status ON order_items.order_id = order_status.order_id\n" +
             "WHERE\n" +
             "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
+
+    public String getCheckCompletedOrders() {
+        return checkCompletedOrders;
+    }
 
     public String getCheckPendingOrders() {
         return checkPendingOrders;

@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".Orders_Pending_Fragment" >
 
+    <TextView
+        android:id="@+id/notifyIfEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You do not have any pending orders!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pendingOrderListView" />
+
     <Button
         android:id="@+id/BacktoCartBtn2"
         android:layout_width="272dp"
@@ -27,7 +36,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15" >
+
+    </ListView>
 
     <ImageView
         android:id="@+id/imageView4"
