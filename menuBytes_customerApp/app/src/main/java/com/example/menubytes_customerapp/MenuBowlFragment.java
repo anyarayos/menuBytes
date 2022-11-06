@@ -62,6 +62,7 @@ public class MenuBowlFragment extends Fragment {
         Task task = new Task(getContext(),Task.RETRIEVE_PRODUCTS_BY_CATEGORY, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
+                if(output==null){loadingDialog.dismissDialog();}
                 productListClassArrayList = (ArrayList<ProductListClass>)output;
                 ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_product, productListClassArrayList);
                 listViewProducts.setAdapter(productListAdapter);

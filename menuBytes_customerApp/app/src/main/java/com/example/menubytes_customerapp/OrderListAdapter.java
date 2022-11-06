@@ -16,6 +16,7 @@ public class OrderListAdapter extends ArrayAdapter<OrderListClass> {
     private Context mContext;
     private int mResource;
     private String AddOnData=null;
+
     public OrderListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<OrderListClass> objects) {
         super(context, resource, objects);
         this.mContext = context;

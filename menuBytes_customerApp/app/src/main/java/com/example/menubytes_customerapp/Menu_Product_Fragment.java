@@ -91,6 +91,9 @@ public class Menu_Product_Fragment extends Fragment {
                 Task task = new Task(Task.RETRIEVE_PRODUCTS_BY_ID, new AsyncResponse() {
                     @Override
                     public void onFinish(Object output) {
+                        if(output==null){
+                            loadingDialog.dismissDialog();
+                        }
                         ArrayList <ProductListClass> productListClassArrayList = (ArrayList<ProductListClass>)output;
                         try {
                             imgViewItemMenu.setImageDrawable(getDrawableFromAssets(productListClassArrayList.get(0).getImage()));

@@ -5,20 +5,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    private ListView pendingListView;
+    private ArrayList<PendingListClass> pendingArrayList = new ArrayList<>();
+    private ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
+    private TextView notifyOrders3;
 
     Context context = MainActivity.this;
 
@@ -34,6 +44,25 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.Home);
+
+        notifyOrders3 = findViewById(R.id.notifyOrders3);
+        //order
+        pendingListView = findViewById(R.id.pendingOrderListView);
+
+        Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output!=null){
+                    pendingArrayList = (ArrayList<PendingListClass>) output;
+                    if(!pendingArrayList.isEmpty()){
+                        notifyOrders3.setVisibility(View.GONE);
+                    PendingListAdapter pendingListAdapter = new PendingListAdapter(MainActivity.this,R.layout.list_pending,pendingArrayList);
+                    pendingListView.setAdapter(pendingListAdapter);}
+                }
+            }
+        });
+        task.execute();
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -49,8 +78,10 @@ public class MainActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Payment:
-                        startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
-                        overridePendingTransition(0,0);
+
+                            startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
+                            overridePendingTransition(0,0);
+
                         return true;
                     case R.id.Settings:
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));

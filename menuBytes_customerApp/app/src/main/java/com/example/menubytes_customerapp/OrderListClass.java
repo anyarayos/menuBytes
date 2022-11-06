@@ -1,7 +1,7 @@
 package com.example.menubytes_customerapp;
 
 public class OrderListClass {
-    private int OrderID;
+    private String OrderID;
     private int ProductID;
     private String OrderName;
     private String OrderPrice;
@@ -17,18 +17,14 @@ public class OrderListClass {
     private String OrderFlavor_3="";
 
 
-    public OrderListClass(int orderID, int productID, String orderQty){
-        this.OrderID = orderID;
-        this.ProductID = productID;
+    public OrderListClass(String orderQty, String orderName,  String orderPrice){
+
         this.OrderQty = orderQty;
+        this.OrderName = orderName;
+        this.OrderPrice = orderPrice;
     }
 
-    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty){
-        ProductID = productID;
-        OrderName = orderName;
-        OrderPrice = orderPrice;
-        OrderQty = orderQty;
-    }
+
 
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty, String orderCategory) {
         ProductID = productID;
@@ -50,8 +46,6 @@ public class OrderListClass {
         OrderAddOns_3 = orderAddOns_3;
         OrderAddOns_4 = orderAddOns_4;
     }
-
-
 
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
                           String orderCategory, boolean orderBundle,

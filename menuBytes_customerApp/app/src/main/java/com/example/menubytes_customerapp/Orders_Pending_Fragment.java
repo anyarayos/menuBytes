@@ -65,13 +65,21 @@ public class Orders_Pending_Fragment extends Fragment {
         //dialog
         pendingDialog = new Dialog(getActivity());
 
-        pendingArrayList.add(new PendingListClass("IN THE KITCHEN","001","5","150.00"));
-        pendingArrayList.add(new PendingListClass("IN THE KITCHEN","002","1","49.00"));
-        pendingArrayList.add(new PendingListClass("IN\nQUEUE","003","2","91.00"));
-        pendingArrayList.add(new PendingListClass("IN\nQUEUE","004","1","79.00"));
+        //populate arraylist
+//        pendingArrayList.add(new PendingListClass("IN THE KITCHEN","001","5","150.00"));
+        Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output!=null){
+                    pendingArrayList = (ArrayList<PendingListClass>) output;
+                    PendingListAdapter pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+                    pendingListView.setAdapter(pendingListAdapter);
+                }
+            }
+        });
+        task.execute();
 
-        PendingListAdapter pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
-        pendingListView.setAdapter(pendingListAdapter);
+
 
         pendingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -84,7 +92,7 @@ public class Orders_Pending_Fragment extends Fragment {
                 switch (position){
                     case 0:
                         //NAGCRA-CRASH PAG INA-ADD YUNG ORDER SUMMARY SA ORDER ID.
-                        // BAKA HINDI IDEAL YUNG DIALOG LANG SINCE WALA SYANG SARILING CLASS. WATCHU THINK NAT?
+                        //BAKA HINDI IDEAL YUNG DIALOG LANG SINCE WALA SYANG SARILING CLASS. WATCHU THINK NAT?
 
                         //pendingListView = view.findViewById(R.id.pendingOrderSumListView);
                         //pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Wrap Large","10.00","1","ADDONS HERE"));

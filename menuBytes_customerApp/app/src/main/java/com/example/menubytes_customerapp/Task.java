@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Task extends AsyncTask<String, String, Object> {
+
+
     private AsyncResponse asyncResponse;
     private String method;
     private Connection connection;
@@ -38,6 +40,11 @@ public class Task extends AsyncTask<String, String, Object> {
     public final static String RETRIEVE_ORDERS_USING_ID_STATUS = "retrieveOrderItemsUsingIdStatus";
     public final static String RETRIEVE_TOTAL_AMOUNT = "RetrieveTotalAmount";
     public final static String INSERT_GCASH_PAYMENT = "InsertGcashPayment";
+    public final static String INSERT_CASH_PAYMENT = "InsertCashPayment";
+    public final static String DISPLAY_PENDING_ORDERS = "retrieveAllPendingOrdersByTable" ;
+    public final static String DISPLAY_COMPLETED_ORDERS = "retrieveAllCompletedOrdersByTable";
+    public static final String CHECK_PAYMENT_COUNT = "checkPaymentCount";
+    public static final String CHECK_PENDING_COUNT = "checkPendingCount" ;
 
     public Task(String method) {
         this.method = method;
@@ -59,6 +66,27 @@ public class Task extends AsyncTask<String, String, Object> {
             connection = DriverManager.getConnection("jdbc:mysql://192.168.1.11:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
+        }
+    }
+
+    public static  void disconnect(ResultSet rs, PreparedStatement stat, Connection cn){
+        String TAG = "disconnect";
+        try{
+            if(rs!=null) rs.close();
+        }catch(SQLException sqlEx){
+            Log.d(TAG, "resultset disconnection error ");
+        }
+        try{
+            if(stat!=null) stat.close();
+        }catch(SQLException sqlEx){
+            Log.d(TAG, "statement disconnection error ");
+
+        }
+        try{
+            if(cn!=null) cn.close();
+        }catch(SQLException sqlEx){
+            Log.d(TAG, "connection disconnection error ");
+
         }
     }
 
@@ -144,7 +172,7 @@ public class Task extends AsyncTask<String, String, Object> {
                 int order_id = Integer.valueOf(params[0]);
                 String user_id = params[1];
                 statement.setInt(1, order_id);
-                statement.setString(2,"PENDING");
+                statement.setString(2,"IN QUEUE");
                 statement.setInt(3,order_id);
                 statement.setInt(4,Integer.valueOf(user_id));
                 statement.executeUpdate();
@@ -190,13 +218,101 @@ public class Task extends AsyncTask<String, String, Object> {
                 }
             }
 
+            if(method.equals(CHECK_PAYMENT_COUNT)){
+                int count = 0;
+                statement = connection.prepareStatement(sqlStatements.getCheckPaymentCount());
+                String user_id = Utils.getInstance().getUser_id();
+                statement.setInt(1,Integer.valueOf(user_id));
+                resultSet = statement.executeQuery();
+                String total_amount = "";
+                if (!resultSet.isBeforeFirst()) {
+                    Log.d(TAG, "NO DATA FOUND");
+                } else {
+                    Log.d(TAG, "DATA FOUND");
+                    while (resultSet.next()) {
+                        count = resultSet.getInt(1);
+                    }
+                    return count;
+                }
+            }
+
+            if(method.equals(CHECK_PENDING_COUNT)){
+                int count = 0;
+                statement = connection.prepareStatement(sqlStatements.getCheckPendingOrders());
+                String user_id = Utils.getInstance().getUser_id();
+                statement.setInt(1,Integer.valueOf(user_id));
+                resultSet = statement.executeQuery();
+
+                if (!resultSet.isBeforeFirst()) {
+                    Log.d(TAG, "NO DATA FOUND");
+                } else {
+                    Log.d(TAG, "DATA FOUND");
+                    while (resultSet.next()) {
+                        count = resultSet.getInt(1);
+                    }
+                    return count;
+                }
+            }
+
             if(method.equals(INSERT_GCASH_PAYMENT)){
                 statement = connection.prepareStatement(sqlStatements.getInsertGcashPayment());
+                String totalAmount = params[0];
                 String user_id = Utils.getInstance().getUser_id();
-                statement.setInt(1, Integer.valueOf(user_id));
+                statement.setDouble(1,Double.valueOf(totalAmount));
+                statement.setInt(2, Integer.valueOf(user_id));
                 statement.executeUpdate();
             }
 
+            if(method.equals(INSERT_CASH_PAYMENT)){
+                statement = connection.prepareStatement(sqlStatements.getInsertCashPayment());
+                String totalAmount = params[0];
+                String user_id = Utils.getInstance().getUser_id();
+                statement.setDouble(1,Double.valueOf(totalAmount));
+                statement.setInt(2, Integer.valueOf(user_id));
+                statement.executeUpdate();
+            }
+
+            if(method.equals(DISPLAY_PENDING_ORDERS)){
+                ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
+                statement = connection.prepareStatement(sqlStatements.getRetrieveAllPendingOrdersByTable());
+                statement.setInt(1,Integer.valueOf(Utils.getInstance().getUser_id()));
+                resultSet = statement.executeQuery();
+
+                if (!resultSet.isBeforeFirst()) {
+                    Log.d(TAG, "NO DATA FOUND");
+                } else {
+                    Log.d(TAG, "DATA FOUND");
+                    while (resultSet.next()) {
+                        pendingArrayList.add(new PendingListClass(
+                                resultSet.getString(1),
+                                resultSet.getString(2),
+                                resultSet.getString(3),
+                                resultSet.getString(4)));
+                    }
+                    return pendingArrayList;
+                }
+            }
+
+            if(method.equals(DISPLAY_COMPLETED_ORDERS)){
+                ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
+                statement = connection.prepareStatement(sqlStatements.getRetrieveAllCompletedOrdersByTable());
+                statement.setInt(1,Integer.valueOf(Utils.getInstance().getUser_id()));
+                resultSet = statement.executeQuery();
+
+                if (!resultSet.isBeforeFirst()) {
+                    Log.d(TAG, "NO DATA FOUND");
+                } else {
+                    Log.d(TAG, "DATA FOUND");
+                    while (resultSet.next()) {
+                        completedOrdersArrayList.add(new OrderListClass(
+                                resultSet.getString(1),
+                                resultSet.getString(2),
+                                resultSet.getString(3)));
+                    }
+                    return completedOrdersArrayList;
+                }
+            }
+            disconnect(resultSet,statement,connection);
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -210,7 +326,7 @@ public class Task extends AsyncTask<String, String, Object> {
             super.onPostExecute(o);
                 if(o!=null){
                     asyncResponse.onFinish(o);
-                }
+                }else{asyncResponse.onFinish(null);}
             }
         catch (Exception e){
             Log.i("onPostExecute", e.toString());

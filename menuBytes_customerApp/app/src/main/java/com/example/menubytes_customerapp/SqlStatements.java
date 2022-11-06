@@ -31,30 +31,100 @@ public class SqlStatements {
             "VALUES((?),(SELECT product_id from product where product_name = (?)),(?),(?));";
 
     private String insertGcashPayment = "INSERT INTO payment \n" +
-            "(payment_amount,\n" +
+            "(\n" +
+            "amount_due,\n" +
+            "payment_amount,\n" +
             "payment_method,\n" +
             "payment_status,\n" +
             "created_at,\n" +
             "created_by)\n" +
             "VALUES\n" +
-            "((0), \n" +
+            "(\n" +
+            "(?),\n" +
+            "(0), \n" +
             "\"GCASH\",\n" +
             "\"PENDING\",\n" +
             "current_timestamp(),\n" +
             "(SELECT user_name from user where user_id = (?))\n" +
             ");";
 
+    private String InsertCashPayment = "INSERT INTO payment \n" +
+            "(\n" +
+            "amount_due,\n" +
+            "payment_amount,\n" +
+            "payment_method,\n" +
+            "payment_status,\n" +
+            "created_at,\n" +
+            "created_by)\n" +
+            "VALUES\n" +
+            "(\n" +
+            "(?),\n" +
+            "(0), \n" +
+            "\"CASH\",\n" +
+            "\"PENDING\",\n" +
+            "current_timestamp(),\n" +
+            "(SELECT user_name from user where user_id = (?))\n" +
+            ");";
+
+    private String checkPaymentCount = "SELECT COUNT(payment_id) FROM payment\n" +
+            "WHERE created_by = (SELECT user_name from user WHERE user_id = (?));";
+
+    private String checkPendingOrders = "SELECT COUNT(orders.order_id) FROM orders\n" +
+            "INNER JOIN order_status ON orders.order_id = order_status.order_id\n" +
+            "WHERE orders.created_by = (SELECT user_name from user WHERE user_id = (?))\n" +
+            "AND (order_status.order_status = \"IN QUEUE\" OR order_status.order_status = \"PREPARING\")\n" +
+            ";";
+
     private String retrieveTotalAmount = "SELECT \n" +
             "SUM(orders.total) AS total_amount\n" +
             "FROM orders\n" +
             "INNER JOIN\n" +
             "order_status ON order_status.order_id = orders.order_id\n" +
-            "LEFT JOIN\n" +
-            "payment ON payment.created_by = orders.created_by \n" +
-            "WHERE order_status != \"REJECTED\" \n" +
+            "WHERE order_status = \"COMPLETED\" \n" +
             "AND orders.created_by = (SELECT user_name from user WHERE user_id = (?)) \n" +
-            "AND (payment.payment_status IS NULL OR payment.payment_status = \"PENDING\")\n" +
-            "AND DATE(orders.created_at) = curdate(); ";
+            "AND DATE(orders.created_at) = curdate();\n;";
+
+    private String retrieveAllPendingOrdersByTable = "SELECT IF((order_status.order_status=\"PREPARING\"),\"IN THE KITCHEN\", order_status.order_status), orders.order_id, orderitems.qty, orders.total\n" +
+            "FROM orders\n" +
+            "INNER JOIN\n" +
+            "order_status ON order_status.order_id = orders.order_id\n" +
+            "JOIN\n" +
+            "(SELECT order_id, SUM(quantity) AS qty FROM order_items GROUP BY order_id)\n" +
+            "AS orderitems ON orderitems.order_id = orders.order_id\n" +
+            "WHERE\n" +
+            "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) \n" +
+            "AND (order_status = \"PREPARING\" OR order_status = \"IN QUEUE\");";
+
+    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity, product.product_name, IF(order_items.product_bundle,product.product_bundle,product.product_price)\n" +
+            "FROM order_items\n" +
+            "INNER JOIN\n" +
+            "product ON order_items.product_id = product.product_id\n" +
+            "INNER JOIN\n" +
+            "orders ON order_items.order_id = orders.order_id\n" +
+            "INNER JOIN\n" +
+            "order_status ON order_items.order_id = order_status.order_id\n" +
+            "WHERE\n" +
+            "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
+
+    public String getCheckPendingOrders() {
+        return checkPendingOrders;
+    }
+
+    public String getCheckPaymentCount() {
+        return checkPaymentCount;
+    }
+
+    public String getInsertCashPayment() {
+        return InsertCashPayment;
+    }
+
+    public String getRetrieveAllPendingOrdersByTable() {
+        return retrieveAllPendingOrdersByTable;
+    }
+
+    public String getRetrieveAllCompletedOrdersByTable() {
+        return retrieveAllCompletedOrdersByTable;
+    }
 
     public String getRetrieveTotalAmount() {
         return retrieveTotalAmount;
