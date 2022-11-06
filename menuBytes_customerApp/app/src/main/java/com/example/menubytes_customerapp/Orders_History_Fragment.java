@@ -62,18 +62,18 @@ public class Orders_History_Fragment extends Fragment {
         completedOrdersListView = view.findViewById(R.id.orderListView);
 
         //Populate the arraylist
-        Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
-            @Override
-            public void onFinish(Object output) {
-                if(output!=null){
-                    completedOrdersArrayList = (ArrayList<OrderListClass>) output;
-                    if(!completedOrdersArrayList.isEmpty()){notifyOrderExistence.setVisibility(View.GONE);}
-                    orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
-                    completedOrdersListView.setAdapter(orderListAdapter);
+            Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
+                @Override
+                public void onFinish(Object output) {
+                    if(output!=null){
+                        completedOrdersArrayList = (ArrayList<OrderListClass>) output;
+                        if(!completedOrdersArrayList.isEmpty()){notifyOrderExistence.setVisibility(View.GONE);}
+                        orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
+                        completedOrdersListView.setAdapter(orderListAdapter);
+                    }
                 }
-            }
-        });
-        task.execute();
+            });
+            task.execute();
 
 
 

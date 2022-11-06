@@ -13,17 +13,25 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class PaymentActivity extends AppCompatActivity {
 
     private Button gcashButton,cashButton;
     private TextView subTotal, totalSum;
     private AlertDialog.Builder builder;
+
+    private ListView completedOrdersListView;
+    private ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
+    private OrderListAdapter orderListAdapter;
+
 
 
     @Override
@@ -35,7 +43,29 @@ public class PaymentActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        subTotal = findViewById(R.id.subTotal);
+        //Initialize the listview
+        completedOrdersListView = findViewById(R.id.orderListView);
+
+        //Populate the arraylist
+        Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output!=null){
+                    completedOrdersArrayList = (ArrayList<OrderListClass>) output;
+                    if(!completedOrdersArrayList.isEmpty()){
+                        orderListAdapter = new OrderListAdapter(PaymentActivity.this,R.layout.list_cart, completedOrdersArrayList);
+                        completedOrdersListView.setAdapter(orderListAdapter);
+
+                    }
+
+                }
+            }
+        });
+        task.execute();
+
+
+
+            subTotal = findViewById(R.id.subTotal);
         totalSum = findViewById(R.id.totalSum);
         builder = new AlertDialog.Builder(this);
 
