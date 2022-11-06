@@ -6,7 +6,8 @@ public class SqlStatements {
             "PRODUCT_DESCRIPTION, PRODUCT_BUNDLE FROM product WHERE PRODUCT_ID = (?)";
 
     private String retrieveProductsByCategory = "SELECT PRODUCT_ID, PRODUCT_IMG, PRODUCT_NAME, " +
-            "PRODUCT_PRICE, PRODUCT_DESCRIPTION, PRODUCT_BUNDLE FROM product WHERE PRODUCT_CATEGORY = (?)";
+            "PRODUCT_PRICE, PRODUCT_DESCRIPTION, PRODUCT_BUNDLE FROM product WHERE PRODUCT_CATEGORY = (?)AND \n" +
+            "product_name != \"Shawarma All Meat\"";
 
     private String insertIntoOrders = "INSERT INTO orders(user_id, total, created_at, created_by) \n" +
             "VALUES(\n" +
