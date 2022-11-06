@@ -75,10 +75,6 @@ public class Orders_History_Fragment extends Fragment {
             });
             task.execute();
 
-
-
-
-
         //Instantiate the Adapter, select a layout
         orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart,	completedOrdersArrayList);
 
