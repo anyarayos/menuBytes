@@ -59,10 +59,10 @@ public class MenuShawarmaFragment extends Fragment {
         Task task = new Task(getContext(),Task.RETRIEVE_PRODUCTS_BY_CATEGORY, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
+                loadingDialog.dismissDialog();
                 productListClassArrayList = (ArrayList<ProductListClass>)output;
                 ProductListAdapter productListAdapter = new ProductListAdapter(getActivity(),R.layout.list_product, productListClassArrayList);
                 listViewShawarma.setAdapter(productListAdapter);
-                loadingDialog.dismissDialog();
                 listViewShawarma.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

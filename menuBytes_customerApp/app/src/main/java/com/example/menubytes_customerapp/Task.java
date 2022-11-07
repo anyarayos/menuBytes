@@ -63,6 +63,7 @@ public class Task extends AsyncTask<String, String, Object> {
 
     private void setConnection() {
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://192.168.1.11:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
@@ -94,66 +95,68 @@ public class Task extends AsyncTask<String, String, Object> {
     @Override
     protected Object doInBackground(String... params) {
         setConnection();
-        try {
-            if (method.equals(RETRIEVE_PRODUCTS_BY_CATEGORY)) {
-                statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByCategory());
-                String category =params[0];
-                statement.setString(1,category);
-                resultSet = statement.executeQuery();
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO PRODUCT DATA FOUND");
-                } else {
-                    Log.d(TAG, "PRODUCT DATA FOUND");
-                    while (resultSet.next()) {
-                        productListClassArrayList.add(new ProductListClass(
-                                resultSet.getInt(1),
-                                resultSet.getString(2),
-                                resultSet.getString(3),
-                                resultSet.getString(4),
-                                resultSet.getString(5),
-                                resultSet.getString(6)
-                        ));
-                    }
-                    return productListClassArrayList;
-                }
-            }
-            if (method.equals(RETRIEVE_PRODUCTS_BY_ID)) {
-                statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByID());
-                int id =Integer.valueOf(params[0]);
-                statement.setInt(1,id);
-                resultSet = statement.executeQuery();
 
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO DATA FOUND");
-                } else {
-                    Log.d(TAG, "DATA FOUND");
-                    while (resultSet.next()) {
-                        productListClassArrayList.add(new ProductListClass(resultSet.getString(1),
-                                resultSet.getString(2),
-                                resultSet.getString(3),
-                                resultSet.getString(4),
-                                resultSet.getString(5)
-                        ));
+        if(connection!=null){
+            try {
+                if (method.equals(RETRIEVE_PRODUCTS_BY_CATEGORY)) {
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByCategory());
+                    String category =params[0];
+                    statement.setString(1,category);
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO PRODUCT DATA FOUND");
+                    } else {
+                        Log.d(TAG, "PRODUCT DATA FOUND");
+                        while (resultSet.next()) {
+                            productListClassArrayList.add(new ProductListClass(
+                                    resultSet.getInt(1),
+                                    resultSet.getString(2),
+                                    resultSet.getString(3),
+                                    resultSet.getString(4),
+                                    resultSet.getString(5),
+                                    resultSet.getString(6)
+                            ));
+                        }
+                        return productListClassArrayList;
                     }
-                    return productListClassArrayList;
                 }
-            }
-            if (method.equals(INSERT_INTO_ORDERS)) {
-                statement = connection.prepareStatement(sqlStatements.getInsertIntoOrders(), Statement.RETURN_GENERATED_KEYS);
-                double total = Double.valueOf(params[0]);
-                String user_id = params[1];
-                String created_at = returnDateTime();
-                statement.setInt(1,Integer.valueOf(user_id));
-                statement.setDouble(2,total);
-                statement.setString(3,created_at);
-                statement.setInt(4,Integer.valueOf(user_id));
-                statement.executeUpdate();
+                if (method.equals(RETRIEVE_PRODUCTS_BY_ID)) {
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByID());
+                    int id =Integer.valueOf(params[0]);
+                    statement.setInt(1,id);
+                    resultSet = statement.executeQuery();
 
-                resultSet = statement.getGeneratedKeys();
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO ID_DATA FOUND");
-                } else {
-                    Log.d(TAG, "ID_DATA FOUND");}
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "DATA FOUND");
+                        while (resultSet.next()) {
+                            productListClassArrayList.add(new ProductListClass(resultSet.getString(1),
+                                    resultSet.getString(2),
+                                    resultSet.getString(3),
+                                    resultSet.getString(4),
+                                    resultSet.getString(5)
+                            ));
+                        }
+                        return productListClassArrayList;
+                    }
+                }
+                if (method.equals(INSERT_INTO_ORDERS)) {
+                    statement = connection.prepareStatement(sqlStatements.getInsertIntoOrders(), Statement.RETURN_GENERATED_KEYS);
+                    double total = Double.valueOf(params[0]);
+                    String user_id = params[1];
+                    String created_at = returnDateTime();
+                    statement.setInt(1,Integer.valueOf(user_id));
+                    statement.setDouble(2,total);
+                    statement.setString(3,created_at);
+                    statement.setInt(4,Integer.valueOf(user_id));
+                    statement.executeUpdate();
+
+                    resultSet = statement.getGeneratedKeys();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO ID_DATA FOUND");
+                    } else {
+                        Log.d(TAG, "ID_DATA FOUND");}
                     if(resultSet.next()){
                         order_id = resultSet.getInt(1);
                     }
@@ -165,176 +168,178 @@ public class Task extends AsyncTask<String, String, Object> {
 //                else{
 //                    Log.d(TAG, "doInBackground: INSERT_INTO_ORDERS UnSuccessful! ");
 //                }
-                return order_id;
-            }
-            if(method.equals(INSERT_INTO_ORDER_STATUS)){
-                statement = connection.prepareStatement(sqlStatements.getInsertIntoOrderStatus());
-                int order_id = Integer.valueOf(params[0]);
-                String user_id = params[1];
-                statement.setInt(1, order_id);
-                statement.setString(2,"IN QUEUE");
-                statement.setInt(3,order_id);
-                statement.setInt(4,Integer.valueOf(user_id));
-                statement.executeUpdate();
-            }
-            if(method.equals(INSERT_INTO_ORDER_ITEMS)){
-                statement = connection.prepareStatement(sqlStatements.getInsertIntoOrderItems());
-                int order_id = Integer.valueOf(params[0]);
-                int product_id = Integer.valueOf(params[1]);
-                String quantity = params[2];
-                boolean product_bundle = Boolean.valueOf(params[3]);
-                statement.setInt(1, order_id);
-                statement.setInt(2,product_id);
-                statement.setString(3,quantity);
-                statement.setBoolean(4,product_bundle);
-                statement.executeUpdate();
-            }
-            if(method.equals(INSERT_ADDONS_INTO_ORDER_ITEMS)){
-                statement = connection.prepareStatement(sqlStatements.getInsertAddOnsIntoOrderItems());
-                int order_id = Integer.valueOf(params[0]);
-                String product_name = params[1];
-                String quantity = params[2];
-                statement.setInt(1, order_id);
-                statement.setString(2,product_name);
-                statement.setString(3,quantity);
-                statement.setBoolean(4,false);
-                statement.executeUpdate();
-            }
-
-            if(method.equals(RETRIEVE_TOTAL_AMOUNT)){
-                statement = connection.prepareStatement(sqlStatements.getRetrieveTotalAmount());
-                String user_id = Utils.getInstance().getUser_id();
-                statement.setInt(1,Integer.valueOf(user_id));
-                resultSet = statement.executeQuery();
-                String total_amount = "";
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO DATA FOUND");
-                } else {
-                    Log.d(TAG, "DATA FOUND");
-                    while (resultSet.next()) {
-                        total_amount = resultSet.getString(1);
-                    }
-                    return total_amount;
+                    return order_id;
                 }
-            }
-
-            if(method.equals(CHECK_PAYMENT_COUNT)){
-                int count = 0;
-                statement = connection.prepareStatement(sqlStatements.getCheckPaymentCount());
-                String user_id = Utils.getInstance().getUser_id();
-                statement.setInt(1,Integer.valueOf(user_id));
-                resultSet = statement.executeQuery();
-                String total_amount = "";
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO DATA FOUND");
-                } else {
-                    Log.d(TAG, "DATA FOUND");
-                    while (resultSet.next()) {
-                        count = resultSet.getInt(1);
-                    }
-                    return count;
+                if(method.equals(INSERT_INTO_ORDER_STATUS)){
+                    statement = connection.prepareStatement(sqlStatements.getInsertIntoOrderStatus());
+                    int order_id = Integer.valueOf(params[0]);
+                    String user_id = params[1];
+                    statement.setInt(1, order_id);
+                    statement.setString(2,"IN QUEUE");
+                    statement.setInt(3,order_id);
+                    statement.setInt(4,Integer.valueOf(user_id));
+                    statement.executeUpdate();
                 }
-            }
-
-            if(method.equals(CHECK_PENDING_COUNT)){
-                int count = 0;
-                statement = connection.prepareStatement(sqlStatements.getCheckPendingOrders());
-                String user_id = Utils.getInstance().getUser_id();
-                statement.setInt(1,Integer.valueOf(user_id));
-                resultSet = statement.executeQuery();
-
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO DATA FOUND");
-                } else {
-                    Log.d(TAG, "DATA FOUND");
-                    while (resultSet.next()) {
-                        count = resultSet.getInt(1);
-                    }
-                    return count;
+                if(method.equals(INSERT_INTO_ORDER_ITEMS)){
+                    statement = connection.prepareStatement(sqlStatements.getInsertIntoOrderItems());
+                    int order_id = Integer.valueOf(params[0]);
+                    int product_id = Integer.valueOf(params[1]);
+                    String quantity = params[2];
+                    boolean product_bundle = Boolean.valueOf(params[3]);
+                    statement.setInt(1, order_id);
+                    statement.setInt(2,product_id);
+                    statement.setString(3,quantity);
+                    statement.setBoolean(4,product_bundle);
+                    statement.executeUpdate();
                 }
-            }
-
-            if(method.equals(CHECK_COMPLETED_COUNT)){
-                int count = 0;
-                statement = connection.prepareStatement(sqlStatements.getCheckCompletedOrders());
-                String user_id = Utils.getInstance().getUser_id();
-                statement.setInt(1,Integer.valueOf(user_id));
-                resultSet = statement.executeQuery();
-
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO DATA FOUND");
-                } else {
-                    Log.d(TAG, "DATA FOUND");
-                    while (resultSet.next()) {
-                        count = resultSet.getInt(1);
-                    }
-                    return count;
+                if(method.equals(INSERT_ADDONS_INTO_ORDER_ITEMS)){
+                    statement = connection.prepareStatement(sqlStatements.getInsertAddOnsIntoOrderItems());
+                    int order_id = Integer.valueOf(params[0]);
+                    String product_name = params[1];
+                    String quantity = params[2];
+                    statement.setInt(1, order_id);
+                    statement.setString(2,product_name);
+                    statement.setString(3,quantity);
+                    statement.setBoolean(4,false);
+                    statement.executeUpdate();
                 }
-            }
 
-            if(method.equals(INSERT_GCASH_PAYMENT)){
-                statement = connection.prepareStatement(sqlStatements.getInsertGcashPayment());
-                String totalAmount = params[0];
-                String user_id = Utils.getInstance().getUser_id();
-                statement.setDouble(1,Double.valueOf(totalAmount));
-                statement.setInt(2, Integer.valueOf(user_id));
-                statement.executeUpdate();
-            }
-
-            if(method.equals(INSERT_CASH_PAYMENT)){
-                statement = connection.prepareStatement(sqlStatements.getInsertCashPayment());
-                String totalAmount = params[0];
-                String user_id = Utils.getInstance().getUser_id();
-                statement.setDouble(1,Double.valueOf(totalAmount));
-                statement.setInt(2, Integer.valueOf(user_id));
-                statement.executeUpdate();
-            }
-
-            if(method.equals(DISPLAY_PENDING_ORDERS)){
-                ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
-                statement = connection.prepareStatement(sqlStatements.getRetrieveAllPendingOrdersByTable());
-                statement.setInt(1,Integer.valueOf(Utils.getInstance().getUser_id()));
-                resultSet = statement.executeQuery();
-
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO DATA FOUND");
-                } else {
-                    Log.d(TAG, "DATA FOUND");
-                    while (resultSet.next()) {
-                        pendingArrayList.add(new PendingListClass(
-                                resultSet.getString(1),
-                                resultSet.getString(2),
-                                resultSet.getString(3),
-                                resultSet.getString(4)));
+                if(method.equals(RETRIEVE_TOTAL_AMOUNT)){
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveTotalAmount());
+                    String user_id = Utils.getInstance().getUser_id();
+                    statement.setInt(1,Integer.valueOf(user_id));
+                    resultSet = statement.executeQuery();
+                    String total_amount = "";
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "DATA FOUND");
+                        while (resultSet.next()) {
+                            total_amount = resultSet.getString(1);
+                        }
+                        return total_amount;
                     }
-                    return pendingArrayList;
                 }
-            }
 
-            if(method.equals(DISPLAY_COMPLETED_ORDERS)){
-                ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
-                statement = connection.prepareStatement(sqlStatements.getRetrieveAllCompletedOrdersByTable());
-                statement.setInt(1,Integer.valueOf(Utils.getInstance().getUser_id()));
-                resultSet = statement.executeQuery();
-
-                if (!resultSet.isBeforeFirst()) {
-                    Log.d(TAG, "NO DATA FOUND");
-                } else {
-                    Log.d(TAG, "DATA FOUND");
-                    while (resultSet.next()) {
-                        completedOrdersArrayList.add(new OrderListClass(
-                                resultSet.getString(1),
-                                resultSet.getString(2),
-                                resultSet.getString(3)));
+                if(method.equals(CHECK_PAYMENT_COUNT)){
+                    int count = 0;
+                    statement = connection.prepareStatement(sqlStatements.getCheckPaymentCount());
+                    String user_id = Utils.getInstance().getUser_id();
+                    statement.setInt(1,Integer.valueOf(user_id));
+                    resultSet = statement.executeQuery();
+                    String total_amount = "";
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "DATA FOUND");
+                        while (resultSet.next()) {
+                            count = resultSet.getInt(1);
+                        }
+                        return count;
                     }
-                    return completedOrdersArrayList;
                 }
+
+                if(method.equals(CHECK_PENDING_COUNT)){
+                    int count = 0;
+                    statement = connection.prepareStatement(sqlStatements.getCheckPendingOrders());
+                    String user_id = Utils.getInstance().getUser_id();
+                    statement.setInt(1,Integer.valueOf(user_id));
+                    resultSet = statement.executeQuery();
+
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "DATA FOUND");
+                        while (resultSet.next()) {
+                            count = resultSet.getInt(1);
+                        }
+                        return count;
+                    }
+                }
+
+                if(method.equals(CHECK_COMPLETED_COUNT)){
+                    int count = 0;
+                    statement = connection.prepareStatement(sqlStatements.getCheckCompletedOrders());
+                    String user_id = Utils.getInstance().getUser_id();
+                    statement.setInt(1,Integer.valueOf(user_id));
+                    resultSet = statement.executeQuery();
+
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "DATA FOUND");
+                        while (resultSet.next()) {
+                            count = resultSet.getInt(1);
+                        }
+                        return count;
+                    }
+                }
+
+                if(method.equals(INSERT_GCASH_PAYMENT)){
+                    statement = connection.prepareStatement(sqlStatements.getInsertGcashPayment());
+                    String totalAmount = params[0];
+                    String user_id = Utils.getInstance().getUser_id();
+                    statement.setDouble(1,Double.valueOf(totalAmount));
+                    statement.setInt(2, Integer.valueOf(user_id));
+                    statement.executeUpdate();
+                }
+
+                if(method.equals(INSERT_CASH_PAYMENT)){
+                    statement = connection.prepareStatement(sqlStatements.getInsertCashPayment());
+                    String totalAmount = params[0];
+                    String user_id = Utils.getInstance().getUser_id();
+                    statement.setDouble(1,Double.valueOf(totalAmount));
+                    statement.setInt(2, Integer.valueOf(user_id));
+                    statement.executeUpdate();
+                }
+
+                if(method.equals(DISPLAY_PENDING_ORDERS)){
+                    ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveAllPendingOrdersByTable());
+                    statement.setInt(1,Integer.valueOf(Utils.getInstance().getUser_id()));
+                    resultSet = statement.executeQuery();
+
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "DATA FOUND");
+                        while (resultSet.next()) {
+                            pendingArrayList.add(new PendingListClass(
+                                    resultSet.getString(1),
+                                    resultSet.getString(2),
+                                    resultSet.getString(3),
+                                    resultSet.getString(4)));
+                        }
+                        return pendingArrayList;
+                    }
+                }
+
+                if(method.equals(DISPLAY_COMPLETED_ORDERS)){
+                    ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveAllCompletedOrdersByTable());
+                    statement.setInt(1,Integer.valueOf(Utils.getInstance().getUser_id()));
+                    resultSet = statement.executeQuery();
+
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "DATA FOUND");
+                        while (resultSet.next()) {
+                            completedOrdersArrayList.add(new OrderListClass(
+                                    resultSet.getString(1),
+                                    resultSet.getString(2),
+                                    resultSet.getString(3)));
+                        }
+                        return completedOrdersArrayList;
+                    }
+                }
+                disconnect(resultSet,statement,connection);
             }
-            disconnect(resultSet,statement,connection);
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
+
         return null;
     }
 
