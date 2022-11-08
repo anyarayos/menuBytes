@@ -64,7 +64,7 @@ public class Task extends AsyncTask<String, String, Object> {
     private void setConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://192.168.1.11:3306/menubytes", "admin", "admin");
+            connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -206,8 +206,11 @@ public class Task extends AsyncTask<String, String, Object> {
 
                 if(method.equals(RETRIEVE_TOTAL_AMOUNT)){
                     statement = connection.prepareStatement(sqlStatements.getRetrieveTotalAmount());
-                    String user_id = Utils.getInstance().getUser_id();
-                    statement.setInt(1,Integer.valueOf(user_id));
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
+                    statement.setInt(1,user_id);
                     resultSet = statement.executeQuery();
                     String total_amount = "";
                     if (!resultSet.isBeforeFirst()) {
@@ -224,8 +227,11 @@ public class Task extends AsyncTask<String, String, Object> {
                 if(method.equals(CHECK_PAYMENT_COUNT)){
                     int count = 0;
                     statement = connection.prepareStatement(sqlStatements.getCheckPaymentCount());
-                    String user_id = Utils.getInstance().getUser_id();
-                    statement.setInt(1,Integer.valueOf(user_id));
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
+                    statement.setInt(1,user_id);
                     resultSet = statement.executeQuery();
                     String total_amount = "";
                     if (!resultSet.isBeforeFirst()) {
@@ -242,8 +248,11 @@ public class Task extends AsyncTask<String, String, Object> {
                 if(method.equals(CHECK_PENDING_COUNT)){
                     int count = 0;
                     statement = connection.prepareStatement(sqlStatements.getCheckPendingOrders());
-                    String user_id = Utils.getInstance().getUser_id();
-                    statement.setInt(1,Integer.valueOf(user_id));
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
+                    statement.setInt(1,user_id);
                     resultSet = statement.executeQuery();
 
                     if (!resultSet.isBeforeFirst()) {
@@ -260,8 +269,11 @@ public class Task extends AsyncTask<String, String, Object> {
                 if(method.equals(CHECK_COMPLETED_COUNT)){
                     int count = 0;
                     statement = connection.prepareStatement(sqlStatements.getCheckCompletedOrders());
-                    String user_id = Utils.getInstance().getUser_id();
-                    statement.setInt(1,Integer.valueOf(user_id));
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
+                    statement.setInt(1,user_id);
                     resultSet = statement.executeQuery();
 
                     if (!resultSet.isBeforeFirst()) {
@@ -278,25 +290,35 @@ public class Task extends AsyncTask<String, String, Object> {
                 if(method.equals(INSERT_GCASH_PAYMENT)){
                     statement = connection.prepareStatement(sqlStatements.getInsertGcashPayment());
                     String totalAmount = params[0];
-                    String user_id = Utils.getInstance().getUser_id();
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
                     statement.setDouble(1,Double.valueOf(totalAmount));
-                    statement.setInt(2, Integer.valueOf(user_id));
+                    statement.setInt(2, user_id);
                     statement.executeUpdate();
                 }
 
                 if(method.equals(INSERT_CASH_PAYMENT)){
                     statement = connection.prepareStatement(sqlStatements.getInsertCashPayment());
                     String totalAmount = params[0];
-                    String user_id = Utils.getInstance().getUser_id();
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
                     statement.setDouble(1,Double.valueOf(totalAmount));
-                    statement.setInt(2, Integer.valueOf(user_id));
+                    statement.setInt(2, user_id);
                     statement.executeUpdate();
                 }
 
                 if(method.equals(DISPLAY_PENDING_ORDERS)){
                     ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
                     statement = connection.prepareStatement(sqlStatements.getRetrieveAllPendingOrdersByTable());
-                    statement.setInt(1,Integer.valueOf(Utils.getInstance().getUser_id()));
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
+                    statement.setInt(1,user_id);
                     resultSet = statement.executeQuery();
 
                     if (!resultSet.isBeforeFirst()) {
@@ -317,7 +339,11 @@ public class Task extends AsyncTask<String, String, Object> {
                 if(method.equals(DISPLAY_COMPLETED_ORDERS)){
                     ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
                     statement = connection.prepareStatement(sqlStatements.getRetrieveAllCompletedOrdersByTable());
-                    statement.setInt(1,Integer.valueOf(Utils.getInstance().getUser_id()));
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
+                    statement.setInt(1,user_id);
                     resultSet = statement.executeQuery();
 
                     if (!resultSet.isBeforeFirst()) {

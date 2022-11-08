@@ -29,11 +29,11 @@ public class Orders_Pending_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ListView pendingListView;
-    private Dialog pendingDialog;
+    private ListView pendingListView,pendingOrderSumLV;
     private ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
     private ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
     private PendingListAdapter pendingListAdapter;
+    private PendingOrderSumListAdapter pendingOrderSumListAdapter;
 
     private TextView notifyIfEmpty;
 
@@ -65,9 +65,8 @@ public class Orders_Pending_Fragment extends Fragment {
         notifyIfEmpty = view.findViewById(R.id.notifyIfEmpty);
         //initialize the listview
         pendingListView = view.findViewById(R.id.pendingOrderListView);
+        pendingOrderSumLV = view.findViewById(R.id.pendingOrderSumListView);
 
-        //dialog
-        pendingDialog = new Dialog(getActivity());
 
         //populate arraylist
         Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
@@ -81,6 +80,37 @@ public class Orders_Pending_Fragment extends Fragment {
             }
         });
         task.execute();
+
+
+        /*
+        pendingArrayList.add(new PendingListClass("IN THE QUEUE","001","5","100.00"));
+        pendingArrayList.add(new PendingListClass("IN THE QUEUE","002","2","50.00"));
+        pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+        pendingListView.setAdapter(pendingListAdapter);*/
+
+        pendingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                /*
+                switch (position){
+                    case 0:
+                        pendingOrderSumArrayList.clear();
+                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Baby","100.00","1","Add Ons here"));
+                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Large","10.00","5","Add Ons here"));
+                        break;
+                    case 1:
+                        pendingOrderSumArrayList.clear();
+                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Lolo","10.00","1","Add Ons here"));
+                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Kulontong","100.00","1","Add Ons here"));
+                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Baby","10.00","1","Add Ons here"));
+                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Baby","100.00","1","Add Ons here"));
+                        break;
+                }
+                pendingOrderSumListAdapter = new PendingOrderSumListAdapter(getActivity(),R.layout.list_pending_order_sum,pendingOrderSumArrayList);
+                pendingOrderSumLV.setAdapter(pendingOrderSumListAdapter);*/
+            }
+        });
+
 
         final Handler refreshHandler = new Handler();
         Runnable runnable = new Runnable() {
@@ -113,52 +143,6 @@ public class Orders_Pending_Fragment extends Fragment {
 
 
 
-        pendingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //change image when queue or kitchen
-                //queue in drawable = dialogorder
-                //kitchen in drawable dialogkitchen
-                //ImageView img= (ImageView) view.findViewById(R.id.queueOrKitchen);
-                //img.setImageResource(R.drawable.my_image);
-                switch (position){
-                    case 0:
-                        //NAGCRA-CRASH PAG INA-ADD YUNG ORDER SUMMARY SA ORDER ID.
-                        //BAKA HINDI IDEAL YUNG DIALOG LANG SINCE WALA SYANG SARILING CLASS. WATCHU THINK NAT?
-
-                        //pendingListView = view.findViewById(R.id.pendingOrderSumListView);
-                        //pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Wrap Large","10.00","1","ADDONS HERE"));
-                        //pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Wrap Small","50.00","1","ADDONS HERE"));
-                        //pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Bowl Large","15.00","1","ADDONS HERE"));
-                        //pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Bowl Small","120.00","1","ADDONS HERE"));
-                        //PendingOrderSumListAdapter pendingOrderSumListAdapter = new PendingOrderSumListAdapter(getActivity(),R.layout.list_pending_order_sum,pendingOrderSumArrayList);
-                        //pendingListView.setAdapter(pendingOrderSumListAdapter);
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-
-                pendingDialog.show();
-            }
-        });
-
-
-        pendingDialog.setContentView(R.layout.pending_dialog);
-        pendingDialog.getWindow().setBackgroundDrawable(getActivity().getDrawable(R.drawable.dialog_background));
-        //pendingDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        pendingDialog.setCancelable(false);
-        pendingDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        Button backtoPending = pendingDialog.findViewById(R.id.btn_okay);
-        backtoPending.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pendingDialog.dismiss();
-            }
-        });
 
 
 

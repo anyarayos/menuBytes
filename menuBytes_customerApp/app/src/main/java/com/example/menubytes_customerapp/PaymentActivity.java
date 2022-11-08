@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +28,8 @@ public class PaymentActivity extends AppCompatActivity {
     private Button gcashButton,cashButton;
     private TextView subTotal, totalSum;
     private AlertDialog.Builder builder;
+
+    private Dialog gcashDialog;
 
     private ListView completedOrdersListView;
     private ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
@@ -60,29 +60,33 @@ public class PaymentActivity extends AppCompatActivity {
 
         builder = new AlertDialog.Builder(this);
 
-//        final Handler refreshHandler = new Handler();
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                // do updates
-//
-//                Toast.makeText(PaymentActivity.this, "refreshed", Toast.LENGTH_SHORT).show();
-//                refreshHandler.postDelayed(this, 5 * 1000);
-//            }
-//        };
-//        refreshHandler.postDelayed(runnable, 5 * 1000);
-
-
         gcashButton = findViewById(R.id.gcashButton);
         cashButton = findViewById(R.id.cashButton);
         gcashButton.setEnabled(false);
         cashButton.setEnabled(false);
+
+        gcashDialog = new Dialog(this);
+        gcashDialog.setContentView(R.layout.gcash_dialog);
+        gcashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        gcashDialog.setCancelable(false);
+        gcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        Button backToPayment = gcashDialog.findViewById(R.id.btn_okay);
+        backToPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gcashDialog.dismiss();
+            }
+        });
+
+        //pakita mo lang to dooooon sa gcashbutton
+        //gcashDialog.show();
 
 
         gcashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(PaymentActivity.this, "Cashier will be here to validate order.", Toast.LENGTH_LONG).show();
+                gcashDialog.show();
                 Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT);
                 gCashPayment.execute(totalSum.getText().toString());
             }

@@ -4,24 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="visible"
     tools:context=".SettingsActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="125dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/mainlogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:text="Settings"
             android:textColor="#FFC61D25"
             android:textSize="35sp"
             app:fontFamily="@font/bungee"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
         <ImageView
             android:id="@+id/imageView2"
@@ -53,102 +64,89 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="309dp"
-            android:layout_height="26dp"
-            android:layout_marginTop="20dp"
-            android:text="Show Notification"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/typeRadioGroup" />
-
         <Button
             android:id="@+id/clearBtn"
             android:layout_width="93dp"
             android:layout_height="41dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/purple_500"
             android:text="clear"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.406"
             app:layout_constraintStart_toEndOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/switch1" />
+            app:layout_constraintTop_toBottomOf="@+id/outLoginBtn" />
+
+        <Button
+            android:id="@+id/outLoginBtn"
+            android:layout_width="308dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/purple_500"
+            android:text="log in account"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="161dp"
             android:layout_height="49dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:text="Clear ALL unwanted/idle orders"
             android:textColor="#000000"
             app:layout_constraintEnd_toStartOf="@+id/clearBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch1" />
+            app:layout_constraintTop_toBottomOf="@+id/outLoginBtn" />
 
         <TextView
             android:id="@+id/textView11"
-            android:layout_width="149dp"
-            android:layout_height="29dp"
-            android:layout_marginTop="50dp"
-            android:text="Choose Theme:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="25dp"
+            android:text="Account Login:"
             android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.194"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <RadioGroup
-            android:id="@+id/typeRadioGroup"
-            android:layout_width="88dp"
-            android:layout_height="101dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.157"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11">
-
-            <RadioButton
-                android:id="@+id/soloRadioButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Light" />
-
-            <RadioButton
-                android:id="@+id/b1t1RadioButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dark" />
-        </RadioGroup>
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:text="NULL"
+            android:textColor="#000000"
+            app:layout_constraintStart_toEndOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:id="@+id/bottomAppBar"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp"
         app:fabCradleVerticalOffset="10dp">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bottomNavigationView"
             android:layout_marginRight="16dp"
-            app:menu="@menu/bottom_nav_menu"
-            android:background="@drawable/transparent_background">
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
+            android:background="@drawable/transparent_background"
+            app:menu="@menu/bottom_nav_menu"></com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fab"
         android:src="@drawable/cartlogo"
         app:layout_anchor="@id/bottomAppBar">
 
