@@ -24,10 +24,11 @@ import java.util.Timer;
 
 public class PaymentActivity extends AppCompatActivity {
 
+    private String beforeTaxString, taxString;
     private Button gcashButton,cashButton;
-    private TextView subTotal, totalSum;
+    private TextView subTotalTV, totalSumTV, beforeTaxTV, taxVatTV;
     private AlertDialog.Builder builder;
-
+    private double beforeTax, tax;
     private Dialog gcashDialog;
 
     private ListView completedOrdersListView;
@@ -51,8 +52,10 @@ public class PaymentActivity extends AppCompatActivity {
 
         notifyItemsPayment = findViewById(R.id.notifyItemsPayment);
 
-        subTotal = findViewById(R.id.subTotal);
-        totalSum = findViewById(R.id.totalSum);
+        subTotalTV = findViewById(R.id.subTotal);
+        totalSumTV = findViewById(R.id.totalSum);
+        beforeTaxTV = findViewById(R.id.beforeTax);
+        taxVatTV = findViewById(R.id.taxVat);
 
         //Initialize the listview
         completedOrdersListView = findViewById(R.id.orderListViewHistory);
@@ -152,8 +155,14 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onFinish(Object output) {
                 String total_amount = (String) output;
-                subTotal.setText(total_amount);
-                totalSum.setText(total_amount);
+                beforeTax = Double.parseDouble(subTotalTV.getText().toString())/1.12;
+                tax = beforeTax*0.12;
+                beforeTaxString = Double.toString(beforeTax);
+                taxString = Double.toString(tax);
+                beforeTaxTV.setText(beforeTaxString);
+                taxVatTV.setText(taxString);
+                subTotalTV.setText(total_amount);
+                totalSumTV.setText(total_amount);
             }
         });
         paymentTask.execute();
@@ -167,7 +176,7 @@ public class PaymentActivity extends AppCompatActivity {
                 Toast.makeText(PaymentActivity.this, "Cashier will be here to validate order.", Toast.LENGTH_LONG).show();
                 gcashDialog.show();
                 Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT);
-                gCashPayment.execute(totalSum.getText().toString());
+                gCashPayment.execute(totalSumTV.getText().toString());
             }
         });
 
@@ -176,7 +185,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(PaymentActivity.this, "Cashier will be here to receive payment.", Toast.LENGTH_LONG).show();
                 Task gCashPayment = new Task(Task.INSERT_CASH_PAYMENT);
-                gCashPayment.execute(totalSum.getText().toString());
+                gCashPayment.execute(totalSumTV.getText().toString());
             }
         });
 
@@ -316,11 +325,21 @@ public class PaymentActivity extends AppCompatActivity {
             public void onFinish(Object output) {
                 String total_amount = (String) output;
                 Log.d("TAG", "onFinish:####################################### "+ total_amount);
-                subTotal.setText(total_amount);
-                totalSum.setText(total_amount);
+                beforeTax = Double.parseDouble(subTotalTV.getText().toString())/1.12;
+                tax = beforeTax*0.12;
+                beforeTaxString = Double.toString(beforeTax);
+                taxString = Double.toString(tax);
+                beforeTaxTV.setText(beforeTaxString);
+                taxVatTV.setText(taxString);
+
+                subTotalTV.setText(total_amount);
+                totalSumTV.setText(total_amount);
             }
         });
         paymentTask.execute();
+
+
+
     }
 
     @Override

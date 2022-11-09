@@ -102,18 +102,32 @@ public class SqlStatements {
             "AND (order_status = \"PREPARING\" OR order_status = \"IN QUEUE\");";
 
 
-    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity,  \n" +
-            "IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
-            ",IF(order_items.product_bundle,product.product_bundle,product.product_price)\n" +
-            "FROM order_items\n" +
-            "INNER JOIN\n" +
-            "product ON order_items.product_id = product.product_id\n" +
-            "INNER JOIN\n" +
-            "orders ON order_items.order_id = orders.order_id\n" +
-            "INNER JOIN\n" +
-            "order_status ON order_items.order_id = order_status.order_id\n" +
-            "WHERE\n" +
-            "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
+//    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity,  \n" +
+//            "IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
+//            ",IF(order_items.product_bundle,product.product_bundle,product.product_price)\n" +
+//            "FROM order_items\n" +
+//            "INNER JOIN\n" +
+//            "product ON order_items.product_id = product.product_id\n" +
+//            "INNER JOIN\n" +
+//            "orders ON order_items.order_id = orders.order_id\n" +
+//            "INNER JOIN\n" +
+//            "order_status ON order_items.order_id = order_status.order_id\n" +
+//            "WHERE\n" +
+//            "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
+    private String retrieveAllCompletedOrdersByTable = "\n" +
+        "SELECT order_items.quantity, \n" +
+        "            IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
+        "            ,IF(order_items.product_bundle,product.product_bundle,product.product_price),\n" +
+        "            (cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,product.product_bundle,product.product_price)))\n" +
+        "            FROM order_items\n" +
+        "            INNER JOIN\n" +
+        "            product ON order_items.product_id = product.product_id\n" +
+        "            INNER JOIN\n" +
+        "            orders ON order_items.order_id = orders.order_id\n" +
+        "            INNER JOIN\n" +
+        "            order_status ON order_items.order_id = order_status.order_id\n" +
+        "            WHERE\n" +
+        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
 
     private String retrieveOrderBreakdownUsingOrderID = "SELECT IF((order_items.product_bundle),CONCAT(\"B1G1 \",product.product_name),product.product_name) AS name,\n" +
             "IF((order_items.product_bundle),product.product_bundle,product.product_price)\n" +

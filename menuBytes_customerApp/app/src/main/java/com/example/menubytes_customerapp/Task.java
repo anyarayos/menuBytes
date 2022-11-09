@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class Task extends AsyncTask<String, String, Object> {
 
-
     private AsyncResponse asyncResponse;
     private String method;
     private Connection connection;
@@ -356,7 +355,8 @@ public class Task extends AsyncTask<String, String, Object> {
                             completedOrdersArrayList.add(new OrderListClass(
                                     resultSet.getString(1),
                                     resultSet.getString(2),
-                                    resultSet.getString(3)));
+                                    resultSet.getString(3),
+                                    resultSet.getString(4)));
                         }
                         return completedOrdersArrayList;
                     }

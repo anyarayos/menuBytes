@@ -1,6 +1,7 @@
 package com.example.menubytes_customerapp;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -138,6 +139,14 @@ public class Orders_Pending_Fragment extends Fragment {
 //        };
 //        refreshHandler.postDelayed(runnable, 3 * 1000);
 
+        Button backToCart = view.findViewById(R.id.BacktoCartBtn2);
+        backToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),CartActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 

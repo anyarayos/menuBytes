@@ -188,7 +188,8 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                 String finalName = txtItemTitle.getText().toString();
                 String finalTotal = mealTotalText.getText().toString();
                 String finalQty = qtyText.getText().toString();
-                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty,category);
+                String mealPrice = Double.toString(Double.parseDouble(mealTotalText.getText().toString())/Double.parseDouble(qtyText.getText().toString()))+"0";
+                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, mealPrice, finalQty, category ,false,"", finalTotal);
                 Utils.getInstance().addToOrders(order);
             }
         });

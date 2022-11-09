@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -45,12 +47,13 @@ public class Menu_Product_Fragment extends Fragment {
     String OrderAddOns_3 ="";
     String OrderAddOns_4 ="";
 
+    TextView soloStringPrice;
+    TextView b1t1StringPrice;
+
     ImageView imgViewItemMenu;
     TextView txtItemTitle;
     TextView txtShawarmaAllMeatPrice;
     TextView txtItemDescription;
-    TextView soloPrice;
-    TextView b1t1Price;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -103,9 +106,9 @@ public class Menu_Product_Fragment extends Fragment {
                             imgViewItemMenu.setImageDrawable(getDrawableFromAssets(productListClassArrayList.get(0).getImage()));
                             txtItemTitle.setText(productListClassArrayList.get(0).getName());
                             txtItemDescription.setText(productListClassArrayList.get(0).getDescription());
-                            soloPrice.setText(productListClassArrayList.get(0).getPrice());
-                            b1t1Price.setText(productListClassArrayList.get(0).getProductBundle());
-                            priceTotal = Double.parseDouble(soloPrice.getText().toString());
+                            soloStringPrice.setText(productListClassArrayList.get(0).getPrice());
+                            b1t1StringPrice.setText(productListClassArrayList.get(0).getProductBundle());
+                            priceTotal = Double.parseDouble(soloStringPrice.getText().toString());
                             mealTotal.setText(Double.toString(priceTotal)+"0");
                             if(productListClassArrayList.get(0).getProductBundle()==null){
                                 b1t1Rad = getView().findViewById(R.id.b1t1RadioButton);
@@ -165,12 +168,18 @@ public class Menu_Product_Fragment extends Fragment {
         txtChoose = view.findViewById(R.id.txtChoose);
         txtOption = view.findViewById(R.id.txtOption);
 
+
+        soloStringPrice = view.findViewById(R.id.soloPrice);
+        b1t1StringPrice = view.findViewById(R.id.b1t1Price);
+
+
+
         //quantity changing
         imgViewItemMenu = view.findViewById(R.id.imgViewItemMenu);
         txtItemTitle = view.findViewById(R.id.txtItemTitle);
         txtItemDescription = view.findViewById(R.id.txtItemDescription);
-        soloPrice = view.findViewById(R.id.soloPrice);
-        b1t1Price = view.findViewById(R.id.b1t1Price);
+        soloStringPrice = view.findViewById(R.id.soloPrice);
+        b1t1StringPrice = view.findViewById(R.id.b1t1Price);
 
         qtyTxt = (TextView) view.findViewById(R.id.qtyText);
         minusQty = (Button) view.findViewById(R.id.minusQtyButton);
@@ -222,12 +231,12 @@ public class Menu_Product_Fragment extends Fragment {
                 switch (checkedId) {
                     case R.id.soloRadioButton:
                         productBundle_checked = false;
-                        priceTotal = Double.parseDouble(soloPrice.getText().toString());
+                        priceTotal = Double.parseDouble(soloStringPrice.getText().toString());
                         mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                     case R.id.b1t1RadioButton:
                         productBundle_checked = true;
-                        priceTotal = Double.parseDouble(b1t1Price.getText().toString());
+                        priceTotal = Double.parseDouble(b1t1StringPrice.getText().toString());
                         mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                 }
@@ -298,6 +307,7 @@ public class Menu_Product_Fragment extends Fragment {
                 }
                 else if (isChecked_allmeat == false){
                     addonsTotal = addonsTotal - 10;
+                    OrderAddOns_4 = "";
                 }
                 mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
@@ -326,13 +336,14 @@ public class Menu_Product_Fragment extends Fragment {
                 String finalTotal = mealTotal.getText().toString();
                 String finalQty = qtyTxt.getText().toString();
 
-                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, finalTotal, finalQty, category ,productBundle_checked, OrderAddOns_1,
-                        OrderAddOns_2,OrderAddOns_3,OrderAddOns_4);
+
+                String mealPrice = Double.toString(Double.parseDouble(mealTotal.getText().toString())/Double.parseDouble(qtyTxt.getText().toString()))+"0";
+
+                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, mealPrice, finalQty, category ,productBundle_checked,OrderAddOns_4, finalTotal);
 
                 Log.d("", "onClick: "+OrderAddOns_1+OrderAddOns_2+OrderAddOns_3+OrderAddOns_3+OrderAddOns_4);
 
                 Utils.getInstance().addToOrders(order);
-
             }
         });
         return view;

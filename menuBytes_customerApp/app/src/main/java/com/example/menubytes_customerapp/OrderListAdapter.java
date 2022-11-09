@@ -30,10 +30,13 @@ public class OrderListAdapter extends ArrayAdapter<OrderListClass> {
         convertView = layoutInflater.inflate(mResource,parent,false);
         TextView orderName = convertView.findViewById(R.id.txtOrderName);
         orderName.setText(getItem(position).getOrderName());
+        TextView orderSubPrice = convertView.findViewById(R.id.txtOrderSubPrice);
+        orderSubPrice.setText(getItem(position).getOrderSubPrice());
         TextView orderPrice = convertView.findViewById(R.id.txtOrderPrice);
-        orderPrice.setText(getItem(position).getOrderPrice());
         TextView orderQty = convertView.findViewById(R.id.txtOrderQty);
         orderQty.setText(getItem(position).getOrderQty());
+        orderPrice.setText(getItem(position).getOrderPrice());
+
         TextView orderAddOns = convertView.findViewById(R.id.txtOrderAddOns);
         AddOnData = getItem(position).getOrderAddOns_1() +" "+ getItem(position).getOrderAddOns_2() +" "+
                     getItem(position).getOrderAddOns_3() +" "+ getItem(position).getOrderAddOns_4();
