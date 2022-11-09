@@ -39,13 +39,4 @@
         android:text="0000.00"
         android:textSize="12dp" />
 
-    <TextView
-        android:id="@+id/txtOrderAddOns"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtPendOrderPrice"
-        android:layout_marginLeft="75dp"
-        android:maxLength="100"
-        android:text="Description"
-        android:textSize="12dp" />
 </RelativeLayout>

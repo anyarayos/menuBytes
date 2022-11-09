@@ -4,17 +4,14 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class Orders_History_Fragment extends Fragment {
 
@@ -26,10 +23,7 @@ public class Orders_History_Fragment extends Fragment {
     private String mParam2;
 
     private ListView completedOrdersListView;
-    private ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
     private OrderListAdapter orderListAdapter;
-
-
     private TextView notifyOrderExistence;
 
     public Orders_History_Fragment() {
@@ -52,7 +46,35 @@ public class Orders_History_Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output==null){
+                    ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
+                    notifyOrderExistence.setVisibility(View.VISIBLE);
+                    completedOrdersArrayList.clear();
+                    orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
+                    completedOrdersListView.setAdapter(orderListAdapter);
 
+                }
+                if(output!=null){
+                    ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
+                    notifyOrderExistence.setVisibility(View.GONE);
+                    completedOrdersArrayList = (ArrayList<OrderListClass>) output;
+                    orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
+                    completedOrdersListView.setAdapter(orderListAdapter);
+                    Log.d("History Fragment", "onFinish: "
+                    + completedOrdersArrayList.get(0).getOrderQty() + " "
+                            + completedOrdersArrayList.get(1).getOrderQty() + " " +
+                            completedOrdersArrayList.get(2).getOrderQty() + " " +
+                                    completedOrdersArrayList.get(3).getOrderQty()
+                            + completedOrdersArrayList.get(4).getOrderQty() + " "
+                    );
+                    }
+
+            }
+        });
+        task.execute();
 
     }
 
@@ -64,50 +86,38 @@ public class Orders_History_Fragment extends Fragment {
         notifyOrderExistence = view.findViewById(R.id.notifyOrders3);
 
                 //Initialize the listview
-        completedOrdersListView = view.findViewById(R.id.orderListView);
+        completedOrdersListView = view.findViewById(R.id.orderListViewHistory);
 
-        //Populate the arraylist
-        Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
-            @Override
-            public void onFinish(Object output) {
-                if(output!=null){
-                    completedOrdersArrayList = (ArrayList<OrderListClass>) output;
-                    if(!completedOrdersArrayList.isEmpty()){notifyOrderExistence.setVisibility(View.GONE);}
-                    orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
-                    completedOrdersListView.setAdapter(orderListAdapter);
-                }
-            }
-        });
-        task.execute();
 
-        final Handler refreshHandler = new Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // do updates
-                Toast.makeText(getActivity(), "completed orders refreshed", Toast.LENGTH_SHORT).show();
-                Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
-                    @Override
-                    public void onFinish(Object output) {
-                        if(output==null){
-                            notifyOrderExistence.setVisibility(View.VISIBLE);
-                            completedOrdersArrayList.clear();
-                            orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
-                            completedOrdersListView.setAdapter(orderListAdapter);
-                        }
-                        if(output!=null){
-                            notifyOrderExistence.setVisibility(View.GONE);
-                            completedOrdersArrayList = (ArrayList<OrderListClass>) output;
-                            orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
-                            completedOrdersListView.setAdapter(orderListAdapter);
-                        }
-                    }
-                });
-                task.execute();
-                refreshHandler.postDelayed(this, 3 * 1000);
-            }
-        };
-        refreshHandler.postDelayed(runnable, 3 * 1000);
+
+//        final Handler refreshHandler = new Handler();
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                // do updates
+//                Toast.makeText(getActivity(), "completed orders refreshed", Toast.LENGTH_SHORT).show();
+//                Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
+//                    @Override
+//                    public void onFinish(Object output) {
+//                        if(output==null){
+//                            notifyOrderExistence.setVisibility(View.VISIBLE);
+//                            completedOrdersArrayList.clear();
+//                            orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
+//                            completedOrdersListView.setAdapter(orderListAdapter);
+//                        }
+//                        if(output!=null){
+//                            notifyOrderExistence.setVisibility(View.GONE);
+//                            completedOrdersArrayList = (ArrayList<OrderListClass>) output;
+//                            orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
+//                            completedOrdersListView.setAdapter(orderListAdapter);
+//                        }
+//                    }
+//                });
+//                task.execute();
+//                refreshHandler.postDelayed(this, 3 * 1000);
+//            }
+//        };
+//        refreshHandler.postDelayed(runnable, 3 * 1000);
 
         return view;
     }

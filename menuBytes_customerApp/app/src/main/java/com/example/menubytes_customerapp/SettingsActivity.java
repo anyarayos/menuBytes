@@ -22,6 +22,7 @@ import com.mysql.jdbc.Util;
 public class SettingsActivity extends AppCompatActivity {
     Dialog loginDialog;
     BottomNavigationView bottomNavigationView;
+    private TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,10 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getSupportActionBar().hide();
-
+        userName = findViewById(R.id.userName);
+        if(Utils.getInstance().getTable_name()!=null){
+            userName.setText(Utils.getInstance().getTable_name());
+        }
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.Settings);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -92,15 +96,21 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String user_field = textfieldUser.getText().toString();
-
+                user_field.replaceAll("\\s","");
                 if(user_field.equals("table_1")){
                     Utils.getInstance().setUser_id("3");
+                    Utils.getInstance().setTable_name("Table 1");
+                    userName.setText(Utils.getInstance().getTable_name());
                 }
                 if(user_field.equals("table_2")){
                     Utils.getInstance().setUser_id("4");
+                    Utils.getInstance().setTable_name("Table 2");
+                    userName.setText(Utils.getInstance().getTable_name());
                 }
                 if(user_field.equals("table_3")){
                     Utils.getInstance().setUser_id("5");
+                    Utils.getInstance().setTable_name("Table 3");
+                    userName.setText(Utils.getInstance().getTable_name());
                 }
 
                 Toast.makeText(SettingsActivity.this, "Successfully Login!"+ Utils.getInstance().getUser_id(), Toast.LENGTH_SHORT).show();

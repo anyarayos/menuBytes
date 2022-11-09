@@ -31,7 +31,7 @@ public class Menu_Product_Fragment extends Fragment {
     //i added this
     String tmpMealTotal,tempQty;
     double priceTotal=0,addonsTotal=0, tempIntQty=0;
-    TextView qtyTxt, mealTotal;
+    TextView qtyTxt, mealTotal,txtChoose,txtOption;
     Button minusQty, addQty, addToCart;
     RadioButton soloRad, b1t1Rad;
     RadioGroup radioGroup;
@@ -47,6 +47,7 @@ public class Menu_Product_Fragment extends Fragment {
 
     ImageView imgViewItemMenu;
     TextView txtItemTitle;
+    TextView txtShawarmaAllMeatPrice;
     TextView txtItemDescription;
     TextView soloPrice;
     TextView b1t1Price;
@@ -85,7 +86,10 @@ public class Menu_Product_Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadingDialog = new LoadingDialog(this.getActivity());
+
             int product_id = PRODUCT_ID;
+
+
 
             if(product_id!=-1 && product_id!=-0){
                 Task task = new Task(Task.RETRIEVE_PRODUCTS_BY_ID, new AsyncResponse() {
@@ -106,6 +110,16 @@ public class Menu_Product_Fragment extends Fragment {
                             if(productListClassArrayList.get(0).getProductBundle()==null){
                                 b1t1Rad = getView().findViewById(R.id.b1t1RadioButton);
                                 b1t1Rad.setVisibility(View.GONE);
+                            }
+                            if(txtItemTitle.getText().toString()!=null){
+                                if(txtItemTitle.getText().toString().equals("Shawarma Salad Bowl")
+                                || txtItemTitle.getText().toString().equals("Shawarma Salad (Large)")
+                                ){
+                                    cbAllMeat.setVisibility(View.GONE);
+                                    txtShawarmaAllMeatPrice.setVisibility(View.GONE);
+                                    txtChoose.setVisibility(View.GONE);
+                                            txtOption.setVisibility(View.GONE);
+                                }
                             }
 
                             constraintLayout.setVisibility(View.VISIBLE);
@@ -145,10 +159,11 @@ public class Menu_Product_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_menu_product,null);
         loadingDialog.startLoadingDialog();
         constraintLayout = view.findViewById(R.id.fragment_frameLayout);
-
+        txtItemTitle = view.findViewById(R.id.txtItemTitle);
         //meal total changing
         mealTotal = (TextView) view.findViewById(R.id.mealTotalText);
-
+        txtChoose = view.findViewById(R.id.txtChoose);
+        txtOption = view.findViewById(R.id.txtOption);
 
         //quantity changing
         imgViewItemMenu = view.findViewById(R.id.imgViewItemMenu);
@@ -163,7 +178,7 @@ public class Menu_Product_Fragment extends Fragment {
         tempQty =  qtyTxt.getText().toString();
         qtyTxt.setText(tempQty);
 
-
+        txtShawarmaAllMeatPrice = view.findViewById(R.id.txtShawarmaAllMeatPrice);
 
         minusQty.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,55 +236,57 @@ public class Menu_Product_Fragment extends Fragment {
         });
 
         //addons changing
-        cbJava = (CheckBox) view.findViewById(R.id.checkBox_java);
-        cbCheese = (CheckBox) view.findViewById(R.id.checkBox_cheese);
-        cbGarlic = (CheckBox) view.findViewById(R.id.checkBox_garlic);
+//        cbJava = (CheckBox) view.findViewById(R.id.checkBox_java);
+//        cbCheese = (CheckBox) view.findViewById(R.id.checkBox_cheese);
+//        cbGarlic = (CheckBox) view.findViewById(R.id.checkBox_garlic);
+//
+
         cbAllMeat = (CheckBox) view.findViewById(R.id.checkBox_allmeat);
-
-        cbJava.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolean isChecked_java = cbJava.isChecked();
-                if (isChecked_java == true){
-                    addonsTotal = addonsTotal + 15;
-                    OrderAddOns_1 = "Java Rice";
-                }
-                else if (isChecked_java == false){
-                    addonsTotal = addonsTotal - 15;
-                }
-                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
-            }
-        });
-
-        cbCheese.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolean isChecked_cheese = cbCheese.isChecked();
-                if (isChecked_cheese == true){
-                    addonsTotal = addonsTotal + 10;
-                    OrderAddOns_2 = "Cheese Sauce";
-                }
-                else if (isChecked_cheese == false){
-                    addonsTotal = addonsTotal - 10;
-                }
-                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
-            }
-        });
-
-        cbGarlic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolean isChecked_garlic = cbGarlic.isChecked();
-                if (isChecked_garlic == true){
-                    addonsTotal = addonsTotal + 10;
-                    OrderAddOns_3 = "Garlic Sauce";
-                }
-                else if (isChecked_garlic == false){
-                    addonsTotal = addonsTotal - 10;
-                }
-                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
-            }
-        });
+//
+//        cbJava.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                boolean isChecked_java = cbJava.isChecked();
+//                if (isChecked_java == true){
+//                    addonsTotal = addonsTotal + 15;
+//                    OrderAddOns_1 = "Java Rice";
+//                }
+//                else if (isChecked_java == false){
+//                    addonsTotal = addonsTotal - 15;
+//                }
+//                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
+//            }
+//        });
+//
+//        cbCheese.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                boolean isChecked_cheese = cbCheese.isChecked();
+//                if (isChecked_cheese == true){
+//                    addonsTotal = addonsTotal + 10;
+//                    OrderAddOns_2 = "Cheese Sauce";
+//                }
+//                else if (isChecked_cheese == false){
+//                    addonsTotal = addonsTotal - 10;
+//                }
+//                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
+//            }
+//        });
+//
+//        cbGarlic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                boolean isChecked_garlic = cbGarlic.isChecked();
+//                if (isChecked_garlic == true){
+//                    addonsTotal = addonsTotal + 10;
+//                    OrderAddOns_3 = "Garlic Sauce";
+//                }
+//                else if (isChecked_garlic == false){
+//                    addonsTotal = addonsTotal - 10;
+//                }
+//                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
+//            }
+//        });
 
         cbAllMeat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

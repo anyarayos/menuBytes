@@ -32,21 +32,21 @@ public class MainActivity extends AppCompatActivity {
     private PendingListAdapter pendingListAdapter;
     private TextView notifyOrders3;
     private Timer autoUpdate;
-
+    private TextView txtGreeting;
     @Override
     public void onResume() {
         super.onResume();
-        autoUpdate = new Timer();
-        autoUpdate.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        update();
-                    }
-                });
-            }
-        }, 0, 5000); // updates each 5 secs
+//        autoUpdate = new Timer();
+//        autoUpdate.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    public void run() {
+////                        update();
+//                    }
+//                });
+//            }
+//        }, 0, 5000); // updates each 5 secs
     }
 
     private void update(){
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        autoUpdate.cancel();
+//        autoUpdate.cancel();
         super.onPause();
     }
 
@@ -95,9 +95,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.Home);
 
         notifyOrders3 = findViewById(R.id.notifyOrders3);
-
+        txtGreeting = findViewById(R.id.txtGreeting);
         pendingListView = findViewById(R.id.pendingOrderListView);
-
+        if(Utils.getInstance().getTable_name()!=null){
+            txtGreeting.setText("HI "+Utils.getInstance().getTable_name() + "!");
+        }
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -173,7 +175,23 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //CartActivity.getInstance();
-        //Utils.getInstance();
+        Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output==null){
+                    notifyOrders3.setVisibility(View.VISIBLE);
+                    pendingArrayList.clear();
+                    pendingListAdapter = new PendingListAdapter(MainActivity.this,R.layout.list_pending,pendingArrayList);
+                    pendingListView.setAdapter(pendingListAdapter);
+                }
+                if(output!=null){
+                    notifyOrders3.setVisibility(View.GONE);
+                    pendingArrayList = (ArrayList<PendingListClass>) output;
+                    pendingListAdapter = new PendingListAdapter(MainActivity.this,R.layout.list_pending,pendingArrayList);
+                    pendingListView.setAdapter(pendingListAdapter);
+                }
+            }
+        });
+        task.execute();
     }
 }

@@ -101,7 +101,10 @@ public class SqlStatements {
             "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) \n" +
             "AND (order_status = \"PREPARING\" OR order_status = \"IN QUEUE\");";
 
-    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity, product.product_name, IF(order_items.product_bundle,product.product_bundle,product.product_price)\n" +
+
+    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity,  \n" +
+            "IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
+            ",IF(order_items.product_bundle,product.product_bundle,product.product_price)\n" +
             "FROM order_items\n" +
             "INNER JOIN\n" +
             "product ON order_items.product_id = product.product_id\n" +
@@ -111,6 +114,23 @@ public class SqlStatements {
             "order_status ON order_items.order_id = order_status.order_id\n" +
             "WHERE\n" +
             "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
+
+    private String retrieveOrderBreakdownUsingOrderID = "SELECT IF((order_items.product_bundle),CONCAT(\"B1G1 \",product.product_name),product.product_name) AS name,\n" +
+            "IF((order_items.product_bundle),product.product_bundle,product.product_price)\n" +
+            ",order_items.quantity\n" +
+            "FROM order_items\n" +
+            "INNER JOIN\n" +
+            "product ON order_items.product_id = product.product_id\n" +
+            "INNER JOIN\n" +
+            "orders ON order_items.order_id = orders.order_id\n" +
+            "LEFT JOIN\n" +
+            "payment ON payment.created_by = orders.created_by\n" +
+            "WHERE order_items.order_id = (?) AND DATE(orders.created_at) = curdate()\n" +
+            "AND (payment.payment_status IS NULL OR payment.payment_status = \"PENDING\")";
+
+    public String getRetrieveOrderBreakdownUsingOrderID() {
+        return retrieveOrderBreakdownUsingOrderID;
+    }
 
     public String getCheckCompletedOrders() {
         return checkCompletedOrders;
@@ -131,6 +151,7 @@ public class SqlStatements {
     public String getRetrieveAllPendingOrdersByTable() {
         return retrieveAllPendingOrdersByTable;
     }
+
 
     public String getRetrieveAllCompletedOrdersByTable() {
         return retrieveAllCompletedOrdersByTable;

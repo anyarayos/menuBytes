@@ -6,13 +6,11 @@ public class PendingOrderSumListClass {
     private String PendingOrderSumName;
     private String PendingOrderSumPrice;
     private String PendingOrderSumQty;
-    private String PendingOrderSumAddOns;
 
-    public PendingOrderSumListClass(String pendingOrderSumName, String pendingOrderSumPrice, String pendingOrderSumQty, String pendingOrderSumAddOns) {
+    public PendingOrderSumListClass(String pendingOrderSumName, String pendingOrderSumPrice, String pendingOrderSumQty) {
         PendingOrderSumName = pendingOrderSumName;
         PendingOrderSumPrice = pendingOrderSumPrice;
         PendingOrderSumQty = pendingOrderSumQty;
-        PendingOrderSumAddOns = pendingOrderSumAddOns;
     }
 
     public String getPendingOrderSumName() {
@@ -39,11 +37,4 @@ public class PendingOrderSumListClass {
         PendingOrderSumQty = pendingOrderSumQty;
     }
 
-    public String getPendingOrderSumAddOns() {
-        return PendingOrderSumAddOns;
-    }
-
-    public void setPendingOrderSumAddOns(String pendingOrderSumAddOns) {
-        PendingOrderSumAddOns = pendingOrderSumAddOns;
-    }
 }

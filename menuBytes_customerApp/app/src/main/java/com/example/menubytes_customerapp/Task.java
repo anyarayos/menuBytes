@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class Task extends AsyncTask<String, String, Object> {
 
+
     private AsyncResponse asyncResponse;
     private String method;
     private Connection connection;
@@ -45,6 +46,7 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String CHECK_PAYMENT_COUNT = "checkPaymentCount";
     public static final String CHECK_PENDING_COUNT = "checkPendingCount" ;
     public static final String CHECK_COMPLETED_COUNT = "checkCompletedCount" ;
+   public static final String RETRIEVE_ORDER_BREAKDOWN = "retrieveOrderBreakdownUsingOrderID";
 
     public Task(String method) {
         this.method = method;
@@ -359,6 +361,34 @@ public class Task extends AsyncTask<String, String, Object> {
                         return completedOrdersArrayList;
                     }
                 }
+
+                if(method.equals(RETRIEVE_ORDER_BREAKDOWN)){
+                    ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveOrderBreakdownUsingOrderID());
+                    int order_id=0;
+                    order_id = Integer.valueOf(params[0]);
+                    if(order_id != 0){
+                        statement.setInt(1,order_id);
+                        resultSet = statement.executeQuery();
+                    }
+
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "DATA FOUND");
+                        while (resultSet.next()) {
+                                pendingOrderSumArrayList.add(
+                                  new PendingOrderSumListClass(
+                                          resultSet.getString(1),
+                                          resultSet.getString(2),
+                                          resultSet.getString(3)
+                                  )
+                                );
+                        }
+                        return pendingOrderSumArrayList;
+                    }
+                }
+
                 disconnect(resultSet,statement,connection);
             }
             catch (SQLException e) {

@@ -75,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txtGreeting"
             android:layout_width="185dp"
             android:layout_height="55dp"
             android:layout_marginStart="25dp"
@@ -99,7 +99,7 @@
             android:textSize="20sp"
             app:fontFamily="@font/viga"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/txtGreeting" />
 
         <com.synnapps.carouselview.CarouselView
             android:id="@+id/carousel"
@@ -143,7 +143,8 @@
         android:id="@+id/bottomAppBar"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp"
-        app:fabCradleVerticalOffset="10dp">
+        app:fabCradleVerticalOffset="10dp"
+        >
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
@@ -151,7 +152,8 @@
             android:id="@+id/bottomNavigationView"
             android:layout_marginRight="16dp"
             app:menu="@menu/bottom_nav_menu"
-            android:background="@drawable/transparent_background">
+            android:background="@drawable/transparent_background"
+            app:labelVisibilityMode="labeled">
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </com.google.android.material.bottomappbar.BottomAppBar>

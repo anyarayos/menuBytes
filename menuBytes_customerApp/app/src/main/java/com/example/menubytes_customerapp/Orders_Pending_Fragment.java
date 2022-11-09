@@ -73,6 +73,7 @@ public class Orders_Pending_Fragment extends Fragment {
             @Override
             public void onFinish(Object output) {
                 if(output!=null){
+                    notifyIfEmpty.setVisibility(View.GONE);
                     pendingArrayList = (ArrayList<PendingListClass>) output;
                     pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
                     pendingListView.setAdapter(pendingListAdapter);
@@ -82,64 +83,60 @@ public class Orders_Pending_Fragment extends Fragment {
         task.execute();
 
 
-        /*
-        pendingArrayList.add(new PendingListClass("IN THE QUEUE","001","5","100.00"));
-        pendingArrayList.add(new PendingListClass("IN THE QUEUE","002","2","50.00"));
-        pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
-        pendingListView.setAdapter(pendingListAdapter);*/
-
         pendingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                /*
-                switch (position){
-                    case 0:
-                        pendingOrderSumArrayList.clear();
-                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Baby","100.00","1","Add Ons here"));
-                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Large","10.00","5","Add Ons here"));
-                        break;
-                    case 1:
-                        pendingOrderSumArrayList.clear();
-                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Lolo","10.00","1","Add Ons here"));
-                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Kulontong","100.00","1","Add Ons here"));
-                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Baby","10.00","1","Add Ons here"));
-                        pendingOrderSumArrayList.add(new PendingOrderSumListClass("Shawarma Baby","100.00","1","Add Ons here"));
-                        break;
-                }
-                pendingOrderSumListAdapter = new PendingOrderSumListAdapter(getActivity(),R.layout.list_pending_order_sum,pendingOrderSumArrayList);
-                pendingOrderSumLV.setAdapter(pendingOrderSumListAdapter);*/
+                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+                Task pendingTask = new Task(Task.RETRIEVE_ORDER_BREAKDOWN, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        if(output==null){
+                            pendingOrderSumArrayList.clear();
+                            pendingOrderSumListAdapter = new PendingOrderSumListAdapter(getActivity(),R.layout.list_pending_order_sum,
+                            pendingOrderSumArrayList);
+                            pendingOrderSumLV.setAdapter(pendingOrderSumListAdapter);
+                        }
+                        if(output!=null){
+                            pendingOrderSumArrayList = (ArrayList<PendingOrderSumListClass>)output;
+                            pendingOrderSumListAdapter = new PendingOrderSumListAdapter(getActivity(),R.layout.list_pending_order_sum,
+                            pendingOrderSumArrayList);
+                            pendingOrderSumLV.setAdapter(pendingOrderSumListAdapter);
+                        }
+                    }
+                });pendingTask.execute(pendingArrayList.get(position).getOrderNum());
+
             }
         });
 
 
-        final Handler refreshHandler = new Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                // do updates
-                Toast.makeText(getActivity(), "pending orders refreshed", Toast.LENGTH_SHORT).show();
-                Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
-                    @Override
-                    public void onFinish(Object output) {
-                        if(output==null){
-                            notifyIfEmpty.setVisibility(View.VISIBLE);
-                            pendingArrayList.clear();
-                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
-                            pendingListView.setAdapter(pendingListAdapter);
-                        }
-                        if(output!=null){
-                            notifyIfEmpty.setVisibility(View.GONE);
-                            pendingArrayList = (ArrayList<PendingListClass>) output;
-                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
-                            pendingListView.setAdapter(pendingListAdapter);
-                        }
-                    }
-                });
-                task.execute();
-                refreshHandler.postDelayed(this, 3 * 1000);
-            }
-        };
-        refreshHandler.postDelayed(runnable, 3 * 1000);
+//        final Handler refreshHandler = new Handler();
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                // do updates
+//                Toast.makeText(getActivity(), "pending orders refreshed", Toast.LENGTH_SHORT).show();
+//                Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+//                    @Override
+//                    public void onFinish(Object output) {
+//                        if(output==null){
+//                            notifyIfEmpty.setVisibility(View.VISIBLE);
+//                            pendingArrayList.clear();
+//                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+//                            pendingListView.setAdapter(pendingListAdapter);
+//                        }
+//                        if(output!=null){
+//                            notifyIfEmpty.setVisibility(View.GONE);
+//                            pendingArrayList = (ArrayList<PendingListClass>) output;
+//                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+//                            pendingListView.setAdapter(pendingListAdapter);
+//                        }
+//                    }
+//                });
+//                task.execute();
+//                refreshHandler.postDelayed(this, 3 * 1000);
+//            }
+//        };
+//        refreshHandler.postDelayed(runnable, 3 * 1000);
 
 
 

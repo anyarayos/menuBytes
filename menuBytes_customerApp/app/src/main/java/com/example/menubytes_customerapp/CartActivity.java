@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,17 +24,15 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
     private SwipeMenuListView cartView;
     private TextView subTotal;
-    private Button btnPlaceOrder;
+    private Button btnPlaceOrder,proceedPaymentButton;
     private TextView notifyOrders;
     private int ORDER_ID;
-    OrderListAdapter orderListAdapter;
+    private OrderListAdapter orderListAdapter;
     private LoadingDialog loadingDialog;;
 
     public ArrayList<OrderListClass> orders = new ArrayList<>();
@@ -88,8 +85,15 @@ public class CartActivity extends AppCompatActivity {
         });
 
         loadingDialog = new LoadingDialog(this);
-
-        cartView = findViewById(R.id.orderListView);
+        proceedPaymentButton = findViewById(R.id.proceedPaymentButton);
+        proceedPaymentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
+                overridePendingTransition(0,0);
+            }
+        });
+        cartView = findViewById(R.id.orderListViewHistory);
         subTotal = findViewById(R.id.subTotal);
         btnPlaceOrder = findViewById(R.id.btnPlaceOrder);
         notifyOrders = findViewById(R.id.notifyOrders);
@@ -101,7 +105,7 @@ public class CartActivity extends AppCompatActivity {
 //            Toast.makeText(this, "orders.isEmpty()", Toast.LENGTH_SHORT).show();
             }else{
 //            Toast.makeText(this, "orders has values.", Toast.LENGTH_SHORT).show();
-                cartView = findViewById(R.id.orderListView);
+                cartView = findViewById(R.id.orderListViewHistory);
                 orderListAdapter = new OrderListAdapter(this,R.layout.list_cart, orders);
                 cartView.setAdapter(orderListAdapter);
 

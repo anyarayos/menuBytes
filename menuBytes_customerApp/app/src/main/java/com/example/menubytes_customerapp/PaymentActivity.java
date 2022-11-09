@@ -21,7 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -56,7 +55,7 @@ public class PaymentActivity extends AppCompatActivity {
         totalSum = findViewById(R.id.totalSum);
 
         //Initialize the listview
-        completedOrdersListView = findViewById(R.id.orderListView);
+        completedOrdersListView = findViewById(R.id.orderListViewHistory);
 
         builder = new AlertDialog.Builder(this);
 
@@ -78,6 +77,86 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
+        //Check if there's a pending order
+        Task checkPendingCount = new Task(Task.CHECK_PENDING_COUNT, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                count = (int) output;
+                if(count>0){
+//                    builder.setMessage("You cannot pay while we prepare your orders.")
+//                            .setCancelable(true).setNegativeButton("close", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    //  Action for 'NO' Button
+//                                    dialog.cancel();
+//                                }
+//                            });
+//                    AlertDialog alert = builder.create();
+//                    alert.show();
+                    gcashButton.setEnabled(false);
+                    cashButton.setEnabled(false);
+                }else{
+                    Task checkCompletedCount = new Task(Task.CHECK_COMPLETED_COUNT, new AsyncResponse() {
+                        @Override
+                        public void onFinish(Object output) {
+                            int count = 0;
+                            count = (int)output;
+                            if(output!=null){
+                                if(count>0){
+                                    gcashButton.setEnabled(true);
+                                    cashButton.setEnabled(true);
+                                }
+                            }
+                        }
+                    });checkCompletedCount.execute();
+
+                }
+
+            }
+        });
+        checkPendingCount.execute();
+
+        //Check if there's a payment already
+        Task checkPaymentCount = new Task(Task.CHECK_PAYMENT_COUNT, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                int count = (int) output;
+                if(count>0){
+                    gcashButton.setEnabled(false);
+                    cashButton.setEnabled(false);
+                }
+            }
+        });
+        checkPaymentCount.execute();
+
+        Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output==null){
+                    notifyItemsPayment.setVisibility(View.VISIBLE);
+                    completedOrdersArrayList.clear();
+                    orderListAdapter = new OrderListAdapter(PaymentActivity.this,R.layout.list_cart, completedOrdersArrayList);
+                    completedOrdersListView.setAdapter(orderListAdapter);
+
+                }
+                if(output!=null){
+                    notifyItemsPayment.setVisibility(View.GONE);
+                    completedOrdersArrayList = (ArrayList<OrderListClass>) output;
+                    orderListAdapter = new OrderListAdapter(PaymentActivity.this,R.layout.list_cart, completedOrdersArrayList);
+                    completedOrdersListView.setAdapter(orderListAdapter);
+                }
+            }
+        });
+        task.execute();
+        //Update Total Amount
+        Task paymentTask = new Task(Task.RETRIEVE_TOTAL_AMOUNT, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                String total_amount = (String) output;
+                subTotal.setText(total_amount);
+                totalSum.setText(total_amount);
+            }
+        });
+        paymentTask.execute();
         //pakita mo lang to dooooon sa gcashbutton
         //gcashDialog.show();
 
@@ -143,17 +222,17 @@ public class PaymentActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        autoUpdate = new Timer();
-        autoUpdate.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        update();
-                    }
-                });
-            }
-        }, 0, 5000); // updates each 5 secs
+//        autoUpdate = new Timer();
+//        autoUpdate.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    public void run() {
+////                        update();
+//                    }
+//                });
+//            }
+//        }, 0, 5000); // updates each 5 secs
     }
 
     private void update(){
@@ -246,7 +325,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        autoUpdate.cancel();
+//        autoUpdate.cancel();
         super.onPause();
     }
 

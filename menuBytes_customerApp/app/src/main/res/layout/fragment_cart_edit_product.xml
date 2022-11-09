@@ -20,7 +20,7 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
 
     <TextView
-        android:id="@+id/cheesePrice2"
+        android:id="@+id/txtShawarmaAllMeatPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -78,7 +78,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/txtOption" />
 
     <CheckBox
         android:id="@+id/checkBox_allmeat"
@@ -99,17 +99,17 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBox_cheese" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/txtOption"
         android:layout_width="204dp"
         android:layout_height="18dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="15dp"
         android:text="Optional"
-        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintStart_toEndOf="@+id/txtChoose"
         app:layout_constraintTop_toBottomOf="@+id/typeRadioGroup" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/txtChoose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -235,7 +235,7 @@
         android:layout_marginStart="15dp"
         android:text="Java Rice"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/txtChoose" />
 
     <CheckBox
         android:id="@+id/checkBox_cheese"
