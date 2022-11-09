@@ -134,38 +134,19 @@ public class CartActivity extends AppCompatActivity {
                                 placeOrderItems.execute(String.valueOf(order_id),
                                         String.valueOf(orders.get(index).getProductID()),
                                         orders.get(index).getOrderQty(),
-                                        String.valueOf(orders.get(index).isOrderBundle()));
+                                        String.valueOf(orders.get(index).isOrderBundle()),
+                                        String.valueOf(orders.get(index).isHas_addons()));
                             /*Check if order has Add-Ons
                             * */
-                                if(orders.get(index).getOrderAddOns_1()!=""){
+                                if(orders.get(index).isHas_addons()){
                                     Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
                                     placeOrderAddons.execute(
                                             String.valueOf(order_id),
-                                            orders.get(index).getOrderAddOns_1(),
+                                            "Shawarma All Meat",
                                             orders.get(index).getOrderQty()
                                             );
                                 }
-                                if(orders.get(index).getOrderAddOns_2()!=""){
-                                    Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
-                                    placeOrderAddons.execute(String.valueOf(order_id),
-                                            orders.get(index).getOrderAddOns_2(),
-                                            orders.get(index).getOrderQty()
-                                            );
-                                }
-                                if(orders.get(index).getOrderAddOns_3()!=""){
-                                    Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
-                                    placeOrderAddons.execute(String.valueOf(order_id),
-                                            orders.get(index).getOrderAddOns_3(),
-                                            orders.get(index).getOrderQty()
-                                            );
-                                }
-                                if(orders.get(index).getOrderAddOns_4()!=""){
-                                    Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
-                                    placeOrderAddons.execute(String.valueOf(order_id),
-                                            orders.get(index).getOrderAddOns_4(),
-                                            orders.get(index).getOrderQty()
-                                            );
-                                }
+
                             }
                         Utils.getInstance().removeAll();
                         orders.clear();
@@ -184,34 +165,7 @@ public class CartActivity extends AppCompatActivity {
         cartView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(CartActivity.this, "Clicked on:"+orders.get(position).getOrderName(), Toast.LENGTH_SHORT).show();
-//                //Open Specific Product Fragment to Edit
-//                String order_category = orders.get(position).getOrderCategory();
-//                Fragment fragment = null;
-//                switch(order_category){
-//                    case "shawarma":
-//                        fragment = new CartEdit_Product_Fragment();
-//                        layoutCartView.setVisibility(cartView.INVISIBLE);
-//                        break;
-//                    case "bowl":
-//                        fragment = new CartEdit_Product_Fragment();
-//                        layoutCartView.setVisibility(cartView.INVISIBLE);
-//                        break;
-//                    case "wings":
-//                        /*Open Wings Fragment*/
-//                        break;
-//                    case "beverage":
-//                        fragment = new CartEdit_BevAddProduct_Fragment();
-//                        layoutCartView.setVisibility(cartView.INVISIBLE);
-//                        break;
-//                    case "additional":
-//                        fragment = new CartEdit_BevAddProduct_Fragment();
-//                        layoutCartView.setVisibility(cartView.INVISIBLE);
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                getSupportFragmentManager().beginTransaction().replace(R.id.EditOrderLayout, fragment).commit();
+                Toast.makeText(CartActivity.this, "" + orders.get(position).isHas_addons(), Toast.LENGTH_SHORT).show();
             }
         });
 

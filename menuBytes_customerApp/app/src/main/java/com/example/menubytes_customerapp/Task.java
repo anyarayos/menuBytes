@@ -181,16 +181,19 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement.setInt(4,Integer.valueOf(user_id));
                     statement.executeUpdate();
                 }
+                //TODO: INSERT_INTO_ORDER_ITEMS
                 if(method.equals(INSERT_INTO_ORDER_ITEMS)){
                     statement = connection.prepareStatement(sqlStatements.getInsertIntoOrderItems());
                     int order_id = Integer.valueOf(params[0]);
                     int product_id = Integer.valueOf(params[1]);
                     String quantity = params[2];
                     boolean product_bundle = Boolean.valueOf(params[3]);
+                    boolean has_addons = Boolean.parseBoolean(params[4]);
                     statement.setInt(1, order_id);
                     statement.setInt(2,product_id);
                     statement.setString(3,quantity);
                     statement.setBoolean(4,product_bundle);
+                    statement.setBoolean(5, has_addons);
                     statement.executeUpdate();
                 }
                 if(method.equals(INSERT_ADDONS_INTO_ORDER_ITEMS)){
@@ -311,7 +314,6 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement.setInt(2, user_id);
                     statement.executeUpdate();
                 }
-
                 if(method.equals(DISPLAY_PENDING_ORDERS)){
                     ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
                     statement = connection.prepareStatement(sqlStatements.getRetrieveAllPendingOrdersByTable());
@@ -356,12 +358,15 @@ public class Task extends AsyncTask<String, String, Object> {
                                     resultSet.getString(1),
                                     resultSet.getString(2),
                                     resultSet.getString(3),
-                                    resultSet.getString(4)));
+                                    resultSet.getString(4),
+                                    resultSet.getBoolean(5)
+                                    ));
                         }
                         return completedOrdersArrayList;
                     }
                 }
 
+//TODO: PENDING ORDERS TASK breakdownwnwn
                 if(method.equals(RETRIEVE_ORDER_BREAKDOWN)){
                     ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
                     statement = connection.prepareStatement(sqlStatements.getRetrieveOrderBreakdownUsingOrderID());
@@ -381,7 +386,8 @@ public class Task extends AsyncTask<String, String, Object> {
                                   new PendingOrderSumListClass(
                                           resultSet.getString(1),
                                           resultSet.getString(2),
-                                          resultSet.getString(3)
+                                          resultSet.getString(3),
+                                          resultSet.getBoolean(4)
                                   )
                                 );
                         }

@@ -31,8 +31,19 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
         TextView txtPendOrderQty_ = convertView.findViewById(R.id.txtPendOrderQty);
         txtPendOrderQty_.setText(getItem(position).getPendingOrderSumQty());
         TextView txtPendOrderPrice_ = convertView.findViewById(R.id.txtPendOrderPrice);
-        txtPendOrderPrice_.setText(getItem(position).getPendingOrderSumPrice());
+        TextView txtOrderAddOns = convertView.findViewById(R.id.txtOrderAddOns);
+        if(getItem(position).isHas_addons()){
+            txtOrderAddOns.setText("Shawarma All Meat");
+            if(getItem(position).getPendingOrderSumPrice()!=null){
+                double price = Double.parseDouble(getItem(position).getPendingOrderSumPrice());
+                price += 10;
+                txtPendOrderPrice_.setText(String.valueOf(price));
+            }
 
+        }else{
+            txtOrderAddOns.setVisibility(View.GONE);
+            txtPendOrderPrice_.setText(getItem(position).getPendingOrderSumPrice());
+        }
         return convertView;
     }
 
