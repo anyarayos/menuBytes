@@ -196,78 +196,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
             }
         });
 
-        String TAG = "category_chip_debug";
-        category_chip_group.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
-            @Override
-            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
-                for(int id=0 ; id < checkedIds.size();id++){
-                    switch(checkedIds.get(id)){
-                        case R.id.garlicPar:
-                            checkIfFlavorExist("garlic parmesan");
-                            break;
-                        case R.id.saltedEgg:
-                            checkIfFlavorExist("salted egg");
-                            break;
-                        case R.id.buffaloFlav:
-                            checkIfFlavorExist("buffalo");
-                            break;
-                        case R.id.bulgogiFlav:
-                            checkIfFlavorExist("bulgogi");
-                            break;
-                        case R.id.soyGarlic:
-                            checkIfFlavorExist("soy garlic");
-                            break;
-                        case R.id.sesameHoney:
-                            checkIfFlavorExist("sesame honey");
-                            break;
 
-                    }
-                }
-                printFlavors();
-            }
-        });
-
-        checkBox_java.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolean isChecked_java = checkBox_java.isChecked();
-                if (isChecked_java == true){
-                    addonsTotal = addonsTotal + 15;
-                }
-                else if (isChecked_java == false){
-                    addonsTotal = addonsTotal - 15;
-                }
-                mealTotalText.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyText.getText().toString()))+"0");
-            }
-        });
-
-        checkBox_cheese.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolean isChecked_cheese = checkBox_cheese.isChecked();
-                if (isChecked_cheese == true){
-                    addonsTotal = addonsTotal + 10;
-                }
-                else if (isChecked_cheese == false){
-                    addonsTotal = addonsTotal - 10;
-                }
-                mealTotalText.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyText.getText().toString()))+"0");
-            }
-        });
-
-        checkBox_garlic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolean isChecked_garlic = checkBox_garlic.isChecked();
-                if (isChecked_garlic == true){
-                    addonsTotal = addonsTotal + 10;
-                }
-                else if (isChecked_garlic == false){
-                    addonsTotal = addonsTotal - 10;
-                }
-                mealTotalText.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyText.getText().toString()))+"0");
-            }
-        });
 
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override

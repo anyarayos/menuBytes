@@ -15,27 +15,30 @@ public class OrderListClass {
     private String OrderFlavor_1="";
     private String OrderFlavor_2="";
     private String OrderFlavor_3="";
+    private String OrderSubPrice;
 
 
-    public OrderListClass(String orderQty, String orderName,  String orderPrice){
+    public OrderListClass(String orderQty, String orderName,  String orderPrice,String orderSubPrice){
 
         this.OrderQty = orderQty;
         this.OrderName = orderName;
         this.OrderPrice = orderPrice;
+        OrderSubPrice = orderSubPrice;
     }
 
 
 
-    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty, String orderCategory) {
+    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty, String orderCategory,String orderSubPrice) {
         ProductID = productID;
         OrderName = orderName;
         OrderPrice = orderPrice;
         OrderQty = orderQty;
         OrderCategory = orderCategory;
+        OrderSubPrice = orderSubPrice;
     }
 
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
-                          boolean orderBundle, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4) {
+                          boolean orderBundle, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4, String orderSubPrice) {
         ProductID = productID;
         OrderName = orderName;
         OrderPrice = orderPrice;
@@ -45,25 +48,48 @@ public class OrderListClass {
         OrderAddOns_2 = orderAddOns_2;
         OrderAddOns_3 = orderAddOns_3;
         OrderAddOns_4 = orderAddOns_4;
+        OrderSubPrice = orderSubPrice;
     }
-
+//use
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
                           String orderCategory, boolean orderBundle,
                           String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4) {
         ProductID = productID;
         OrderName = orderName;
-        OrderPrice = orderPrice;
+        OrderSubPrice = orderPrice;
         OrderQty = orderQty;
+        OrderPrice = orderPrice;
         OrderCategory = orderCategory;
         OrderBundle = orderBundle;
         OrderAddOns_1 = orderAddOns_1;
         OrderAddOns_2 = orderAddOns_2;
         OrderAddOns_3 = orderAddOns_3;
         OrderAddOns_4 = orderAddOns_4;
+        if(orderBundle){
+            OrderName = "B1G1 " + orderName;
+        }
+
     }
 
+    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
+                          String orderCategory, boolean orderBundle,String orderAddOns_1,String orderSubPrice) {
+        ProductID = productID;
+        OrderName = orderName;
+        OrderPrice = orderPrice;
+        OrderQty = orderQty;
+        OrderSubPrice = orderSubPrice;
+        OrderCategory = orderCategory;
+        OrderBundle = orderBundle;
+        if(orderBundle){
+            OrderName = "B1G1 " + orderName;
+        }
+        OrderAddOns_1 = orderAddOns_1;
+    }
+
+
+
     public OrderListClass(String orderName, String orderPrice, String orderQty, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3,
-                          String orderFlavor_1, String orderFlavor_2, String orderFlavor_3) {
+                          String orderFlavor_1, String orderFlavor_2, String orderFlavor_3, String orderSubPrice) {
         OrderName = orderName;
         OrderPrice = orderPrice;
         OrderQty = orderQty;
@@ -73,6 +99,7 @@ public class OrderListClass {
         OrderFlavor_1 = orderFlavor_1;
         OrderFlavor_2 = orderFlavor_2;
         OrderFlavor_3 = orderFlavor_3;
+        OrderSubPrice = orderSubPrice;
     }
 
     public boolean isOrderBundle() {
@@ -144,5 +171,13 @@ public class OrderListClass {
 
     public void setOrderCategory(String orderCategory) {
         OrderCategory = orderCategory;
+    }
+
+    public String getOrderSubPrice() {
+        return OrderSubPrice;
+    }
+
+    public void setOrderSubPrice(String orderSubPrice) {
+        OrderSubPrice = orderSubPrice;
     }
 }

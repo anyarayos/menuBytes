@@ -1,5 +1,6 @@
 package com.example.menubytes_customerapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -118,6 +120,24 @@ public class Orders_History_Fragment extends Fragment {
 //            }
 //        };
 //        refreshHandler.postDelayed(runnable, 3 * 1000);
+
+        Button backToCart = view.findViewById(R.id.BacktoCartFromHistory);
+        backToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),CartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button goToPayment = view.findViewById(R.id.proceedToPaymentBtn);
+        goToPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),PaymentActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

@@ -15,6 +15,7 @@
             android:id="@+id/notifyItemsPayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:text="You do not have any completed orders!"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +27,8 @@
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="275dp"
-            android:text="Total:"
+            android:text="Grand Total:"
+            android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +43,7 @@
             android:text="0.00"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/taxVat" />
 
@@ -90,6 +93,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="25dp"
+            android:textColor="#000000"
             android:text="0.00"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +106,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:text="Completed Orders"
+            android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
@@ -113,6 +118,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginEnd="275dp"
             android:text="Sub Total:"
+            android:textColor="#000000"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/orderListViewHistory" />
@@ -130,14 +136,58 @@
         <ListView
             android:id="@+id/orderListViewHistory"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="275dp"
+            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtGreeting" >
+            app:layout_constraintTop_toBottomOf="@+id/txtGreeting">
 
         </ListView>
+
+
+        <TextView
+            android:id="@+id/txtView31"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="Product"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <TextView
+            android:id="@+id/txtView32"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="237dp"
+            android:layout_marginTop="30dp"
+            android:text="Qty."
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        <TextView
+            android:id="@+id/txtView33"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="290dp"
+            android:layout_marginTop="30dp"
+            android:text="Price"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <TextView
+            android:id="@+id/txtView34"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="14dp"
+            android:text="Total"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
         <Button
             android:id="@+id/gcashButton"

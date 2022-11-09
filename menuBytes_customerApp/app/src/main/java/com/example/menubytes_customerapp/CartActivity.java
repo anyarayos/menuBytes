@@ -85,14 +85,6 @@ public class CartActivity extends AppCompatActivity {
         });
 
         loadingDialog = new LoadingDialog(this);
-        proceedPaymentButton = findViewById(R.id.proceedPaymentButton);
-        proceedPaymentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
-                overridePendingTransition(0,0);
-            }
-        });
         cartView = findViewById(R.id.orderListViewHistory);
         subTotal = findViewById(R.id.subTotal);
         btnPlaceOrder = findViewById(R.id.btnPlaceOrder);
@@ -111,10 +103,10 @@ public class CartActivity extends AppCompatActivity {
 
                 double total_price=0;
                 for(int index=0 ; index <orders.size(); index++){
-                    double price = Double.parseDouble(orders.get(index).getOrderPrice());
+                    double price = Double.parseDouble(orders.get(index).getOrderSubPrice());
                     total_price += price;
                 }
-                subTotal.setText(String.valueOf(total_price));
+                subTotal.setText(String.valueOf(total_price)+"0");
             }
         }
 

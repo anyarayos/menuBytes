@@ -32,6 +32,7 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
         txtPendOrderQty_.setText(getItem(position).getPendingOrderSumQty());
         TextView txtPendOrderPrice_ = convertView.findViewById(R.id.txtPendOrderPrice);
         txtPendOrderPrice_.setText(getItem(position).getPendingOrderSumPrice());
+
         return convertView;
     }
 
