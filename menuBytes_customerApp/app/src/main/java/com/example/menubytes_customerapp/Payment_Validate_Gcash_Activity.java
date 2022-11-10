@@ -20,6 +20,8 @@ public class Payment_Validate_Gcash_Activity extends AppCompatActivity {
             @Override
             public void run() {
                 finish();
+                Intent intent = new Intent(Payment_Validate_Gcash_Activity.this, MainActivity.class);
+                startActivity(intent);
             }
         };
         handler.postDelayed(r, 5000);

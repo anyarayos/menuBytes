@@ -3,6 +3,7 @@ package com.example.menubytes_customerapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -19,6 +20,8 @@ public class Payment_Validate_Cash_Activity extends AppCompatActivity {
             @Override
             public void run() {
                 finish();
+                Intent intent = new Intent(Payment_Validate_Cash_Activity.this, MainActivity.class);
+                startActivity(intent);
             }
         };
         handler.postDelayed(r, 5000);
