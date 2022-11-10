@@ -39,6 +39,7 @@ public class Task extends AsyncTask<String, String, Object> {
     public final static String RETRIEVE_ORDERS_USING_ID_STATUS = "retrieveOrderItemsUsingIdStatus";
     public final static String RETRIEVE_TOTAL_AMOUNT = "RetrieveTotalAmount";
     public final static String INSERT_GCASH_PAYMENT = "InsertGcashPayment";
+    public final static String INSERT_GCASH_PAYMENT2 = "InsertGcashPayment2";
     public final static String INSERT_CASH_PAYMENT = "InsertCashPayment";
     public final static String DISPLAY_PENDING_ORDERS = "retrieveAllPendingOrdersByTable" ;
     public final static String DISPLAY_COMPLETED_ORDERS = "retrieveAllCompletedOrdersByTable";
@@ -181,7 +182,7 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement.setInt(4,Integer.valueOf(user_id));
                     statement.executeUpdate();
                 }
-                //TODO: INSERT_INTO_ORDER_ITEMS
+
                 if(method.equals(INSERT_INTO_ORDER_ITEMS)){
                     statement = connection.prepareStatement(sqlStatements.getInsertIntoOrderItems());
                     int order_id = Integer.valueOf(params[0]);
@@ -303,6 +304,21 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement.executeUpdate();
                 }
 
+                //TODO: use to get reference #
+                if(method.equals(INSERT_GCASH_PAYMENT2)){
+                    statement = connection.prepareStatement(sqlStatements.getInsertGcashPaymentV2());
+                    String totalAmount = params[0];
+                    String remarks = params[1];
+                    int user_id = 0;
+                    if(Utils.getInstance().getUser_id()!=null){
+                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+                    }
+                    statement.setDouble(1,Double.valueOf(totalAmount));
+                    statement.setInt(2, user_id);
+                    statement.setString(3,remarks);
+                    statement.executeUpdate();
+                }
+
                 if(method.equals(INSERT_CASH_PAYMENT)){
                     statement = connection.prepareStatement(sqlStatements.getInsertCashPayment());
                     String totalAmount = params[0];
@@ -366,7 +382,7 @@ public class Task extends AsyncTask<String, String, Object> {
                     }
                 }
 
-//TODO: PENDING ORDERS TASK breakdownwnwn
+
                 if(method.equals(RETRIEVE_ORDER_BREAKDOWN)){
                     ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
                     statement = connection.prepareStatement(sqlStatements.getRetrieveOrderBreakdownUsingOrderID());

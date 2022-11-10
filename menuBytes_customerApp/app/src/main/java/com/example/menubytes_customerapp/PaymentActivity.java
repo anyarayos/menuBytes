@@ -175,6 +175,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(PaymentActivity.this, "Cashier will be here to validate order.", Toast.LENGTH_LONG).show();
                 gcashDialog.show();
+                //TODO: change to get reference #
                 Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT);
                 gCashPayment.execute(totalSumTV.getText().toString());
             }

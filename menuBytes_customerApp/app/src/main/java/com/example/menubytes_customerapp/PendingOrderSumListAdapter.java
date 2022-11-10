@@ -31,17 +31,25 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
         TextView txtPendOrderQty_ = convertView.findViewById(R.id.txtPendOrderQty);
         txtPendOrderQty_.setText(getItem(position).getPendingOrderSumQty());
         TextView txtPendOrderPrice_ = convertView.findViewById(R.id.txtPendOrderPrice);
+        TextView txtPendOrderSubPrice = convertView.findViewById(R.id.txtPendOrderSubPrice);
         TextView txtOrderAddOns = convertView.findViewById(R.id.txtOrderAddOns);
         if(getItem(position).isHas_addons()){
             txtOrderAddOns.setText("Shawarma All Meat");
             if(getItem(position).getPendingOrderSumPrice()!=null){
+                double qty = Double.parseDouble(getItem(position).getPendingOrderSumQty());
                 double price = Double.parseDouble(getItem(position).getPendingOrderSumPrice());
                 price += 10;
+                double total_price = qty * price;
+                txtPendOrderSubPrice.setText(String.valueOf(total_price));
                 txtPendOrderPrice_.setText(String.valueOf(price));
             }
 
         }else{
             txtOrderAddOns.setVisibility(View.GONE);
+            double qty = Double.parseDouble(getItem(position).getPendingOrderSumQty());
+            double price = Double.parseDouble(getItem(position).getPendingOrderSumPrice());
+            double total_price = qty * price;
+            txtPendOrderSubPrice.setText(String.valueOf(total_price));
             txtPendOrderPrice_.setText(getItem(position).getPendingOrderSumPrice());
         }
         return convertView;

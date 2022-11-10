@@ -49,6 +49,28 @@ public class SqlStatements {
             "(SELECT user_name from user where user_id = (?))\n" +
             ");";
 
+    private String insertGcashPaymentV2 = "INSERT INTO payment\n" +
+            "(\n" +
+            "payment_amount,\n" +
+            "amount_due,\n" +
+            "payment_method,\n" +
+            "payment_status,\n" +
+            "created_by,\n" +
+            "remarks\n" +
+            ")\n" +
+            "VALUES(\n" +
+            "(0),\n" +
+            "(?),\n" +
+            "(\"GCASH\"),\n" +
+            "(\"PENDING\"),\n" +
+            "(SELECT user_name from user where user_id = (?)),\n" +
+            "(?)\n" +
+            ");";
+
+    public String getInsertGcashPaymentV2() {
+        return insertGcashPaymentV2;
+    }
+
     private String InsertCashPayment = "INSERT INTO payment \n" +
             "(\n" +
             "amount_due,\n" +
@@ -118,6 +140,7 @@ public class SqlStatements {
 //            "order_status ON order_items.order_id = order_status.order_id\n" +
 //            "WHERE\n" +
 //            "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
+
     private String retrieveAllCompletedOrdersByTable = "\n" +
         "SELECT order_items.quantity, \n" +
         "            IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
@@ -132,7 +155,7 @@ public class SqlStatements {
         "            order_status ON order_items.order_id = order_status.order_id\n" +
         "            WHERE\n" +
         "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_items.product_id != (15) AND order_status = \"COMPLETED\";";
-    //TODO: PENDING SQL
+
     private String retrieveOrderBreakdownUsingOrderID = "SELECT IF((order_items.product_bundle),CONCAT(\"B1G1 \",product.product_name),product.product_name) AS name,\n" +
             "IF((order_items.product_bundle),product.product_bundle,product.product_price)\n" +
             ",order_items.quantity, order_items.has_addons\n" +

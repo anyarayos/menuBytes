@@ -21,7 +21,6 @@ public class OrderListClass {
         this.has_addons = has_addons;
     }
 
-    //TODO: Has Add Ons
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
                           String orderCategory, boolean orderBundle, String orderAddOnName, String orderSubPrice,
                           boolean has_addons) {
