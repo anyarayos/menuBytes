@@ -22,8 +22,6 @@ import android.widget.Toast;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -37,15 +35,12 @@ public class Menu_Product_Fragment extends Fragment {
     Button minusQty, addQty, addToCart;
     RadioButton soloRad, b1t1Rad;
     RadioGroup radioGroup;
-    CheckBox cbJava, cbCheese, cbGarlic, cbAllMeat;
+    CheckBox  cbAllMeat;
     ConstraintLayout constraintLayout;
     LoadingDialog loadingDialog;
     int PRODUCT_ID=-1;
     String category;
-    String OrderAddOns_1 ="";
-    String OrderAddOns_2 ="";
-    String OrderAddOns_3 ="";
-    String OrderAddOns_4 ="";
+    String orderAddOnsName ="";
 
     TextView soloStringPrice;
     TextView b1t1StringPrice;
@@ -54,6 +49,10 @@ public class Menu_Product_Fragment extends Fragment {
     TextView txtItemTitle;
     TextView txtShawarmaAllMeatPrice;
     TextView txtItemDescription;
+
+    Boolean has_addons;
+
+    String mealPrice;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -232,70 +231,20 @@ public class Menu_Product_Fragment extends Fragment {
                     case R.id.soloRadioButton:
                         productBundle_checked = false;
                         priceTotal = Double.parseDouble(soloStringPrice.getText().toString());
+                        mealPrice = soloStringPrice.getText().toString();
                         mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                     case R.id.b1t1RadioButton:
                         productBundle_checked = true;
                         priceTotal = Double.parseDouble(b1t1StringPrice.getText().toString());
+                        mealPrice = b1t1StringPrice.getText().toString();
                         mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                 }
 
             }
         });
-
-        //addons changing
-//        cbJava = (CheckBox) view.findViewById(R.id.checkBox_java);
-//        cbCheese = (CheckBox) view.findViewById(R.id.checkBox_cheese);
-//        cbGarlic = (CheckBox) view.findViewById(R.id.checkBox_garlic);
-//
-
         cbAllMeat = (CheckBox) view.findViewById(R.id.checkBox_allmeat);
-//
-//        cbJava.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                boolean isChecked_java = cbJava.isChecked();
-//                if (isChecked_java == true){
-//                    addonsTotal = addonsTotal + 15;
-//                    OrderAddOns_1 = "Java Rice";
-//                }
-//                else if (isChecked_java == false){
-//                    addonsTotal = addonsTotal - 15;
-//                }
-//                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
-//            }
-//        });
-//
-//        cbCheese.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                boolean isChecked_cheese = cbCheese.isChecked();
-//                if (isChecked_cheese == true){
-//                    addonsTotal = addonsTotal + 10;
-//                    OrderAddOns_2 = "Cheese Sauce";
-//                }
-//                else if (isChecked_cheese == false){
-//                    addonsTotal = addonsTotal - 10;
-//                }
-//                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
-//            }
-//        });
-//
-//        cbGarlic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                boolean isChecked_garlic = cbGarlic.isChecked();
-//                if (isChecked_garlic == true){
-//                    addonsTotal = addonsTotal + 10;
-//                    OrderAddOns_3 = "Garlic Sauce";
-//                }
-//                else if (isChecked_garlic == false){
-//                    addonsTotal = addonsTotal - 10;
-//                }
-//                mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
-//            }
-//        });
 
         cbAllMeat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -303,11 +252,13 @@ public class Menu_Product_Fragment extends Fragment {
                 boolean isChecked_allmeat = cbAllMeat.isChecked();
                 if (isChecked_allmeat == true){
                     addonsTotal = addonsTotal + 10;
-                    OrderAddOns_4 = "Shawarma All Meat";
+                    orderAddOnsName = "Shawarma All Meat";
+
                 }
                 else if (isChecked_allmeat == false){
                     addonsTotal = addonsTotal - 10;
-                    OrderAddOns_4 = "";
+                    orderAddOnsName = "";
+
                 }
                 mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
@@ -336,12 +287,26 @@ public class Menu_Product_Fragment extends Fragment {
                 String finalTotal = mealTotal.getText().toString();
                 String finalQty = qtyTxt.getText().toString();
 
+               if(cbAllMeat.isChecked() || orderAddOnsName!=""){
+                   has_addons = true;
 
-                String mealPrice = Double.toString(Double.parseDouble(mealTotal.getText().toString())/Double.parseDouble(qtyTxt.getText().toString()))+"0";
+               }else{
+                   has_addons = false;
+               }
 
-                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, mealPrice, finalQty, category ,productBundle_checked,OrderAddOns_4, finalTotal);
+//                Toast.makeText(getActivity(), ""+has_addons, Toast.LENGTH_SHORT).show();
 
-                Log.d("", "onClick: "+OrderAddOns_1+OrderAddOns_2+OrderAddOns_3+OrderAddOns_3+OrderAddOns_4);
+
+
+                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName,
+                        mealPrice,
+                        finalQty,
+                        category ,
+                        productBundle_checked,
+                        orderAddOnsName,
+                        finalTotal,
+                        has_addons);
+
 
                 Utils.getInstance().addToOrders(order);
             }

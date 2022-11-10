@@ -8,71 +8,22 @@ public class OrderListClass {
     private String OrderQty;
     private String OrderCategory;
     private boolean OrderBundle=false;
-    private String OrderAddOns_1="";
-    private String OrderAddOns_2="";
-    private String OrderAddOns_3="";
-    private String OrderAddOns_4="";
-    private String OrderFlavor_1="";
-    private String OrderFlavor_2="";
-    private String OrderFlavor_3="";
+    private String OrderAddOnName ="";
     private String OrderSubPrice;
+    private boolean has_addons;
 
-
-    public OrderListClass(String orderQty, String orderName,  String orderPrice,String orderSubPrice){
-
+//use this
+    public OrderListClass(String orderQty, String orderName,  String orderPrice,String orderSubPrice, boolean has_addons){
         this.OrderQty = orderQty;
         this.OrderName = orderName;
         this.OrderPrice = orderPrice;
-        OrderSubPrice = orderSubPrice;
-    }
-
-
-
-    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty, String orderCategory,String orderSubPrice) {
-        ProductID = productID;
-        OrderName = orderName;
-        OrderPrice = orderPrice;
-        OrderQty = orderQty;
-        OrderCategory = orderCategory;
-        OrderSubPrice = orderSubPrice;
+        this.OrderSubPrice = orderSubPrice;
+        this.has_addons = has_addons;
     }
 
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
-                          boolean orderBundle, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4, String orderSubPrice) {
-        ProductID = productID;
-        OrderName = orderName;
-        OrderPrice = orderPrice;
-        OrderQty = orderQty;
-        OrderBundle = orderBundle;
-        OrderAddOns_1 = orderAddOns_1;
-        OrderAddOns_2 = orderAddOns_2;
-        OrderAddOns_3 = orderAddOns_3;
-        OrderAddOns_4 = orderAddOns_4;
-        OrderSubPrice = orderSubPrice;
-    }
-//use
-    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
-                          String orderCategory, boolean orderBundle,
-                          String orderAddOns_1, String orderAddOns_2, String orderAddOns_3, String orderAddOns_4) {
-        ProductID = productID;
-        OrderName = orderName;
-        OrderSubPrice = orderPrice;
-        OrderQty = orderQty;
-        OrderPrice = orderPrice;
-        OrderCategory = orderCategory;
-        OrderBundle = orderBundle;
-        OrderAddOns_1 = orderAddOns_1;
-        OrderAddOns_2 = orderAddOns_2;
-        OrderAddOns_3 = orderAddOns_3;
-        OrderAddOns_4 = orderAddOns_4;
-        if(orderBundle){
-            OrderName = "B1G1 " + orderName;
-        }
-
-    }
-
-    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
-                          String orderCategory, boolean orderBundle,String orderAddOns_1,String orderSubPrice) {
+                          String orderCategory, boolean orderBundle, String orderAddOnName, String orderSubPrice,
+                          boolean has_addons) {
         ProductID = productID;
         OrderName = orderName;
         OrderPrice = orderPrice;
@@ -83,24 +34,12 @@ public class OrderListClass {
         if(orderBundle){
             OrderName = "B1G1 " + orderName;
         }
-        OrderAddOns_1 = orderAddOns_1;
+        OrderAddOnName = orderAddOnName;
+        if(has_addons){
+            this.has_addons=true;
+        }else {this.has_addons=false;}
     }
 
-
-
-    public OrderListClass(String orderName, String orderPrice, String orderQty, String orderAddOns_1, String orderAddOns_2, String orderAddOns_3,
-                          String orderFlavor_1, String orderFlavor_2, String orderFlavor_3, String orderSubPrice) {
-        OrderName = orderName;
-        OrderPrice = orderPrice;
-        OrderQty = orderQty;
-        OrderAddOns_1 = orderAddOns_1;
-        OrderAddOns_2 = orderAddOns_2;
-        OrderAddOns_3 = orderAddOns_3;
-        OrderFlavor_1 = orderFlavor_1;
-        OrderFlavor_2 = orderFlavor_2;
-        OrderFlavor_3 = orderFlavor_3;
-        OrderSubPrice = orderSubPrice;
-    }
 
     public boolean isOrderBundle() {
         return OrderBundle;
@@ -118,21 +57,10 @@ public class OrderListClass {
         return OrderPrice;
     }
 
-    public String getOrderAddOns_1() {
-        return OrderAddOns_1;
+    public String getOrderAddOnName() {
+        return OrderAddOnName;
     }
 
-    public String getOrderAddOns_2() {
-        return OrderAddOns_2;
-    }
-
-    public String getOrderAddOns_3() {
-        return OrderAddOns_3;
-    }
-
-    public String getOrderAddOns_4() {
-        return OrderAddOns_4;
-    }
 
     public String getOrderQty() {
         return OrderQty;
@@ -142,29 +70,7 @@ public class OrderListClass {
         OrderQty = orderQty;
     }
 
-    public String getOrderFlavor_1() {
-        return OrderFlavor_1;
-    }
 
-    public void setOrderFlavor_1(String orderFlavor_1) {
-        OrderFlavor_1 = orderFlavor_1;
-    }
-
-    public String getOrderFlavor_2() {
-        return OrderFlavor_2;
-    }
-
-    public void setOrderFlavor_2(String orderFlavor_2) {
-        OrderFlavor_2 = orderFlavor_2;
-    }
-
-    public String getOrderFlavor_3() {
-        return OrderFlavor_3;
-    }
-
-    public void setOrderFlavor_3(String orderFlavor_3) {
-        OrderFlavor_3 = orderFlavor_3;
-    }
     public String getOrderCategory() {
         return OrderCategory;
     }
@@ -179,5 +85,13 @@ public class OrderListClass {
 
     public void setOrderSubPrice(String orderSubPrice) {
         OrderSubPrice = orderSubPrice;
+    }
+
+    public boolean isHas_addons() {
+        return has_addons;
+    }
+
+    public void setHas_addons(boolean has_addons) {
+        this.has_addons = has_addons;
     }
 }

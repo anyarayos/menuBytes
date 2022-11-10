@@ -25,8 +25,8 @@ public class SqlStatements {
             "((SELECT user_name from user where user_id = (?)))\n" +
             ");";
 
-    private String insertIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle)\n" +
-            "VALUES((?),(?),(?),(?));";
+    private String insertIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle,has_addons)\n" +
+            "VALUES((?),(?),(?),(?),(?));";
 
     private String insertAddOnsIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle)\n" +
             "VALUES((?),(SELECT product_id from product where product_name = (?)),(?),(?));";
@@ -48,6 +48,28 @@ public class SqlStatements {
             "current_timestamp(),\n" +
             "(SELECT user_name from user where user_id = (?))\n" +
             ");";
+
+    private String insertGcashPaymentV2 = "INSERT INTO payment\n" +
+            "(\n" +
+            "payment_amount,\n" +
+            "amount_due,\n" +
+            "payment_method,\n" +
+            "payment_status,\n" +
+            "created_by,\n" +
+            "remarks\n" +
+            ")\n" +
+            "VALUES(\n" +
+            "(0),\n" +
+            "(?),\n" +
+            "(\"GCASH\"),\n" +
+            "(\"PENDING\"),\n" +
+            "(SELECT user_name from user where user_id = (?)),\n" +
+            "(?)\n" +
+            ");";
+
+    public String getInsertGcashPaymentV2() {
+        return insertGcashPaymentV2;
+    }
 
     private String InsertCashPayment = "INSERT INTO payment \n" +
             "(\n" +
@@ -90,14 +112,18 @@ public class SqlStatements {
             "AND orders.created_by = (SELECT user_name from user WHERE user_id = (?)) \n" +
             "AND DATE(orders.created_at) = curdate();\n;";
 
-    private String retrieveAllPendingOrdersByTable = "SELECT IF((order_status.order_status=\"PREPARING\"),\"IN THE KITCHEN\", order_status.order_status), orders.order_id, orderitems.qty, orders.total\n" +
+    private String retrieveAllPendingOrdersByTable = "SELECT IF((order_status.order_status=\"PREPARING\"),\"IN THE KITCHEN\", " +
+            "order_status.order_status)," +
+            " orders.order_id, " +
+            "orderitems.qty, " +
+            "orders.total\n" +
             "FROM orders\n" +
             "INNER JOIN\n" +
             "order_status ON order_status.order_id = orders.order_id\n" +
             "JOIN\n" +
-            "(SELECT order_id, SUM(quantity) AS qty FROM order_items GROUP BY order_id)\n" +
+            "(SELECT order_id, SUM(quantity) AS qty FROM order_items WHERE order_items.product_id != (15) GROUP BY order_id)\n" +
             "AS orderitems ON orderitems.order_id = orders.order_id\n" +
-            "WHERE\n" +
+            "WHERE \n" +
             "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) \n" +
             "AND (order_status = \"PREPARING\" OR order_status = \"IN QUEUE\");";
 
@@ -114,12 +140,13 @@ public class SqlStatements {
 //            "order_status ON order_items.order_id = order_status.order_id\n" +
 //            "WHERE\n" +
 //            "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
+
     private String retrieveAllCompletedOrdersByTable = "\n" +
         "SELECT order_items.quantity, \n" +
         "            IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
         "            ,IF(order_items.product_bundle,product.product_bundle,product.product_price),\n" +
         "            (cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,product.product_bundle,product.product_price)))\n" +
-        "            FROM order_items\n" +
+        "            ,order_items.has_addons FROM order_items\n" +
         "            INNER JOIN\n" +
         "            product ON order_items.product_id = product.product_id\n" +
         "            INNER JOIN\n" +
@@ -127,11 +154,11 @@ public class SqlStatements {
         "            INNER JOIN\n" +
         "            order_status ON order_items.order_id = order_status.order_id\n" +
         "            WHERE\n" +
-        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
+        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_items.product_id != (15) AND order_status = \"COMPLETED\";";
 
     private String retrieveOrderBreakdownUsingOrderID = "SELECT IF((order_items.product_bundle),CONCAT(\"B1G1 \",product.product_name),product.product_name) AS name,\n" +
             "IF((order_items.product_bundle),product.product_bundle,product.product_price)\n" +
-            ",order_items.quantity\n" +
+            ",order_items.quantity, order_items.has_addons\n" +
             "FROM order_items\n" +
             "INNER JOIN\n" +
             "product ON order_items.product_id = product.product_id\n" +
@@ -139,7 +166,7 @@ public class SqlStatements {
             "orders ON order_items.order_id = orders.order_id\n" +
             "LEFT JOIN\n" +
             "payment ON payment.created_by = orders.created_by\n" +
-            "WHERE order_items.order_id = (?) AND DATE(orders.created_at) = curdate()\n" +
+            "WHERE order_items.order_id = (?) AND order_items.product_id != (15) AND DATE(orders.created_at) = curdate()\n" +
             "AND (payment.payment_status IS NULL OR payment.payment_status = \"PENDING\")";
 
     public String getRetrieveOrderBreakdownUsingOrderID() {

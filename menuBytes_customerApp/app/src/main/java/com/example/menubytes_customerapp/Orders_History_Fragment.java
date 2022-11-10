@@ -65,13 +65,7 @@ public class Orders_History_Fragment extends Fragment {
                     completedOrdersArrayList = (ArrayList<OrderListClass>) output;
                     orderListAdapter = new OrderListAdapter(getActivity(),R.layout.list_cart, completedOrdersArrayList);
                     completedOrdersListView.setAdapter(orderListAdapter);
-                    Log.d("History Fragment", "onFinish: "
-                    + completedOrdersArrayList.get(0).getOrderQty() + " "
-                            + completedOrdersArrayList.get(1).getOrderQty() + " " +
-                            completedOrdersArrayList.get(2).getOrderQty() + " " +
-                                    completedOrdersArrayList.get(3).getOrderQty()
-                            + completedOrdersArrayList.get(4).getOrderQty() + " "
-                    );
+
                     }
 
             }
