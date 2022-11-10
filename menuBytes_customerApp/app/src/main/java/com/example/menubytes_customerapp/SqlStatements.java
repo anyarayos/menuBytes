@@ -163,11 +163,9 @@ public class SqlStatements {
             "INNER JOIN\n" +
             "product ON order_items.product_id = product.product_id\n" +
             "INNER JOIN\n" +
-            "orders ON order_items.order_id = orders.order_id\n" +
-            "LEFT JOIN\n" +
-            "payment ON payment.created_by = orders.created_by\n" +
+            "orders ON order_items.order_id = orders.order_id\n"  +
             "WHERE order_items.order_id = (?) AND order_items.product_id != (15) AND DATE(orders.created_at) = curdate()\n" +
-            "AND (payment.payment_status IS NULL OR payment.payment_status = \"PENDING\")";
+            "";
 
     public String getRetrieveOrderBreakdownUsingOrderID() {
         return retrieveOrderBreakdownUsingOrderID;
