@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +30,7 @@ public class PaymentActivity extends AppCompatActivity {
     private TextView subTotalTV, totalSumTV, beforeTaxTV, taxVatTV;
     private AlertDialog.Builder builder;
     private double beforeTax, tax;
-    private Dialog gcashDialog;
+    private Dialog gcashDialog,cashDialog;
 
     private ListView completedOrdersListView;
     private ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
@@ -68,17 +69,70 @@ public class PaymentActivity extends AppCompatActivity {
         cashButton.setEnabled(false);
 
         gcashDialog = new Dialog(this);
-        gcashDialog.setContentView(R.layout.gcash_dialog);
+        gcashDialog.setContentView(R.layout.dialog_payment_gcash);
         gcashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
         gcashDialog.setCancelable(false);
         gcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        Button backToPayment = gcashDialog.findViewById(R.id.btn_okay);
-        backToPayment.setOnClickListener(new View.OnClickListener() {
+        Button gcashProceedToPayment = gcashDialog.findViewById(R.id.btn_proceed_gcash);
+        Button gcashBackToPaymentForm = gcashDialog.findViewById(R.id.btn_cancel_gcash);
+
+        EditText RefNoEditText = gcashDialog.findViewById(R.id.refNoEditText);
+        String RefNoString = "";
+        //gcashDialog.show();
+
+        gcashProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String RefNoString = RefNoEditText.getText().toString();
+                Toast.makeText(PaymentActivity.this, "Cashier will be validating Reference No: "+RefNoString, Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(),Payment_Validate_Gcash_Activity.class));
+                overridePendingTransition(0,0);
                 gcashDialog.dismiss();
             }
         });
+
+        gcashBackToPaymentForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RefNoEditText.setText("");
+                gcashDialog.dismiss();
+            }
+        });
+
+        cashDialog = new Dialog(this);
+        cashDialog.setContentView(R.layout.dialog_payment_cash);
+        cashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        cashDialog.setCancelable(false);
+        cashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        Button cashProceedToPayment = cashDialog.findViewById(R.id.btn_proceed_cash);
+        Button cashBackToPaymentForm = cashDialog.findViewById(R.id.btn_cancel_cash);
+
+
+        //cashDialog.show();
+
+        cashProceedToPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),Payment_Validate_Cash_Activity.class));
+                overridePendingTransition(0,0);
+                cashDialog.dismiss();
+            }
+        });
+
+        cashBackToPaymentForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cashDialog.dismiss();
+            }
+        });
+
+
+
+
+
+
+
+
 
         //Check if there's a pending order
         Task checkPendingCount = new Task(Task.CHECK_PENDING_COUNT, new AsyncResponse() {
@@ -166,14 +220,10 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
         paymentTask.execute();
-        //pakita mo lang to dooooon sa gcashbutton
-        //gcashDialog.show();
-
 
         gcashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PaymentActivity.this, "Cashier will be here to validate order.", Toast.LENGTH_LONG).show();
                 gcashDialog.show();
                 //TODO: change to get reference #
                 Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT);
@@ -184,7 +234,8 @@ public class PaymentActivity extends AppCompatActivity {
         cashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PaymentActivity.this, "Cashier will be here to receive payment.", Toast.LENGTH_LONG).show();
+                cashDialog.show();
+                //Toast.makeText(PaymentActivity.this, "Cashier will be here to receive payment.", Toast.LENGTH_LONG).show();
                 Task gCashPayment = new Task(Task.INSERT_CASH_PAYMENT);
                 gCashPayment.execute(totalSumTV.getText().toString());
             }

@@ -30,15 +30,32 @@ public class OrderListAdapter extends ArrayAdapter<OrderListClass> {
         convertView = layoutInflater.inflate(mResource,parent,false);
         TextView orderName = convertView.findViewById(R.id.txtOrderName);
         orderName.setText(getItem(position).getOrderName());
-        TextView orderSubPrice = convertView.findViewById(R.id.txtOrderSubPrice);
 
-        TextView orderPrice = convertView.findViewById(R.id.txtOrderPrice);
         TextView orderQty = convertView.findViewById(R.id.txtOrderQty);
         orderQty.setText(getItem(position).getOrderQty());
-        orderPrice.setText(getItem(position).getOrderPrice());
+
+        TextView orderSubPrice = convertView.findViewById(R.id.txtOrderSubPrice);
+        orderSubPrice.setText(getItem(position).getOrderSubPrice());
+
+        double subPriceDouble = Double.parseDouble(orderSubPrice.getText().toString());
+        double qtyDouble = Double.parseDouble(orderQty.getText().toString());
+        double priceDouble = subPriceDouble / qtyDouble;
+        String orderPriceString = Double.toString(priceDouble)+"0";
+
+        TextView orderPrice = convertView.findViewById(R.id.txtOrderPrice);
+        orderPrice.setText(orderPriceString);
 
         TextView orderAddOns = convertView.findViewById(R.id.txtOrderAddOns);
 
+        String add_on = "";
+        if(getItem(position).isHas_addons()){
+            add_on = "Shawarma All Meat";
+
+        }
+
+        orderAddOns.setText(add_on);
+
+        /*
         if(getItem(position).isHas_addons()){
             String add_on = "Shawarma All Meat";
             if(getItem(position).getOrderPrice()!=null){
@@ -55,7 +72,7 @@ public class OrderListAdapter extends ArrayAdapter<OrderListClass> {
         }else{
             orderAddOns.setVisibility(View.GONE);
             orderSubPrice.setText(getItem(position).getOrderSubPrice());
-        }
+        }*/
 
 
 

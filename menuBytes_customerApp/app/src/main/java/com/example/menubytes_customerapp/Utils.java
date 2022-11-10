@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Utils {
 
-    private String user_id  = "3";
+    private String user_id;
 
     private String table_name;
 
