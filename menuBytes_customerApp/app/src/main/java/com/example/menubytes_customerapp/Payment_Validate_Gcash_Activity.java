@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 public class Payment_Validate_Gcash_Activity extends AppCompatActivity {
 
@@ -14,6 +15,14 @@ public class Payment_Validate_Gcash_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_payment_validate_gcash);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getSupportActionBar().hide();
+        Handler handler = new Handler();
+        Runnable r=new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        };
+        handler.postDelayed(r, 5000);
     }
 }
 

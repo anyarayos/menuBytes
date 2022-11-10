@@ -85,6 +85,8 @@ public class PaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String RefNoString = RefNoEditText.getText().toString();
                 Toast.makeText(PaymentActivity.this, "Cashier will be validating Reference No: "+RefNoString, Toast.LENGTH_LONG).show();
+                Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT2);
+                gCashPayment.execute(totalSumTV.getText().toString(),RefNoString);
                 startActivity(new Intent(getApplicationContext(),Payment_Validate_Gcash_Activity.class));
                 overridePendingTransition(0,0);
                 gcashDialog.dismiss();
@@ -125,14 +127,6 @@ public class PaymentActivity extends AppCompatActivity {
                 cashDialog.dismiss();
             }
         });
-
-
-
-
-
-
-
-
 
         //Check if there's a pending order
         Task checkPendingCount = new Task(Task.CHECK_PENDING_COUNT, new AsyncResponse() {
@@ -226,8 +220,8 @@ public class PaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 gcashDialog.show();
                 //TODO: change to get reference #
-                Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT);
-                gCashPayment.execute(totalSumTV.getText().toString());
+//                Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT);
+//                gCashPayment.execute(totalSumTV.getText().toString());
             }
         });
 
