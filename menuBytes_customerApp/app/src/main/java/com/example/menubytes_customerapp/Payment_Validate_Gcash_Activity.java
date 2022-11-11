@@ -15,16 +15,23 @@ public class Payment_Validate_Gcash_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_payment_validate_gcash);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getSupportActionBar().hide();
+        /*
         Handler handler = new Handler();
         Runnable r=new Runnable() {
             @Override
             public void run() {
                 finish();
-                Intent intent = new Intent(Payment_Validate_Gcash_Activity.this, MainActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(Payment_Validate_Gcash_Activity.this, MainActivity.class);
+                //startActivity(intent);
             }
         };
-        handler.postDelayed(r, 5000);
+        handler.postDelayed(r, 5000);*/
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 }
 

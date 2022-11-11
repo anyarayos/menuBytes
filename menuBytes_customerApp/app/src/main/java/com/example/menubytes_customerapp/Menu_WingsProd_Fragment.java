@@ -33,18 +33,17 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class Menu_WingsProd_Fragment extends Fragment {
-
+    String tempName;
+    int flavorCount,flavorLimit;
     LoadingDialog loadingDialog;
     private TextView txtItemTitle;
     private TextView txtItemDescription;
     private TextView mealTotalText;
     private TextView qtyText;
+    private TextView FlavorPcs;
     private ImageView imgViewItemMenu;
     private ChipGroup category_chip_group;
-    private Chip garlicPar,saltedEgg,buffaloFlav,bulgogiFlav,soyGarlic,sesameHoney;
-    private CheckBox checkBox_java;
-    private CheckBox checkBox_cheese;
-    private CheckBox checkBox_garlic;
+    private CheckBox garlicPar,saltedEgg,buffaloFlav,bulgogiFlav,soyGarlic,sesameHoney;
     private Button addButton;
     private Button addQtyButton;
     private Button minusQtyButton;
@@ -106,6 +105,20 @@ public class Menu_WingsProd_Fragment extends Fragment {
                         priceTotal = Double.parseDouble(mealTotalText.getText().toString());
                         mealTotalText.setText(Double.toString(priceTotal)+"0");
 
+                        tempName = txtItemTitle.getText().toString();
+                        if (tempName.equals("4PCS Flavored Chicken Wings")) {
+                            flavorLimit = 1;
+                        }
+                        else if (tempName.equals("6PCS Flavored Chicken Wings")) {
+                            flavorLimit = 2;
+                        }
+                        else if (tempName.equals("12PCS Flavored Chicken Wings")) {
+                            flavorLimit = 3;
+                        }
+                        FlavorPcs.setText(Integer.toString(flavorLimit));
+
+
+
                         constraintLayout.setVisibility(View.VISIBLE);
                         loadingDialog.dismissDialog();
                     } catch (IOException e) {
@@ -147,20 +160,23 @@ public class Menu_WingsProd_Fragment extends Fragment {
         qtyText = view.findViewById(R.id.qtyText);
         imgViewItemMenu = view.findViewById(R.id.imgViewItemMenu);
         category_chip_group = view.findViewById(R.id.category_chip_group);
-        garlicPar = view.findViewById(R.id.garlicPar);
-        saltedEgg = view.findViewById(R.id.saltedEgg);
-        buffaloFlav = view.findViewById(R.id.saltedEgg);
-        bulgogiFlav = view.findViewById(R.id.bulgogiFlav);
-        soyGarlic = view.findViewById(R.id.soyGarlic);
-        sesameHoney = view.findViewById(R.id.sesameHoney);
-        checkBox_java = view.findViewById(R.id.checkBox_java);
-        checkBox_cheese = view.findViewById(R.id.checkBox_cheese);
-        checkBox_garlic = view.findViewById(R.id.checkBox_garlic);
+        garlicPar = view.findViewById(R.id.cbGarlicParmesan);
+        saltedEgg = view.findViewById(R.id.cbSaltedEgg);
+        buffaloFlav = view.findViewById(R.id.cbBuffalo);
+        bulgogiFlav = view.findViewById(R.id.cbBulgogi);
+        soyGarlic = view.findViewById(R.id.cbSoyGarlic);
+        sesameHoney = view.findViewById(R.id.cbSesameHoneyGlazed);
         addButton = view.findViewById(R.id.btnUpdateOrder);
         addQtyButton = view.findViewById(R.id.addQtyButton);
         minusQtyButton = view.findViewById(R.id.minusQtyButton);
         constraintLayout = view.findViewById(R.id.frameLayoutwings);
         btnAddToCart = view.findViewById(R.id.btnUpdateOrder);
+
+        FlavorPcs = view.findViewById(R.id.flavorPcs);
+
+
+
+
 
         tempQty =  qtyText.getText().toString();
         qtyText.setText(tempQty);
@@ -172,7 +188,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
                 tempIntQty = Double.parseDouble(tempQty)-1;
                 tempQty = Integer.toString((int) tempIntQty);
                 qtyText.setText(tempQty);
-                if (tempIntQty==0){
+                if (tempIntQty==1){
                     minusQtyButton.setEnabled(false);
                 }
                 mealTotalText.setText(Double.toString((priceTotal+addonsTotal)* Double.parseDouble(qtyText.getText().toString()))+"0");
@@ -186,57 +202,204 @@ public class Menu_WingsProd_Fragment extends Fragment {
                 int tempIntQty = Integer.parseInt(tempQty)+1;
                 tempQty = Integer.toString(tempIntQty);
                 qtyText.setText(tempQty);
-                if (tempIntQty==0){
+                if (tempIntQty==1){
                     minusQtyButton.setEnabled(false);
                 }
                 else if (tempIntQty>0){
                     minusQtyButton.setEnabled(true);
+                }
+                else if (tempIntQty>0 && (flavorCount == flavorLimit)){
+                    minusQtyButton.setEnabled(true);
+                    btnAddToCart.setEnabled(true);
                 }
                 mealTotalText.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyText.getText().toString()))+"0");
             }
         });
 
 
-
-        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+        garlicPar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment fragment = null;
-                fragment = new MenuWingsFragment();
-                fm.replace(R.id.menu_container,fragment).commit();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && flavorCount>=flavorLimit) {
+                    garlicPar.setChecked(false);
+                }
+                else {
+                    if (isChecked) {
+                        flavorCount++;
+                    }
+                    else {
+                        flavorCount--;
+                    }
+                }
 
-                /*
-                * TODO: ADD WINGS TO CART
-                * */
-                Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
+
+                if (flavorLimit == flavorCount) {
+                    btnAddToCart.setEnabled(true);
+                } else if (flavorLimit > flavorCount) {
+                    btnAddToCart.setEnabled(false);
+                }
+            }
+        });
+
+        saltedEgg.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && flavorCount>=flavorLimit) {
+                    saltedEgg.setChecked(false);
+                }
+                else {
+                    if (isChecked) {
+                        flavorCount++;
+                    }
+                    else {
+                        flavorCount--;
+                    }
+                }
+
+
+                if (flavorLimit == flavorCount) {
+                    btnAddToCart.setEnabled(true);
+                } else if (flavorLimit > flavorCount) {
+                    btnAddToCart.setEnabled(false);
+                }
+            }
+        });
+
+        buffaloFlav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && flavorCount>=flavorLimit) {
+                    buffaloFlav.setChecked(false);
+                }
+                else {
+                    if (isChecked) {
+                        flavorCount++;
+                    }
+                    else {
+                        flavorCount--;
+                    }
+                }
+
+
+                if (flavorLimit == flavorCount) {
+                    btnAddToCart.setEnabled(true);
+                } else if (flavorLimit > flavorCount) {
+                    btnAddToCart.setEnabled(false);
+                }
+            }
+        });
+
+        bulgogiFlav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && flavorCount>=flavorLimit) {
+                    bulgogiFlav.setChecked(false);
+                }
+                else {
+                    if (isChecked) {
+                        flavorCount++;
+                    }
+                    else {
+                        flavorCount--;
+                    }
+                }
+
+
+                if (flavorLimit == flavorCount) {
+                    btnAddToCart.setEnabled(true);
+                } else if (flavorLimit > flavorCount) {
+                    btnAddToCart.setEnabled(false);
+                }
+            }
+        });
+
+        soyGarlic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && flavorCount>=flavorLimit) {
+                    soyGarlic.setChecked(false);
+                }
+                else {
+                    if (isChecked) {
+                        flavorCount++;
+                    }
+                    else {
+                        flavorCount--;
+                    }
+                }
+
+
+                if (flavorLimit == flavorCount) {
+                    btnAddToCart.setEnabled(true);
+                } else if (flavorLimit > flavorCount) {
+                    btnAddToCart.setEnabled(false);
+                }
+            }
+        });
+
+        sesameHoney.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked && flavorCount>=flavorLimit) {
+                    sesameHoney.setChecked(false);
+                }
+                else {
+                    if (isChecked) {
+                        flavorCount++;
+                    }
+                    else {
+                        flavorCount--;
+                    }
+                }
+
+
+                if (flavorLimit == flavorCount) {
+                    btnAddToCart.setEnabled(true);
+                } else if (flavorLimit > flavorCount) {
+                    btnAddToCart.setEnabled(false);
+                }
             }
         });
 
 
-        /*
-        ChipGroup wingChipGroup = view.findViewById(R.id.category_chip_group);
-        wingChipGroup.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener() {
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(@NonNull ChipGroup group, int checkedId) {
-                Chip wingChip = view.findViewById(checkedId);
-                if (wingChip !=null) {
-                    Toast.makeText(new Activity(), wingChip.getText().toString()+" ITU", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                String finalName = txtItemTitle.getText().toString();
+                String finalTotal = mealTotalText.getText().toString();
+                String finalQty = qtyText.getText().toString();
+                String finalFlavors="";
+
+                //checking if checkboxed is checked
+                if (garlicPar.isChecked()) {
+                    finalFlavors = finalFlavors+garlicPar.getText().toString()+"_";
+                }
+                if (saltedEgg.isChecked()) {
+                    finalFlavors = finalFlavors+saltedEgg.getText().toString()+"_";
+                }
+                if (buffaloFlav.isChecked()) {
+                    finalFlavors = finalFlavors+buffaloFlav.getText().toString()+"_";
+                }
+                if (bulgogiFlav.isChecked()) {
+                    finalFlavors = finalFlavors+buffaloFlav.getText().toString()+"_";
+                }
+                if (soyGarlic.isChecked()) {
+                    finalFlavors = finalFlavors+soyGarlic.getText().toString()+"_";
+                }
+                if (sesameHoney.isChecked()) {
+                    finalFlavors = finalFlavors+sesameHoney.getText().toString()+"_";
                 }
 
-                wingChip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                       if (isChecked){
-                           List<Integer>ids = wingChipGroup.getCheckedChipIds();
-                           if (ids.size()>2) {
+                String finalTest = "Name: "+finalName+"\n"+
+                        "Quantity: "+finalQty+"\n"+
+                        "Total: "+finalTotal+"\n"+
+                        "Flavors: "+finalFlavors;
 
-                           }
-                       }
-                    }
-                });
+                Toast.makeText(getActivity(), finalTest, Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+
+
 
         return view;
     }

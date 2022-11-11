@@ -91,16 +91,11 @@ public class MenuActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.menu_container, fragment).commit();
             }
         });
+        onBackPressed();
     }
 
     @Override
     public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (count == 0){
-            super.onBackPressed();
-        }
-        else {
-            getSupportFragmentManager().popBackStack();
-        }
+        //super.onBackPressed();
     }
 }

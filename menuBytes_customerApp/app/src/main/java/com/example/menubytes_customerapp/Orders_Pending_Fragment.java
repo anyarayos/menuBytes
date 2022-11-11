@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -148,7 +149,14 @@ public class Orders_Pending_Fragment extends Fragment {
             }
         });
 
-
+        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.pendingOrderFragmentRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Pull to refresh code here
+                pullToRefresh.setRefreshing(true);
+            }
+        });
 
 
 

@@ -195,9 +195,8 @@ public class Menu_Product_Fragment extends Fragment {
                 tempIntQty = Double.parseDouble(tempQty)-1;
                 tempQty = Integer.toString((int) tempIntQty);
                 qtyTxt.setText(tempQty);
-                if (tempIntQty==0){
+                if (tempIntQty==1){
                     minusQty.setEnabled(false);
-                    addToCart.setEnabled(false);
                 }
                 mealTotal.setText(Double.toString((priceTotal+addonsTotal)* Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
@@ -210,12 +209,11 @@ public class Menu_Product_Fragment extends Fragment {
                 int tempIntQty = Integer.parseInt(tempQty)+1;
                 tempQty = Integer.toString(tempIntQty);
                 qtyTxt.setText(tempQty);
-                if (tempIntQty==0){
+                if (tempIntQty==1){
                     minusQty.setEnabled(false);
                 }
                 else if (tempIntQty>0){
                     minusQty.setEnabled(true);
-                    addToCart.setEnabled(true);
                 }
                 mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }

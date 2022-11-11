@@ -3,6 +3,7 @@ package com.example.menubytes_customerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Timer;
 
@@ -77,18 +79,16 @@ public class PaymentActivity extends AppCompatActivity {
         Button gcashBackToPaymentForm = gcashDialog.findViewById(R.id.btn_cancel_gcash);
 
         EditText RefNoEditText = gcashDialog.findViewById(R.id.refNoEditText);
-        String RefNoString = "";
         //gcashDialog.show();
 
         gcashProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String RefNoString = RefNoEditText.getText().toString();
-                Toast.makeText(PaymentActivity.this, "Cashier will be validating Reference No: "+RefNoString, Toast.LENGTH_LONG).show();
                 Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT2);
                 gCashPayment.execute(totalSumTV.getText().toString(),RefNoString);
-                startActivity(new Intent(getApplicationContext(),Payment_Validate_Gcash_Activity.class));
-                overridePendingTransition(0,0);
+                startActivity(new Intent(PaymentActivity.this,Payment_Validate_Gcash_Activity.class));
+                //overridePendingTransition(0,0);
                 gcashDialog.dismiss();
             }
         });
@@ -108,15 +108,17 @@ public class PaymentActivity extends AppCompatActivity {
         cashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         Button cashProceedToPayment = cashDialog.findViewById(R.id.btn_proceed_cash);
         Button cashBackToPaymentForm = cashDialog.findViewById(R.id.btn_cancel_cash);
-
-
+        EditText cashAmountEditText = cashDialog.findViewById(R.id.cashAmountPayment);
         //cashDialog.show();
 
         cashProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Payment_Validate_Cash_Activity.class));
-                overridePendingTransition(0,0);
+                String cashAmountString = cashAmountEditText.getText().toString();
+                Task gCashPayment = new Task(Task.INSERT_CASH_PAYMENT);
+                gCashPayment.execute(totalSumTV.getText().toString());
+                startActivity(new Intent(PaymentActivity.this,Payment_Validate_Cash_Activity.class));
+                //overridePendingTransition(0,0);
                 cashDialog.dismiss();
             }
         });
@@ -211,6 +213,18 @@ public class PaymentActivity extends AppCompatActivity {
                 taxVatTV.setText(taxString);
                 subTotalTV.setText(total_amount);
                 totalSumTV.setText(total_amount);
+
+
+
+
+                beforeTax = Double.parseDouble(subTotalTV.getText().toString());
+                beforeTax = beforeTax/1.12;
+                tax = beforeTax*0.12;
+                //beforeTaxString = Double.toString(beforeTax);
+                //taxString = Double.toString(tax);
+                beforeTaxTV.setText(new DecimalFormat("##.##").format(beforeTax));
+                taxVatTV.setText(new DecimalFormat("##.##").format(tax));
+
             }
         });
         paymentTask.execute();
@@ -230,8 +244,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onClick(View v) {
                 cashDialog.show();
                 //Toast.makeText(PaymentActivity.this, "Cashier will be here to receive payment.", Toast.LENGTH_LONG).show();
-                Task gCashPayment = new Task(Task.INSERT_CASH_PAYMENT);
-                gCashPayment.execute(totalSumTV.getText().toString());
+
             }
         });
 
@@ -371,20 +384,30 @@ public class PaymentActivity extends AppCompatActivity {
             public void onFinish(Object output) {
                 String total_amount = (String) output;
                 Log.d("TAG", "onFinish:####################################### "+ total_amount);
-                beforeTax = Double.parseDouble(subTotalTV.getText().toString())/1.12;
-                tax = beforeTax*0.12;
-                beforeTaxString = Double.toString(beforeTax);
-                taxString = Double.toString(tax);
-                beforeTaxTV.setText(beforeTaxString);
-                taxVatTV.setText(taxString);
+
 
                 subTotalTV.setText(total_amount);
                 totalSumTV.setText(total_amount);
+
+                beforeTax = Double.parseDouble(subTotalTV.getText().toString());
+                beforeTax = beforeTax/1.12;
+                tax = beforeTax*0.12;
+                //beforeTaxString = Double.toString(beforeTax);
+                //taxString = Double.toString(tax);
+                beforeTaxTV.setText(new DecimalFormat("##.##").format(beforeTax));
+                taxVatTV.setText(new DecimalFormat("##.##").format(tax));
             }
         });
         paymentTask.execute();
 
-
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.paymentActivityRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Pull to refresh code here
+                pullToRefresh.setRefreshing(true);
+            }
+        });
 
     }
 
