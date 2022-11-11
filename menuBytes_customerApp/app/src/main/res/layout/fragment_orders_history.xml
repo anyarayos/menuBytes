@@ -1,119 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/historyOrderFragmentRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Orders_History_Fragment" >
 
-    <Button
-        android:id="@+id/BacktoCartFromHistory"
-        android:layout_width="272dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="14dp"
-        android:backgroundTint="#F0F0F0"
-        android:text="Go Back To Your Cart"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/proceedToPaymentBtn" />
-
-    <Button
-        android:id="@+id/proceedToPaymentBtn"
-        android:layout_width="272dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="13dp"
-        android:backgroundTint="@color/purple_200"
-        android:text="Proceed to Payment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderListViewHistory" />
-
-    <TextView
-        android:id="@+id/notifyOrders3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
-        android:text="You don't have Completed Orders"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-
-    <com.baoyz.swipemenulistview.SwipeMenuListView
-        android:id="@+id/orderListViewHistory"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="7dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtView31" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="125dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/mainlogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/BacktoCartFromHistory"
+            android:layout_width="272dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="#F0F0F0"
+            android:text="Go Back To Your Cart"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/proceedToPaymentBtn" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:text="Your Completed Orders"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        <Button
+            android:id="@+id/proceedToPaymentBtn"
+            android:layout_width="272dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="13dp"
+            android:backgroundTint="@color/purple_200"
+            android:text="Proceed to Payment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderListViewHistory" />
 
-    <TextView
-        android:id="@+id/txtView31"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="45dp"
-        android:text="Product"
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        <TextView
+            android:id="@+id/notifyOrders3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
+            android:text="You don't have Completed Orders"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-    <TextView
-        android:id="@+id/txtView32"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="237dp"
-        android:layout_marginTop="45dp"
-        android:text="Qty."
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
-    <TextView
-        android:id="@+id/txtView33"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="290dp"
-        android:layout_marginTop="45dp"
-        android:text="Price"
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/orderListViewHistory"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="7dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtView31" />
 
-    <TextView
-        android:id="@+id/txtView34"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="14dp"
-        android:text="Total"
-        android:textSize="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="125dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/mainlogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Your Completed Orders"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+        <TextView
+            android:id="@+id/txtView31"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="45dp"
+            android:text="Product"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+        <TextView
+            android:id="@+id/txtView32"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="237dp"
+            android:layout_marginTop="45dp"
+            android:text="Qty."
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        <TextView
+            android:id="@+id/txtView33"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="290dp"
+            android:layout_marginTop="45dp"
+            android:text="Price"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+        <TextView
+            android:id="@+id/txtView34"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="14dp"
+            android:text="Total"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -31,8 +31,31 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
         TextView txtPendOrderQty_ = convertView.findViewById(R.id.txtPendOrderQty);
         txtPendOrderQty_.setText(getItem(position).getPendingOrderSumQty());
         TextView txtPendOrderPrice_ = convertView.findViewById(R.id.txtPendOrderPrice);
-        TextView txtPendOrderSubPrice = convertView.findViewById(R.id.txtPendOrderSubPrice);
+
+        TextView txtPendOrderSubPrice_ = convertView.findViewById(R.id.txtPendOrderSubPrice);
+        txtPendOrderSubPrice_.setText(getItem(position).getPendingOrderSumPrice());
+        //double subPriceDouble = Double.parseDouble(txtPendOrderPrice_.getText().toString());
+        //double qtyDouble = Double.parseDouble(txtPendOrderQty_.getText().toString());
+        //double priceDouble = subPriceDouble / qtyDouble;
+        //String orderPriceString = Double.toString(priceDouble)+"0";
+
+        //txtPendOrderPrice_.setText(orderPriceString);
+        //txtPendOrderPrice_.setText("");
+
+
+
+
+
         TextView txtOrderAddOns = convertView.findViewById(R.id.txtOrderAddOns);
+        String add_on = "";
+        if(getItem(position).isHas_addons()){
+            add_on = "Shawarma All Meat";
+            
+
+        }
+        txtOrderAddOns.setText(add_on);
+
+        /*
         if(getItem(position).isHas_addons()){
             txtOrderAddOns.setText("Shawarma All Meat");
             if(getItem(position).getPendingOrderSumPrice()!=null){
@@ -40,8 +63,8 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
                 double price = Double.parseDouble(getItem(position).getPendingOrderSumPrice());
                 price += 10;
                 double total_price = qty * price;
-                txtPendOrderSubPrice.setText(String.valueOf(total_price));
-                txtPendOrderPrice_.setText(String.valueOf(price));
+                txtPendOrderSubPrice.setText(String.valueOf(total_price)+"0");
+                txtPendOrderPrice_.setText(String.valueOf(price)+"0");
             }
 
         }else{
@@ -52,6 +75,7 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
             txtPendOrderSubPrice.setText(String.valueOf(total_price));
             txtPendOrderPrice_.setText(getItem(position).getPendingOrderSumPrice());
         }
+        */
         return convertView;
     }
 

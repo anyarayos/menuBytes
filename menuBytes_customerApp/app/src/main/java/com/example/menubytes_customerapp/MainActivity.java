@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -193,5 +194,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         task.execute();
+
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.mainActivityRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Pull to refresh code here
+                pullToRefresh.setRefreshing(true);
+            }
+        });
+
     }
 }

@@ -102,7 +102,7 @@
         android:layout_height="66dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="Descriptiom"
+        android:text="Description"
         app:layout_constraintStart_toEndOf="@+id/imgViewItemMenu"
         app:layout_constraintTop_toBottomOf="@+id/txtItemTitle" />
 
@@ -112,7 +112,6 @@
         android:layout_height="99dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="150dp"
-        android:src="@drawable/menubyteslogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -201,6 +200,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="40dp"
         android:text="-"
+        android:enabled="false"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />

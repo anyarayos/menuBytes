@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,6 +46,12 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void clearInSettings(boolean willClear) {
+        if (willClear==true){
+            orders.clear();
+        }
     }
 
     @Override
@@ -182,17 +189,19 @@ public class CartActivity extends AppCompatActivity {
                 menu.addMenuItem(deleteItem);
             }
         };
-
+        
         cartView.setMenuCreator(creator);
         cartView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 Toast.makeText(CartActivity.this, "Clicked Deleted", Toast.LENGTH_SHORT).show();
-                orders.remove(position);
+                orders.remove(index);
                 orderListAdapter.notifyDataSetChanged();
                 return false;
             }
         });
+        cartView.setCloseInterpolator(new BounceInterpolator());
+        cartView.setOpenInterpolator(new BounceInterpolator());
 
         //view pending codes
         TextView viewPendingText = findViewById(R.id.viewPendingOrderHere);

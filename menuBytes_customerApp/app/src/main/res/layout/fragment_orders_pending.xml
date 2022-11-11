@@ -1,174 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/pendingOrderFragmentRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Orders_Pending_Fragment" >
+    tools:context=".Orders_Pending_Fragment">
 
-    <ListView
-        android:id="@+id/pendingOrderSumListView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22">
+        android:layout_height="match_parent">
 
-    </ListView>
+        <ListView
+            android:id="@+id/pendingOrderSumListView"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView22">
 
-    <TextView
-        android:id="@+id/notifyIfEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You do not have any pending orders!"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pendingOrderListView" />
+        </ListView>
 
-    <Button
-        android:id="@+id/BacktoCartBtn2"
-        android:layout_width="272dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="#F0F0F0"
-        android:text="Go Back To Your Cart"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pendingOrderSumListView" />
+        <TextView
+            android:id="@+id/notifyIfEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You do not have any pending orders!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pendingOrderListView" />
 
-    <ListView
-        android:id="@+id/pendingOrderListView"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15">
+        <Button
+            android:id="@+id/BacktoCartBtn2"
+            android:layout_width="272dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#F0F0F0"
+            android:text="Go Back To Your Cart"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pendingOrderSumListView" />
 
-    </ListView>
+        <ListView
+            android:id="@+id/pendingOrderListView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView15">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="125dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/mainlogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        </ListView>
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:text="Your Pending Order"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="125dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/mainlogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:text="Your Order Summary"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pendingOrderListView" />
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Your Pending Order"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="10dp"
-        android:text="Status"
-        android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:text="Your Order Summary"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pendingOrderListView" />
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="10dp"
-        android:text="Order Number"
-        android:textStyle="normal"
-        app:layout_constraintStart_toEndOf="@+id/textView15"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="10dp"
+            android:text="Status"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="10dp"
-        android:text="Qty."
-        android:textStyle="normal"
-        app:layout_constraintStart_toEndOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="10dp"
+            android:text="Order Number"
+            android:textStyle="normal"
+            app:layout_constraintStart_toEndOf="@+id/textView15"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
-        android:text="Price"
-        android:textStyle="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:text="Qty."
+            android:textStyle="normal"
+            app:layout_constraintStart_toEndOf="@+id/textView17"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/txtView31"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:text="Product"
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:text="Price"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <TextView
-        android:id="@+id/txtView32"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="237dp"
-        android:layout_marginTop="5dp"
-        android:text="Qty."
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
-    <TextView
-        android:id="@+id/txtView33"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="290dp"
-        android:layout_marginTop="5dp"
-        android:text="Price"
-        android:textSize="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        <TextView
+            android:id="@+id/txtView31"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Product"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
-    <TextView
-        android:id="@+id/txtView34"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="14dp"
-        android:text="Total"
-        android:textSize="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/txtView32"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="237dp"
+            android:layout_marginTop="5dp"
+            android:text="Qty."
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        <TextView
+            android:id="@+id/txtView33"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="290dp"
+            android:layout_marginTop="5dp"
+            android:text="Price"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+        <TextView
+            android:id="@+id/txtView34"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="14dp"
+            android:text="Total"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
