@@ -15,17 +15,17 @@ public class Payment_Validate_Cash_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_payment_validate_cash);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getSupportActionBar().hide();
-        /*
+
         Handler handler = new Handler();
         Runnable r=new Runnable() {
             @Override
             public void run() {
                 finish();
-                //Intent intent = new Intent(Payment_Validate_Cash_Activity.this, MainActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(Payment_Validate_Cash_Activity.this, MainActivity.class);
+                startActivity(intent);
             }
         };
-        handler.postDelayed(r, 5000);*/
+        handler.postDelayed(r, 5000);
         onBackPressed();
     }
 

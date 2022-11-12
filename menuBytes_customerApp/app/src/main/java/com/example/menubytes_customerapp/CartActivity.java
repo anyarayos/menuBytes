@@ -142,7 +142,8 @@ public class CartActivity extends AppCompatActivity {
                                         String.valueOf(orders.get(index).getProductID()),
                                         orders.get(index).getOrderQty(),
                                         String.valueOf(orders.get(index).isOrderBundle()),
-                                        String.valueOf(orders.get(index).isHas_addons()));
+                                        String.valueOf(orders.get(index).isHas_addons()),
+                                        orders.get(index).getFlavors());
                             /*Check if order has Add-Ons
                             * */
                                 if(orders.get(index).isHas_addons()){
@@ -172,7 +173,7 @@ public class CartActivity extends AppCompatActivity {
         cartView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CartActivity.this, "" + orders.get(position).isHas_addons(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CartActivity.this, "" + orders.get(position).getProductID(), Toast.LENGTH_SHORT).show();
             }
         });
 

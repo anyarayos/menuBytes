@@ -66,7 +66,7 @@ public class Task extends AsyncTask<String, String, Object> {
     private void setConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://192.168.1.210:3306/menubytes", "admin", "admin");
+            connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -190,11 +190,13 @@ public class Task extends AsyncTask<String, String, Object> {
                     String quantity = params[2];
                     boolean product_bundle = Boolean.valueOf(params[3]);
                     boolean has_addons = Boolean.parseBoolean(params[4]);
+                    String flavors = params[5];
                     statement.setInt(1, order_id);
                     statement.setInt(2,product_id);
                     statement.setString(3,quantity);
                     statement.setBoolean(4,product_bundle);
                     statement.setBoolean(5, has_addons);
+                    statement.setString(6, flavors);
                     statement.executeUpdate();
                 }
                 if(method.equals(INSERT_ADDONS_INTO_ORDER_ITEMS)){

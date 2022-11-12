@@ -122,6 +122,12 @@ public class Menu_Product_Fragment extends Fragment {
                                     txtChoose.setVisibility(View.GONE);
                                             txtOption.setVisibility(View.GONE);
                                 }
+                                if(category.equals("bowl")){
+                                    cbAllMeat.setVisibility(View.GONE);
+                                    txtShawarmaAllMeatPrice.setVisibility(View.GONE);
+                                    txtChoose.setVisibility(View.GONE);
+                                    txtOption.setVisibility(View.GONE);
+                                }
                             }
 
                             constraintLayout.setVisibility(View.VISIBLE);

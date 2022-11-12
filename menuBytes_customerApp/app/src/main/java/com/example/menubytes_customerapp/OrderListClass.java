@@ -11,6 +11,7 @@ public class OrderListClass {
     private String OrderAddOnName ="";
     private String OrderSubPrice;
     private boolean has_addons;
+    private String flavors;
 
 //use this
     public OrderListClass(String orderQty, String orderName,  String orderPrice,String orderSubPrice, boolean has_addons){
@@ -19,6 +20,16 @@ public class OrderListClass {
         this.OrderPrice = orderPrice;
         this.OrderSubPrice = orderSubPrice;
         this.has_addons = has_addons;
+    }
+
+    public OrderListClass(String orderQty, String orderName,  String orderPrice,String orderSubPrice, boolean has_addons,
+                          String flavors){
+        this.OrderQty = orderQty;
+        this.OrderName = orderName;
+        this.OrderPrice = orderPrice;
+        this.OrderSubPrice = orderSubPrice;
+        this.has_addons = has_addons;
+        this.flavors = flavors;
     }
 
     public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
@@ -38,6 +49,25 @@ public class OrderListClass {
         if(has_addons){
             this.has_addons=true;
         }else {this.has_addons=false;}
+    }
+    public OrderListClass(int productID, String orderName, String orderPrice, String orderQty,
+                          String orderCategory, boolean orderBundle, String orderAddOnName, String orderSubPrice,
+                          boolean has_addons,String flavors) {
+        ProductID = productID;
+        OrderName = orderName;
+        OrderPrice = orderPrice;
+        OrderQty = orderQty;
+        OrderSubPrice = orderSubPrice;
+        OrderCategory = orderCategory;
+        OrderBundle = orderBundle;
+        if(orderBundle){
+            OrderName = "B1G1 " + orderName;
+        }
+        OrderAddOnName = orderAddOnName;
+        if(has_addons){
+            this.has_addons=true;
+        }else {this.has_addons=false;}
+        this.flavors =flavors;
     }
 
 
@@ -93,5 +123,13 @@ public class OrderListClass {
 
     public void setHas_addons(boolean has_addons) {
         this.has_addons = has_addons;
+    }
+
+    public String getFlavors() {
+        return flavors;
+    }
+
+    public void setFlavors(String flavors) {
+        this.flavors = flavors;
     }
 }

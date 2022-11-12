@@ -7,7 +7,7 @@ public class SqlStatements {
 
     private String retrieveProductsByCategory = "SELECT PRODUCT_ID, PRODUCT_IMG, PRODUCT_NAME, " +
             "PRODUCT_PRICE, PRODUCT_DESCRIPTION, PRODUCT_BUNDLE FROM product WHERE PRODUCT_CATEGORY = (?)AND \n" +
-            "product_name != \"Shawarma All Meat\"";
+            "product_name != \"Shawarma All Meat\" AND product_availability = \"available\"";
 
     private String insertIntoOrders = "INSERT INTO orders(user_id, total, created_at, created_by) \n" +
             "VALUES(\n" +
@@ -25,8 +25,11 @@ public class SqlStatements {
             "((SELECT user_name from user where user_id = (?)))\n" +
             ");";
 
-    private String insertIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle,has_addons)\n" +
-            "VALUES((?),(?),(?),(?),(?));";
+//    private String insertIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle,has_addons)\n" +
+//            "VALUES((?),(?),(?),(?),(?));";
+
+    private String insertIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle,has_addons, flavors)\n" +
+            "VALUES((?),(?),(?),(?),(?),(?));";
 
     private String insertAddOnsIntoOrderItems = "INSERT INTO order_items(order_id,product_id,quantity,product_bundle)\n" +
             "VALUES((?),(SELECT product_id from product where product_name = (?)),(?),(?));";

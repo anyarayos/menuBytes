@@ -31,17 +31,7 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
         TextView txtPendOrderQty_ = convertView.findViewById(R.id.txtPendOrderQty);
         txtPendOrderQty_.setText(getItem(position).getPendingOrderSumQty());
         TextView txtPendOrderPrice_ = convertView.findViewById(R.id.txtPendOrderPrice);
-
-        TextView txtPendOrderSubPrice_ = convertView.findViewById(R.id.txtPendOrderSubPrice);
-        txtPendOrderSubPrice_.setText(getItem(position).getPendingOrderSumPrice());
-        //double subPriceDouble = Double.parseDouble(txtPendOrderPrice_.getText().toString());
-        //double qtyDouble = Double.parseDouble(txtPendOrderQty_.getText().toString());
-        //double priceDouble = subPriceDouble / qtyDouble;
-        //String orderPriceString = Double.toString(priceDouble)+"0";
-
-        //txtPendOrderPrice_.setText(orderPriceString);
-        //txtPendOrderPrice_.setText("");
-
+        txtPendOrderPrice_.setText(getItem(position).getPendingOrderSumPrice());
 
 
 
@@ -50,10 +40,21 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
         String add_on = "";
         if(getItem(position).isHas_addons()){
             add_on = "Shawarma All Meat";
-            
-
+            double tempAddOnsPrice = Double.parseDouble(txtPendOrderPrice_.getText().toString())+10;
+            String newPriceString = Double.toString(tempAddOnsPrice)+"0";
+            txtPendOrderPrice_.setText(newPriceString);
         }
         txtOrderAddOns.setText(add_on);
+
+        TextView txtPendOrderSubPrice_ = convertView.findViewById(R.id.txtPendOrderSubPrice);
+        double subPriceDouble = Double.parseDouble(txtPendOrderPrice_.getText().toString()) * Double.parseDouble(txtPendOrderQty_.getText().toString());
+        //double qtyDouble = Double.parseDouble(txtPendOrderQty_.getText().toString());
+        //double priceDouble = subPriceDouble / qtyDouble;
+        String orderSubPriceString = Double.toString(subPriceDouble)+"0";
+
+
+        txtPendOrderSubPrice_.setText(orderSubPriceString);
+
 
         /*
         if(getItem(position).isHas_addons()){

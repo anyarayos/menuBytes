@@ -79,8 +79,14 @@ public class PaymentActivity extends AppCompatActivity {
         Button gcashBackToPaymentForm = gcashDialog.findViewById(R.id.btn_cancel_gcash);
 
         EditText RefNoEditText = gcashDialog.findViewById(R.id.refNoEditText);
-        //gcashDialog.show();
 
+
+        gcashButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gcashDialog.show();
+            }
+        });
         gcashProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,14 +115,21 @@ public class PaymentActivity extends AppCompatActivity {
         Button cashProceedToPayment = cashDialog.findViewById(R.id.btn_proceed_cash);
         Button cashBackToPaymentForm = cashDialog.findViewById(R.id.btn_cancel_cash);
         EditText cashAmountEditText = cashDialog.findViewById(R.id.cashAmountPayment);
-        //cashDialog.show();
+
+        cashButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cashDialog.show();
+            }
+        });
+
 
         cashProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String cashAmountString = cashAmountEditText.getText().toString();
-                Task gCashPayment = new Task(Task.INSERT_CASH_PAYMENT);
-                gCashPayment.execute(totalSumTV.getText().toString());
+                Task CashPayment = new Task(Task.INSERT_CASH_PAYMENT);
+                CashPayment.execute(totalSumTV.getText().toString());
                 startActivity(new Intent(PaymentActivity.this,Payment_Validate_Cash_Activity.class));
                 //overridePendingTransition(0,0);
                 cashDialog.dismiss();

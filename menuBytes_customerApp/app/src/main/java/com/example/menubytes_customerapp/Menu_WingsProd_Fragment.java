@@ -365,6 +365,12 @@ public class Menu_WingsProd_Fragment extends Fragment {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                fragment = new MenuWingsFragment();
+                fm.replace(R.id.menu_container,fragment).commit();
+
+
                 String finalName = txtItemTitle.getText().toString();
                 String finalTotal = mealTotalText.getText().toString();
                 String finalQty = qtyText.getText().toString();
@@ -390,10 +396,19 @@ public class Menu_WingsProd_Fragment extends Fragment {
                     finalFlavors = finalFlavors+sesameHoney.getText().toString()+"_";
                 }
 
-                String finalTest = "Name: "+finalName+"\n"+
-                        "Quantity: "+finalQty+"\n"+
-                        "Total: "+finalTotal+"\n"+
-                        "Flavors: "+finalFlavors;
+
+                String finalTest = "Flavors: "+finalFlavors;
+
+                OrderListClass order = new OrderListClass(PRODUCT_ID, finalName,
+                        finalTotal,
+                        finalQty,
+                        category ,
+                        false,
+                        "", finalTotal,
+                        false,
+                        finalFlavors);
+
+                Utils.getInstance().addToOrders(order);
 
                 Toast.makeText(getActivity(), finalTest, Toast.LENGTH_SHORT).show();
             }

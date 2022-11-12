@@ -47,13 +47,21 @@ public class OrderListAdapter extends ArrayAdapter<OrderListClass> {
 
         TextView orderAddOns = convertView.findViewById(R.id.txtOrderAddOns);
 
+        //SHOW DESCRIPTION
         String add_on = "";
         if(getItem(position).isHas_addons()){
             add_on = "Shawarma All Meat";
+            orderAddOns.setText(add_on);
+        }else{
+            if(getItem(position).getFlavors()!=null){
+                orderAddOns.setText(getItem(position).getFlavors());
+            }else{
+                orderAddOns.setText("");
+            }
 
         }
 
-        orderAddOns.setText(add_on);
+
 
         /*
         if(getItem(position).isHas_addons()){
