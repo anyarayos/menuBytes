@@ -3,13 +3,18 @@ package com.example.menubytes_customerapp;
 import java.util.ArrayList;
 
 public class OrderListContainer {
-    String Name;
-    String Price;
-    String AddOns;
-    String Qty;
+    boolean willDelete;
 
 
-    public OrderListContainer(String name, String price, String addOns, String qty) {
+    public OrderListContainer(boolean pendingAction) {
+        willDelete = pendingAction;
+    }
 
+    public boolean isWillDelete() {
+        return willDelete;
+    }
+
+    public void setWillDelete(boolean willDelete) {
+        this.willDelete = willDelete;
     }
 }

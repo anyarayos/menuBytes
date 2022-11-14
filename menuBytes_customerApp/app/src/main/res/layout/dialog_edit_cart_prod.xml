@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_frameLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="visible"
-    tools:context=".Menu_Product_Fragment">
+    android:layout_width="380dp"
+    android:layout_height="620dp">
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
         android:layout_marginTop="15dp"
         android:text="Select Quantity"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat_edit_prod" />
 
     <TextView
-        android:id="@+id/txtShawarmaAllMeatPrice"
+        android:id="@+id/txtShawarmaAllMeatPrice_edit_prod"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
@@ -29,23 +25,23 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/checkBox_allmeat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/checkBox_allmeat" />
+        app:layout_constraintTop_toTopOf="@+id/checkBox_allmeat_edit_prod" />
 
     <TextView
-        android:id="@+id/mealTotalText"
+        android:id="@+id/mealTotalText_edit_prod"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="116dp"
         android:text="0.00"
         android:textColor="#FFC61D25"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/btnUpdateOrder"
-        app:layout_constraintStart_toEndOf="@+id/addQtyButton"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat_edit_prod" />
 
     <CheckBox
-        android:id="@+id/checkBox_allmeat"
+        android:id="@+id/checkBox_allmeat_edit_prod"
         android:layout_width="233dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -61,7 +57,7 @@
         android:layout_marginTop="30dp"
         android:text="Optional"
         app:layout_constraintStart_toEndOf="@+id/txtChoose"
-        app:layout_constraintTop_toBottomOf="@+id/typeRadioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/typeRadioGroup_edit_prod" />
 
     <TextView
         android:id="@+id/txtChoose"
@@ -72,46 +68,46 @@
         android:text="Customize your meal"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeRadioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/typeRadioGroup_edit_prod" />
 
     <TextView
-        android:id="@+id/qtyText"
+        android:id="@+id/qtyText_edit_prod"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
         android:layout_marginTop="28dp"
         android:text="1"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/addQtyButton"
-        app:layout_constraintStart_toEndOf="@+id/minusQtyButton"
+        app:layout_constraintEnd_toStartOf="@+id/addQtyButton_edit_prod"
+        app:layout_constraintStart_toEndOf="@+id/minusQtyButton_edit_prod"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
-        android:id="@+id/txtItemTitle"
+        android:id="@+id/txtItemTitle_edit_prod"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="30dp"
         android:text="Item Name"
-        app:layout_constraintStart_toEndOf="@+id/imgViewItemMenu"
+        app:layout_constraintStart_toEndOf="@+id/imgViewItemMenu_edit_prod"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtItemDescription"
+        android:id="@+id/txtItemDescription_edit_prod"
         android:layout_width="231dp"
         android:layout_height="66dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:text="Description"
-        app:layout_constraintStart_toEndOf="@+id/imgViewItemMenu"
-        app:layout_constraintTop_toBottomOf="@+id/txtItemTitle" />
+        app:layout_constraintStart_toEndOf="@+id/imgViewItemMenu_edit_prod"
+        app:layout_constraintTop_toBottomOf="@+id/txtItemTitle_edit_prod" />
 
     <ImageView
-        android:id="@+id/imgViewItemMenu"
+        android:id="@+id/imgViewItemMenu_edit_prod"
         android:layout_width="111dp"
         android:layout_height="99dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,10 +120,10 @@
         android:text="Choose Type"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtItemDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/txtItemDescription_edit_prod" />
 
     <TextView
-        android:id="@+id/soloPrice"
+        android:id="@+id/soloPrice_edit_prod"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -139,7 +135,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtPick" />
 
     <TextView
-        android:id="@+id/b1t1Price"
+        android:id="@+id/b1t1Price_edit_prod"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -148,7 +144,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/soloPrice" />
+        app:layout_constraintTop_toBottomOf="@+id/soloPrice_edit_prod" />
 
     <TextView
         android:id="@+id/txtPick"
@@ -158,10 +154,10 @@
         android:layout_marginTop="15dp"
         android:text="Pick 1"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/txtItemDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/txtItemDescription_edit_prod" />
 
     <RadioGroup
-        android:id="@+id/typeRadioGroup"
+        android:id="@+id/typeRadioGroup_edit_prod"
         android:layout_width="235dp"
         android:layout_height="102dp"
         android:layout_marginStart="15dp"
@@ -169,66 +165,87 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <RadioButton
-            android:id="@+id/soloRadioButton"
+            android:id="@+id/soloRadioButton_edit_prod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="Solo" />
 
         <RadioButton
-            android:id="@+id/b1t1RadioButton"
+            android:id="@+id/b1t1RadioButton_edit_prod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Buy 1 Take 1" />
     </RadioGroup>
 
     <Button
-        android:id="@+id/btnUpdateOrder"
-        android:layout_width="117dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="25dp"
-        android:text="Add to Cart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
-
-    <Button
-        android:id="@+id/minusQtyButton"
+        android:id="@+id/minusQtyButton_edit_prod"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="43dp"
         android:layout_height="60dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="130dp"
         android:layout_marginTop="40dp"
-        android:text="-"
         android:enabled="false"
+        android:text="-"
         android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat_edit_prod" />
 
     <Button
-        android:id="@+id/addQtyButton"
+        android:id="@+id/addQtyButton_edit_prod"
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="43dp"
         android:layout_height="60dp"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="130dp"
         android:text="+"
         android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/minusQtyButton"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_allmeat_edit_prod" />
 
-    <Button
-        android:id="@+id/btn_back1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@android:color/transparent"
-        android:stateListAnimator="@null"
-        android:text="Go Back to Menu"
-        android:textAllCaps="false"
-        android:textColor="#C61D25"
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUpdateOrder" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/btn_update_item_edit_prod"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/transparent"
+        android:stateListAnimator="@null"
+        android:text="Update Item"
+        android:textAllCaps="false"
+        android:textColor="#C61D25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/btn_cancel_changes_edit_prod"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/transparent"
+        android:stateListAnimator="@null"
+        android:text="Cancel Changes"
+        android:textAllCaps="false"
+        android:textColor="#f44747"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

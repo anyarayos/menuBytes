@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -35,6 +36,7 @@ public class CartActivity extends AppCompatActivity {
     private int ORDER_ID;
     private OrderListAdapter orderListAdapter;
     private LoadingDialog loadingDialog;;
+    Dialog editDialog;
 
     public ArrayList<OrderListClass> orders = new ArrayList<>();
 
@@ -48,11 +50,6 @@ public class CartActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void clearInSettings(boolean willClear) {
-        if (willClear==true){
-            orders.clear();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,10 +167,32 @@ public class CartActivity extends AppCompatActivity {
         View layoutCartView = findViewById(R.id.CartElementLayout);
         View editOrderView = findViewById(R.id.EditOrderLayout);
 
+        //DIALOG NEEDED CODES
+        editDialog = new Dialog(this);
+        //editDialog.setContentView(R.layout.dialog_edit_cart_prod);
+        editDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        //editDialog.setCancelable(false);
+        editDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+
+
+        
         cartView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(CartActivity.this, "" + orders.get(position).getProductID(), Toast.LENGTH_SHORT).show();
+                int prodID = orders.get(position).getProductID();
+                //Toast.makeText(CartActivity.this, Integer.toString(prodID), Toast.LENGTH_SHORT).show();
+                if ((prodID<=4 && prodID >=1) || prodID==11 || prodID==12 || prodID==16 || prodID==17) {
+                    editDialog.setContentView(R.layout.dialog_edit_cart_prod);
+                }
+                else if (prodID<=7 && prodID >=5) {
+                    editDialog.setContentView(R.layout.dialog_edit_cart_wingsprod);
+
+                }
+                else if (prodID==8 || prodID==9 || prodID==13 || prodID==14 || prodID==19) {
+                    editDialog.setContentView(R.layout.dialog_edit_cart_bevadd);
+                }
+                editDialog.show();
             }
         });
 
@@ -195,9 +214,16 @@ public class CartActivity extends AppCompatActivity {
         cartView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                Toast.makeText(CartActivity.this, "Clicked Deleted", Toast.LENGTH_SHORT).show();
-                orders.remove(index);
-                orderListAdapter.notifyDataSetChanged();
+                Toast.makeText(CartActivity.this, Integer.toString(position), Toast.LENGTH_SHORT).show();
+                orders.remove(position);
+                cartView.setAdapter(orderListAdapter);
+                //orderListAdapter.notifyDataSetChanged();
+                double total_price=0;
+                for(int x=0 ; x <orders.size(); x++){
+                    double price = Double.parseDouble(orders.get(x).getOrderSubPrice());
+                    total_price += price;
+                }
+                subTotal.setText(String.valueOf(total_price)+"0");
                 return false;
             }
         });
@@ -228,7 +254,12 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-
+        /*
+        boolean pendingStatusCart = new OrderListContainer().isWillDelete();
+        if (pendingStatusCart==true){
+            orders.clear();
+            new OrderListContainer(false);
+        }*/
     }
 
     private void refreshActivity(){

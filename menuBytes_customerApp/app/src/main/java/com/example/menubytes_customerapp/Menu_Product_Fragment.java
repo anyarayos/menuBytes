@@ -236,12 +236,20 @@ public class Menu_Product_Fragment extends Fragment {
                         productBundle_checked = false;
                         priceTotal = Double.parseDouble(soloStringPrice.getText().toString());
                         mealPrice = soloStringPrice.getText().toString();
+                        txtShawarmaAllMeatPrice.setText("10.00");
+                        if (cbAllMeat.isChecked()){
+                            addonsTotal = 10.00;
+                        }
                         mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                     case R.id.b1t1RadioButton:
                         productBundle_checked = true;
                         priceTotal = Double.parseDouble(b1t1StringPrice.getText().toString());
                         mealPrice = b1t1StringPrice.getText().toString();
+                        txtShawarmaAllMeatPrice.setText("20.00");
+                        if (cbAllMeat.isChecked()){
+                            addonsTotal = 20.00;
+                        }
                         mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
                         break;
                 }
@@ -255,14 +263,12 @@ public class Menu_Product_Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 boolean isChecked_allmeat = cbAllMeat.isChecked();
                 if (isChecked_allmeat == true){
-                    addonsTotal = addonsTotal + 10;
+                    addonsTotal = addonsTotal + Double.parseDouble(txtShawarmaAllMeatPrice.getText().toString());
                     orderAddOnsName = "Shawarma All Meat";
-
                 }
                 else if (isChecked_allmeat == false){
-                    addonsTotal = addonsTotal - 10;
+                    addonsTotal = addonsTotal - Double.parseDouble(txtShawarmaAllMeatPrice.getText().toString());
                     orderAddOnsName = "";
-
                 }
                 mealTotal.setText(Double.toString((priceTotal+addonsTotal)*Double.parseDouble(qtyTxt.getText().toString()))+"0");
             }
@@ -315,6 +321,26 @@ public class Menu_Product_Fragment extends Fragment {
                 Utils.getInstance().addToOrders(order);
             }
         });
+
+        Button backButton = view.findViewById(R.id.btn_back1);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                switch(category){
+                    case "shawarma":
+                        fragment = new MenuShawarmaFragment();
+                        break;
+                    case "bowl":
+                        fragment = new MenuBowlFragment();
+                }
+                fm.replace(R.id.menu_container,fragment).commit();
+            }
+        });
+
+
+
         return view;
     }
 }
