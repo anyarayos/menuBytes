@@ -27,11 +27,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Menu_WingsProd_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Menu_WingsProd_Fragment extends Fragment {
     String tempName;
     int flavorCount,flavorLimit;
@@ -159,7 +154,6 @@ public class Menu_WingsProd_Fragment extends Fragment {
         mealTotalText = view.findViewById(R.id.mealTotalText);
         qtyText = view.findViewById(R.id.qtyText);
         imgViewItemMenu = view.findViewById(R.id.imgViewItemMenu);
-        category_chip_group = view.findViewById(R.id.category_chip_group);
         garlicPar = view.findViewById(R.id.cbGarlicParmesan);
         saltedEgg = view.findViewById(R.id.cbSaltedEgg);
         buffaloFlav = view.findViewById(R.id.cbBuffalo);
@@ -171,7 +165,6 @@ public class Menu_WingsProd_Fragment extends Fragment {
         minusQtyButton = view.findViewById(R.id.minusQtyButton);
         constraintLayout = view.findViewById(R.id.frameLayoutwings);
         btnAddToCart = view.findViewById(R.id.btnUpdateOrder);
-
         FlavorPcs = view.findViewById(R.id.flavorPcs);
 
 
@@ -414,6 +407,16 @@ public class Menu_WingsProd_Fragment extends Fragment {
             }
         });
 
+        Button backButton2 = view.findViewById(R.id.btn_back2);
+        backButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                fragment = new MenuWingsFragment();
+                fm.replace(R.id.menu_container,fragment).commit();
+            }
+        });
 
 
         return view;

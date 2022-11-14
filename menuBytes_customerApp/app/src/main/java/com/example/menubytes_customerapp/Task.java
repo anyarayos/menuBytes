@@ -66,7 +66,7 @@ public class Task extends AsyncTask<String, String, Object> {
     private void setConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
+            connection = DriverManager.getConnection("jdbc:mysql://192.168.254.130:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }

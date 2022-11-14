@@ -125,13 +125,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        CartActivity ca = new CartActivity();
 
         Button ClearBtn = findViewById(R.id.clearBtn);
         ClearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ca.clearInSettings(true);
+                OrderListContainer OC = new OrderListContainer(true);
             }
         });
     }

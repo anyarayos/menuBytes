@@ -192,7 +192,23 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                 Utils.getInstance().addToOrders(order);
             }
         });
-        // Inflate the layout for this fragment
+        Button backButton3 = view.findViewById(R.id.btn_back3);
+        backButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                switch(category){
+                    case "additional":
+                        fragment = new MenuAddonsFragment();
+                        break;
+                    case "beverage":
+                        fragment = new MenuBeveragesFragment();
+                        break;
+                }
+                fm.replace(R.id.menu_container,fragment).commit();
+            }
+        });
         return view;
     }
 }
