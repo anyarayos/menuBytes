@@ -43,8 +43,14 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
             double tempAddOnsPrice = Double.parseDouble(txtPendOrderPrice_.getText().toString())+10;
             String newPriceString = Double.toString(tempAddOnsPrice)+"0";
             txtPendOrderPrice_.setText(newPriceString);
+        }else{
+            if(getItem(position).getFlavors()!=null){
+                txtOrderAddOns.setText(getItem(position).getFlavors());
+            }else{
+                txtOrderAddOns.setText(add_on);
+            }
         }
-        txtOrderAddOns.setText(add_on);
+
 
         TextView txtPendOrderSubPrice_ = convertView.findViewById(R.id.txtPendOrderSubPrice);
         double subPriceDouble = Double.parseDouble(txtPendOrderPrice_.getText().toString()) * Double.parseDouble(txtPendOrderQty_.getText().toString());

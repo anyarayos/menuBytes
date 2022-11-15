@@ -47,6 +47,8 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String CHECK_PENDING_COUNT = "checkPendingCount" ;
     public static final String CHECK_COMPLETED_COUNT = "checkCompletedCount" ;
    public static final String RETRIEVE_ORDER_BREAKDOWN = "retrieveOrderBreakdownUsingOrderID";
+   public static final String VALIDATE_PAYMENT_COMPLETE = "validateGcashComplete";
+   public static final String VALIDATE_PAYMENT_REJECTED = "validatePaymentRejected";
 
     public Task(String method) {
         this.method = method;
@@ -67,7 +69,8 @@ public class Task extends AsyncTask<String, String, Object> {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //connection = DriverManager.getConnection("jdbc:mysql://aws-simplified.ccnp1cnd7apy.ap-northeast-1.rds.amazonaws.com:3306/menubytes", "admin", "P0Y9aixM7jUZr6Cg");
-            connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
+//            connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
+            connection = DriverManager.getConnection("jdbc:mysql://192.168.1.6:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -309,9 +312,10 @@ public class Task extends AsyncTask<String, String, Object> {
 
                 //TODO: use to get reference #
                 if(method.equals(INSERT_GCASH_PAYMENT2)){
-                    statement = connection.prepareStatement(sqlStatements.getInsertGcashPaymentV2());
+                    statement = connection.prepareStatement(sqlStatements.getInsertGcashPaymentV2(), Statement.RETURN_GENERATED_KEYS);
                     String totalAmount = params[0];
                     String remarks = params[1];
+                    String payment_id = null;
                     int user_id = 0;
                     if(Utils.getInstance().getUser_id()!=null){
                         user_id = Integer.valueOf(Utils.getInstance().getUser_id());
@@ -320,19 +324,44 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement.setInt(2, user_id);
                     statement.setString(3,remarks);
                     statement.executeUpdate();
+
+                    resultSet = statement.getGeneratedKeys();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "GCASH NO ID_DATA FOUND");
+                    } else {
+                        Log.d(TAG, "GCASH ID_DATA FOUND");}
+                    if(resultSet.next()){
+                        payment_id = resultSet.getString(1);
+                    }
+                    return payment_id;
                 }
 
                 if(method.equals(INSERT_CASH_PAYMENT)){
-                    statement = connection.prepareStatement(sqlStatements.getInsertCashPayment());
+                    statement = connection.prepareStatement(sqlStatements.getInsertCashPayment(),Statement.RETURN_GENERATED_KEYS);
                     String totalAmount = params[0];
+                    String paymentAmount = params[1];
+                    String payment_id = null;
                     int user_id = 0;
                     if(Utils.getInstance().getUser_id()!=null){
                         user_id = Integer.valueOf(Utils.getInstance().getUser_id());
                     }
                     statement.setDouble(1,Double.valueOf(totalAmount));
-                    statement.setInt(2, user_id);
+                    statement.setDouble(2,Double.valueOf(paymentAmount));
+                    statement.setInt(3, user_id);
                     statement.executeUpdate();
+
+                    resultSet = statement.getGeneratedKeys();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "CASH PAYMENT NO ID_DATA FOUND");
+                    } else {
+                        Log.d(TAG, "CASH PAYMENT ID_DATA FOUND");}
+                    if(resultSet.next()){
+                        payment_id = resultSet.getString(1);
+                    }
+                    return payment_id;
                 }
+
+
                 if(method.equals(DISPLAY_PENDING_ORDERS)){
                     ArrayList <PendingListClass> pendingArrayList = new ArrayList<>();
                     statement = connection.prepareStatement(sqlStatements.getRetrieveAllPendingOrdersByTable());
@@ -378,13 +407,13 @@ public class Task extends AsyncTask<String, String, Object> {
                                     resultSet.getString(2),
                                     resultSet.getString(3),
                                     resultSet.getString(4),
-                                    resultSet.getBoolean(5)
+                                    resultSet.getBoolean(5),
+                                    resultSet.getString(6)
                                     ));
                         }
                         return completedOrdersArrayList;
                     }
                 }
-
 
                 if(method.equals(RETRIEVE_ORDER_BREAKDOWN)){
                     ArrayList<PendingOrderSumListClass> pendingOrderSumArrayList = new ArrayList<>();
@@ -406,11 +435,46 @@ public class Task extends AsyncTask<String, String, Object> {
                                           resultSet.getString(1),
                                           resultSet.getString(2),
                                           resultSet.getString(3),
-                                          resultSet.getBoolean(4)
+                                          resultSet.getBoolean(4),
+                                          resultSet.getString(5)
                                   )
                                 );
                         }
                         return pendingOrderSumArrayList;
+                    }
+                }
+
+                if(method.equals(VALIDATE_PAYMENT_COMPLETE)){
+                    statement = connection.prepareStatement(sqlStatements.getValidatePaymentComplete());
+                    String payment_id = params[0];
+                    statement.setInt(1,Integer.valueOf(payment_id));
+                    String result = null;
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "VALIDATE_PAYMENT_COMPLETE : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "VALIDATE_PAYMENT_COMPLETE : DATA FOUND");
+                        while (resultSet.next()) {
+                            result = resultSet.getString(1);
+                        }
+                        return result;
+                    }
+                }
+
+                if(method.equals(VALIDATE_PAYMENT_REJECTED)){
+                    statement = connection.prepareStatement(sqlStatements.getValidatePaymentRejected());
+                    String payment_id = params[0];
+                    statement.setInt(1,Integer.valueOf(payment_id));
+                    String result = null;
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "VALIDATE_REJECTED : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "VALIDATE_REJECTED : DATA FOUND");
+                        while (resultSet.next()) {
+                            result = resultSet.getString(1);
+                        }
+                        return result;
                     }
                 }
 

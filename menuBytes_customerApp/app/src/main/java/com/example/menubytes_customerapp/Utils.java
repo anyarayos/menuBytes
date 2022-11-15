@@ -8,6 +8,16 @@ public class Utils {
 
     private String table_name;
 
+    private String payment_id;
+
+    public String getPayment_id() {
+        return payment_id;
+    }
+
+    public void setPayment_id(String payment_id) {
+        this.payment_id = payment_id;
+    }
+
     public String getTable_name() {
         return table_name;
     }

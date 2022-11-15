@@ -56,6 +56,5 @@
         android:layout_below="@id/txtPendOrderName"
         android:layout_marginLeft="20dp"
         android:maxLength="100"
-        android:text="Description"
         android:textSize="12dp" />
 </RelativeLayout>

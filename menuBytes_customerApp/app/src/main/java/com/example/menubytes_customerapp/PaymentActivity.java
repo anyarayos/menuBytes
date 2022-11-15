@@ -93,9 +93,22 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String RefNoString = RefNoEditText.getText().toString();
-                Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT2);
+                //TODO: GET PAYMENT ID
+                Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT2, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        if(output!=null){
+                            Utils.getInstance().setPayment_id((String) output);
+                            startActivity(new Intent(PaymentActivity.this,Payment_Validate_Gcash_Activity.class));
+                        }else{
+                            Toast.makeText(PaymentActivity.this, "Payment unsuccessful, please try again.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
                 gCashPayment.execute(totalSumTV.getText().toString(),RefNoString);
-                startActivity(new Intent(PaymentActivity.this,Payment_Validate_Gcash_Activity.class));
+
+
                 //overridePendingTransition(0,0);
                 gcashDialog.dismiss();
             }
@@ -131,9 +144,19 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String cashAmountString = cashAmountEditText.getText().toString();
-                Task CashPayment = new Task(Task.INSERT_CASH_PAYMENT);
-                CashPayment.execute(totalSumTV.getText().toString());
-                startActivity(new Intent(PaymentActivity.this,Payment_Validate_Cash_Activity.class));
+                Task CashPayment = new Task(Task.INSERT_CASH_PAYMENT, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        if(output!=null){
+                            Utils.getInstance().setPayment_id((String) output);
+                            startActivity(new Intent(PaymentActivity.this,Payment_Validate_Cash_Activity.class));
+                        }else{
+                            Toast.makeText(PaymentActivity.this, "Payment unsuccessful, please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                CashPayment.execute(totalSumTV.getText().toString(), cashAmountString);
+
                 //overridePendingTransition(0,0);
                 cashDialog.dismiss();
             }

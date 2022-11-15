@@ -85,7 +85,7 @@ public class SqlStatements {
             "VALUES\n" +
             "(\n" +
             "(?),\n" +
-            "(0), \n" +
+            "(?), \n" +
             "\"CASH\",\n" +
             "\"PENDING\",\n" +
             "current_timestamp(),\n" +
@@ -149,7 +149,7 @@ public class SqlStatements {
         "            IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
         "            ,IF(order_items.product_bundle,product.product_bundle,product.product_price),\n" +
         "            (cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,product.product_bundle,product.product_price)))\n" +
-        "            ,order_items.has_addons FROM order_items\n" +
+        "            ,order_items.has_addons, order_items.flavors FROM order_items\n" +
         "            INNER JOIN\n" +
         "            product ON order_items.product_id = product.product_id\n" +
         "            INNER JOIN\n" +
@@ -161,7 +161,7 @@ public class SqlStatements {
 
     private String retrieveOrderBreakdownUsingOrderID = "SELECT IF((order_items.product_bundle),CONCAT(\"B1G1 \",product.product_name),product.product_name) AS name,\n" +
             "IF((order_items.product_bundle),product.product_bundle,product.product_price)\n" +
-            ",order_items.quantity, order_items.has_addons\n" +
+            ",order_items.quantity, order_items.has_addons, order_items.flavors\n" +
             "FROM order_items\n" +
             "INNER JOIN\n" +
             "product ON order_items.product_id = product.product_id\n" +
@@ -169,6 +169,24 @@ public class SqlStatements {
             "orders ON order_items.order_id = orders.order_id\n"  +
             "WHERE order_items.order_id = (?) AND order_items.product_id != (15) AND DATE(orders.created_at) = curdate()\n" +
             "";
+
+    private String validateGcashComplete = "SELECT payment_id FROM payment \n" +
+            "WHERE payment_id = (?)\n" +
+            "AND payment_status = \"COMPLETE\"\n" +
+            "AND DATE(completed_at) = current_date()\n" +
+            "            ;";
+    private String validatePaymentRejected ="SELECT payment_id FROM payment \n" +
+            "WHERE payment_id = (?)\n" +
+            "AND payment_status = \"REJECTED\"\n" +
+            "            ;";
+
+    public String getValidatePaymentRejected() {
+        return validatePaymentRejected;
+    }
+
+    public String getValidatePaymentComplete() {
+        return validateGcashComplete;
+    }
 
     public String getRetrieveOrderBreakdownUsingOrderID() {
         return retrieveOrderBreakdownUsingOrderID;

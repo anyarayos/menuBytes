@@ -7,6 +7,7 @@ public class PendingOrderSumListClass {
     private String PendingOrderSumPrice;
     private String PendingOrderSumQty;
     private boolean has_addons;
+    private String flavors;
 
     public PendingOrderSumListClass(String pendingOrderSumName, String pendingOrderSumPrice, String pendingOrderSumQty) {
         PendingOrderSumName = pendingOrderSumName;
@@ -19,6 +20,15 @@ public class PendingOrderSumListClass {
         PendingOrderSumPrice = pendingOrderSumPrice;
         PendingOrderSumQty = pendingOrderSumQty;
         this.has_addons = has_addons;
+    }
+
+    public PendingOrderSumListClass(String pendingOrderSumName, String pendingOrderSumPrice, String pendingOrderSumQty, boolean has_addons,
+                                    String flavors) {
+        PendingOrderSumName = pendingOrderSumName;
+        PendingOrderSumPrice = pendingOrderSumPrice;
+        PendingOrderSumQty = pendingOrderSumQty;
+        this.has_addons = has_addons;
+        this.flavors = flavors;
     }
 
     public String getPendingOrderSumName() {
@@ -51,5 +61,13 @@ public class PendingOrderSumListClass {
 
     public void setHas_addons(boolean has_addons) {
         this.has_addons = has_addons;
+    }
+
+    public String getFlavors() {
+        return flavors;
+    }
+
+    public void setFlavors(String flavors) {
+        this.flavors = flavors;
     }
 }
