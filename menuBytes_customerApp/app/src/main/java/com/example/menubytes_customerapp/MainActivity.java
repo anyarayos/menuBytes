@@ -174,8 +174,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
@@ -195,12 +193,32 @@ public class MainActivity extends AppCompatActivity {
         });
         task.execute();
 
+
+
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.mainActivityRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Pull to refresh code here
                 pullToRefresh.setRefreshing(true);
+                Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        if(output==null){
+                            notifyOrders3.setVisibility(View.VISIBLE);
+                            pendingArrayList.clear();
+                            pendingListAdapter = new PendingListAdapter(MainActivity.this,R.layout.list_pending,pendingArrayList);
+                            pendingListView.setAdapter(pendingListAdapter);
+                        }
+                        if(output!=null){
+                            notifyOrders3.setVisibility(View.GONE);
+                            pendingArrayList = (ArrayList<PendingListClass>) output;
+                            pendingListAdapter = new PendingListAdapter(MainActivity.this,R.layout.list_pending,pendingArrayList);
+                            pendingListView.setAdapter(pendingListAdapter);
+                        }
+                    }
+                });
+                task.execute();
+                pullToRefresh.setRefreshing(false);
             }
         });
 

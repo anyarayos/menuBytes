@@ -78,6 +78,8 @@ public class PaymentActivity extends AppCompatActivity {
         Button gcashProceedToPayment = gcashDialog.findViewById(R.id.btn_proceed_gcash);
         Button gcashBackToPaymentForm = gcashDialog.findViewById(R.id.btn_cancel_gcash);
 
+        TextView totalAmountToPayGcash = gcashDialog.findViewById(R.id.textView3);
+
         EditText RefNoEditText = gcashDialog.findViewById(R.id.refNoEditText);
 
 
@@ -115,6 +117,7 @@ public class PaymentActivity extends AppCompatActivity {
         Button cashProceedToPayment = cashDialog.findViewById(R.id.btn_proceed_cash);
         Button cashBackToPaymentForm = cashDialog.findViewById(R.id.btn_cancel_cash);
         EditText cashAmountEditText = cashDialog.findViewById(R.id.cashAmountPayment);
+        TextView totalAmountToPayCash = cashDialog.findViewById(R.id.textView2);
 
         cashButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +230,9 @@ public class PaymentActivity extends AppCompatActivity {
                 subTotalTV.setText(total_amount);
                 totalSumTV.setText(total_amount);
 
+                totalAmountToPayGcash.setText("Total Amount is to pay is "+totalSumTV.getText().toString());
+                totalAmountToPayCash.setText("Total Amount to pay is "+totalSumTV.getText().toString());
+
 
 
 
@@ -241,6 +247,9 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
         paymentTask.execute();
+
+
+
 
         gcashButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -380,7 +380,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
                     finalFlavors = finalFlavors+buffaloFlav.getText().toString()+"_";
                 }
                 if (bulgogiFlav.isChecked()) {
-                    finalFlavors = finalFlavors+buffaloFlav.getText().toString()+"_";
+                    finalFlavors = finalFlavors+bulgogiFlav.getText().toString()+"_";
                 }
                 if (soyGarlic.isChecked()) {
                     finalFlavors = finalFlavors+soyGarlic.getText().toString()+"_";

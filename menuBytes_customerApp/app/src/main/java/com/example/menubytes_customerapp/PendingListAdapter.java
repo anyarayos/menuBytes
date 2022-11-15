@@ -27,7 +27,14 @@ public class PendingListAdapter extends ArrayAdapter<PendingListClass> {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         convertView = layoutInflater.inflate(mResource,parent,false);
         TextView txtViewStatus_ = convertView.findViewById(R.id.txtViewStatus);
-        txtViewStatus_.setText(getItem(position).getOrderStatus());
+        String status="";
+        if (getItem(position).getOrderStatus().equals("IN QUEUE")) {
+            status = "IN\nQUEUE";
+            txtViewStatus_.setText(status);
+        }else {
+
+            txtViewStatus_.setText(getItem(position).getOrderStatus());
+        }
         TextView txtViewOrderNum_ = convertView.findViewById(R.id.txtViewOrderNum);
         txtViewOrderNum_.setText(getItem(position).getOrderNum());
         TextView txtViewQty_ = convertView.findViewById(R.id.txtViewQty);
@@ -36,5 +43,4 @@ public class PendingListAdapter extends ArrayAdapter<PendingListClass> {
         txtViewOrderPrice_.setText(getItem(position).getOrderTotalPrize());
         return convertView;
     }
-
 }

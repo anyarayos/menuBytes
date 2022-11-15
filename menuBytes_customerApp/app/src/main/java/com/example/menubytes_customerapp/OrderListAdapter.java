@@ -54,7 +54,10 @@ public class OrderListAdapter extends ArrayAdapter<OrderListClass> {
             orderAddOns.setText(add_on);
         }else{
             if(getItem(position).getFlavors()!=null){
-                orderAddOns.setText(getItem(position).getFlavors());
+                String FlavorAll = getItem(position).getFlavors();
+                FlavorAll = FlavorAll.substring(0,FlavorAll.length()-1);
+                FlavorAll = FlavorAll.replaceAll("_","\n");
+                orderAddOns.setText(FlavorAll);
             }else{
                 orderAddOns.setText("");
             }
