@@ -139,8 +139,9 @@ public class Orders_History_Fragment extends Fragment {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Pull to refresh code here
                 pullToRefresh.setRefreshing(true);
+                //INSERT CODES HERE
+                pullToRefresh.setRefreshing(false);
             }
         });
 

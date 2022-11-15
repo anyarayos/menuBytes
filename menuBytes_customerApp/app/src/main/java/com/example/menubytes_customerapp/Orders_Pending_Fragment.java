@@ -153,8 +153,26 @@ public class Orders_Pending_Fragment extends Fragment {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Pull to refresh code here
                 pullToRefresh.setRefreshing(true);
+                Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        if(output==null){
+                            notifyIfEmpty.setVisibility(View.VISIBLE);
+                            pendingArrayList.clear();
+                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+                            pendingListView.setAdapter(pendingListAdapter);
+                        }
+                        if(output!=null){
+                            notifyIfEmpty.setVisibility(View.GONE);
+                            pendingArrayList = (ArrayList<PendingListClass>) output;
+                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+                            pendingListView.setAdapter(pendingListAdapter);
+                        }
+                    }
+                });
+                task.execute();
+                pullToRefresh.setRefreshing(false);
             }
         });
 
