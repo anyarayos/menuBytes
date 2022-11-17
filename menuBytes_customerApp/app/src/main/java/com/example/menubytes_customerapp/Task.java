@@ -49,6 +49,11 @@ public class Task extends AsyncTask<String, String, Object> {
    public static final String RETRIEVE_ORDER_BREAKDOWN = "retrieveOrderBreakdownUsingOrderID";
    public static final String VALIDATE_PAYMENT_COMPLETE = "validateGcashComplete";
    public static final String VALIDATE_PAYMENT_REJECTED = "validatePaymentRejected";
+    public static final String CHECK_USER_NAME_EXISTENCE = "checkUsernameExistence";
+    public static final String CHECK_USER_NAME_PASSWORD = "checkUsernamePassword";
+    public static final String SET_TABLE_NAME = "setTableName" ;
+    public static final String UPDATE_LOGIN_TIME = " updateLogInTime" ;
+    private static final String UPDATE_LOGOUT_TIME = "updateLogOutTime";
 
     public Task(String method) {
         this.method = method;
@@ -476,6 +481,75 @@ public class Task extends AsyncTask<String, String, Object> {
                         }
                         return result;
                     }
+                }
+
+                if(method.equals(CHECK_USER_NAME_EXISTENCE)){
+                    statement = connection.prepareStatement(sqlStatements.getCheckUsernameExistence());
+                    String user_id = null;
+                    String username = params[0];
+                    statement.setString(1, username);
+
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "CHECK_USER_NAME_EXISTENCE : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "CHECK_USER_NAME_EXISTENCE: DATA FOUND");
+                        while (resultSet.next()) {
+                            user_id = resultSet.getString(1);
+                        }
+                        return user_id;
+                    }
+                }
+
+                if(method.equals(CHECK_USER_NAME_PASSWORD)){
+                    statement = connection.prepareStatement(sqlStatements.getCheckUsernamePassword());
+                    String user_id = null;
+                    String username = params[0];
+                    String password = params[1];
+                    statement.setString(1, username);
+                    statement.setString(2, password);
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "CHECK_USER_NAME_PASSWORD : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "CHECK_USER_NAME_PASSWORD: DATA FOUND");
+                        while (resultSet.next()) {
+                            user_id = resultSet.getString(1);
+                        }
+                        return user_id;
+                    }
+                }
+
+                if(method.equals(SET_TABLE_NAME)) {
+                    statement = connection.prepareStatement(sqlStatements.getSetTableName());
+                    String user_id = null;
+                    String table_name = null;
+                    user_id = params[0];
+                    statement.setString(1, user_id);
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "SET_TABLE_NAME : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "SET_TABLE_NAME: DATA FOUND");
+                        while (resultSet.next()) {
+                            table_name = resultSet.getString(1);
+                        }
+                        return table_name;
+                    }
+                }
+
+                if(method.equals(UPDATE_LOGIN_TIME)){
+                    statement = connection.prepareStatement(sqlStatements.getUpdateLogInTime());
+                    String user_id = params[0];
+                    statement.setString(1,user_id);
+                    statement.executeUpdate();
+                }
+
+                if(method.equals(UPDATE_LOGOUT_TIME)){
+                    statement = connection.prepareStatement(sqlStatements.getUpdateLogOutTime());
+                    String user_id = params[0];
+                    statement.setString(1,user_id);
+                    statement.executeUpdate();
                 }
 
                 disconnect(resultSet,statement,connection);

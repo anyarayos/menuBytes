@@ -124,7 +124,7 @@ public class SqlStatements {
             "INNER JOIN\n" +
             "order_status ON order_status.order_id = orders.order_id\n" +
             "JOIN\n" +
-            "(SELECT order_id, SUM(quantity) AS qty FROM order_items WHERE order_items.product_id != (15) GROUP BY order_id)\n" +
+            "(SELECT order_id, SUM(quantity) AS qty FROM order_items WHERE order_items.product_id != ((SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\")) GROUP BY order_id)\n" +
             "AS orderitems ON orderitems.order_id = orders.order_id\n" +
             "WHERE \n" +
             "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) \n" +
@@ -144,20 +144,42 @@ public class SqlStatements {
 //            "WHERE\n" +
 //            "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
 
-    private String retrieveAllCompletedOrdersByTable = "\n" +
-        "SELECT order_items.quantity, \n" +
-        "            IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
-        "            ,IF(order_items.product_bundle,product.product_bundle,product.product_price),\n" +
-        "            (cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,product.product_bundle,product.product_price)))\n" +
-        "            ,order_items.has_addons, order_items.flavors FROM order_items\n" +
-        "            INNER JOIN\n" +
-        "            product ON order_items.product_id = product.product_id\n" +
-        "            INNER JOIN\n" +
-        "            orders ON order_items.order_id = orders.order_id\n" +
-        "            INNER JOIN\n" +
-        "            order_status ON order_items.order_id = order_status.order_id\n" +
-        "            WHERE\n" +
-        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_items.product_id != (15) AND order_status = \"COMPLETED\";";
+//    private String retrieveAllCompletedOrdersByTable = "\n" +
+//        "SELECT order_items.quantity, \n" +
+//        "            IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
+//        "            ,IF(order_items.product_bundle,product.product_bundle,product.product_price),\n" +
+//        "            (cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,product.product_bundle,product.product_price)))\n" +
+//        "            ,order_items.has_addons, order_items.flavors FROM order_items\n" +
+//        "            INNER JOIN\n" +
+//        "            product ON order_items.product_id = product.product_id\n" +
+//        "            INNER JOIN\n" +
+//        "            orders ON order_items.order_id = orders.order_id\n" +
+//        "            INNER JOIN\n" +
+//        "            order_status ON order_items.order_id = order_status.order_id\n" +
+//        "            WHERE\n" +
+//        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_items.product_id != ((SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\")) AND order_status = \"COMPLETED\";";
+    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity, \n" +
+        "IF(order_items.product_bundle,(CONCAT(\"B1G1\",product.product_name)),product.product_name) AS NAME,\n" +
+        "IF(order_items.product_bundle,\n" +
+        "\tIF(order_items.has_addons,(product.product_bundle+20),(product.product_bundle)),\n" +
+        "\tIF(order_items.has_addons,(product.product_price+10),(product.product_price))) AS PRICE,\n" +
+        "(cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,\n" +
+        "\tIF(order_items.has_addons,(product.product_bundle+20),(product.product_bundle)),\n" +
+        "\tIF(order_items.has_addons,(product.product_price+10),(product.product_price))))) AS TOTAL_PRICE\n" +
+        ",order_items.has_addons \n" +
+        "FROM order_items\n" +
+        "INNER JOIN\n" +
+        "product ON order_items.product_id = product.product_id\n" +
+        "INNER JOIN\n" +
+        "orders ON order_items.order_id = orders.order_id\n" +
+        "INNER JOIN\n" +
+        "order_status ON order_items.order_id = order_status.order_id\n" +
+        "WHERE\n" +
+        "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) \n" +
+        "AND \n" +
+        "order_status = \"COMPLETED\"\n" +
+        "AND \n" +
+        "order_items.product_id != (SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\");";
 
     private String retrieveOrderBreakdownUsingOrderID = "SELECT IF((order_items.product_bundle),CONCAT(\"B1G1 \",product.product_name),product.product_name) AS name,\n" +
             "IF((order_items.product_bundle),product.product_bundle,product.product_price)\n" +
@@ -167,7 +189,7 @@ public class SqlStatements {
             "product ON order_items.product_id = product.product_id\n" +
             "INNER JOIN\n" +
             "orders ON order_items.order_id = orders.order_id\n"  +
-            "WHERE order_items.order_id = (?) AND order_items.product_id != (15) AND DATE(orders.created_at) = curdate()\n" +
+            "WHERE order_items.order_id = (?) AND order_items.product_id != ((SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\")) AND DATE(orders.created_at) = curdate()\n" +
             "";
 
     private String validateGcashComplete = "SELECT payment_id FROM payment \n" +
@@ -179,6 +201,45 @@ public class SqlStatements {
             "WHERE payment_id = (?)\n" +
             "AND payment_status = \"REJECTED\"\n" +
             "            ;";
+
+    private String checkUsernameExistence = "SELECT user_id FROM user WHERE (user_name = (?) and user_type = 'customer');";
+
+    private String checkUsernamePassword = "SELECT user_id FROM user WHERE user_name = (?) AND password = (?);";
+
+    private String setTableName = "SELECT replace(user_name, \"_\", \" \") FROM user WHERE user_id = (?);";
+
+    private String updateLogInTime = "UPDATE user\n" +
+            "SET log_in = current_timestamp()\n" +
+            "WHERE user_id = (?)\n" +
+            ";";
+    private String updateLogOutTime = "UPDATE user\n" +
+            "SET log_out = current_timestamp()\n" +
+            "WHERE user_id = (?)\n" +
+            ";";
+
+    public String getUpdateLogInTime() {
+        return updateLogInTime;
+    }
+
+    public String getUpdateLogOutTime() {
+        return updateLogOutTime;
+    }
+
+    public String getSetTableName() {
+        return setTableName;
+    }
+
+    public String getValidateGcashComplete() {
+        return validateGcashComplete;
+    }
+
+    public String getCheckUsernameExistence() {
+        return checkUsernameExistence;
+    }
+
+    public String getCheckUsernamePassword() {
+        return checkUsernamePassword;
+    }
 
     public String getValidatePaymentRejected() {
         return validatePaymentRejected;

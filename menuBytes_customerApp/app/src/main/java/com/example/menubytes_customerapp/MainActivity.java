@@ -95,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.Home);
 
+        Task updateLogInTime = new Task(Task.UPDATE_LOGIN_TIME);
+        updateLogInTime.execute(Utils.getInstance().getUser_id());
+
         notifyOrders3 = findViewById(R.id.notifyOrders3);
         txtGreeting = findViewById(R.id.txtGreeting);
         pendingListView = findViewById(R.id.pendingOrderListView);
