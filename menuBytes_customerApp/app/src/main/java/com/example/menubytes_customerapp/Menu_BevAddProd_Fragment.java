@@ -1,5 +1,6 @@
 package com.example.menubytes_customerapp;
 
+import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -39,7 +40,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
     LoadingDialog loadingDialog;
     private double priceTotal=0,addonsTotal=0, tempIntQty=0;
     private String category;
-
+    Dialog addToCartDialog;
     String tempQty;
 
     int PRODUCT_ID=-1;
@@ -137,6 +138,15 @@ public class Menu_BevAddProd_Fragment extends Fragment {
         tempQty =  qtyText.getText().toString();
         qtyText.setText(tempQty);
 
+
+        addToCartDialog = new Dialog(getActivity());
+        addToCartDialog.setContentView(R.layout.added_to_cart_dialog);
+        addToCartDialog.getWindow().setBackgroundDrawable(getActivity().getDrawable(R.drawable.dialog_background));
+        addToCartDialog.setCancelable(false);
+        addToCartDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+
+
         minusQtyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,19 +180,8 @@ public class Menu_BevAddProd_Fragment extends Fragment {
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment fragment = null;
-                switch(category){
-                    case "additional":
-                        fragment = new MenuAddonsFragment();
-                        break;
-                    case "beverage":
-                        fragment = new MenuBeveragesFragment();
-                        break;
-                }
-
-                fm.replace(R.id.menu_container,fragment).commit();
-                Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
+                addToCartDialog.show();
+                //Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
                 String finalName = txtItemTitle.getText().toString();
                 String finalTotal = mealTotalText.getText().toString();
                 String finalQty = qtyText.getText().toString();
@@ -190,6 +189,7 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                 OrderListClass order = new OrderListClass(PRODUCT_ID, finalName, mealPrice, finalQty, category ,false,"", finalTotal,
                         false);
                 Utils.getInstance().addToOrders(order);
+
             }
         });
         Button backButton3 = view.findViewById(R.id.btn_back3);
@@ -209,6 +209,29 @@ public class Menu_BevAddProd_Fragment extends Fragment {
                 fm.replace(R.id.menu_container,fragment).commit();
             }
         });
+
+
+
+        Button addToCartDialogButton = addToCartDialog.findViewById(R.id.btn_go_back);
+        addToCartDialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCartDialog.dismiss();
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                switch(category){
+                    case "additional":
+                        fragment = new MenuAddonsFragment();
+                        break;
+                    case "beverage":
+                        fragment = new MenuBeveragesFragment();
+                        break;
+                }
+
+                fm.replace(R.id.menu_container,fragment).commit();
+            }
+        });
+
         return view;
     }
 }

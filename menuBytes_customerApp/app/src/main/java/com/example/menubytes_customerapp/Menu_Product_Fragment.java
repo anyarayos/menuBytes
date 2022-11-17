@@ -1,5 +1,6 @@
 package com.example.menubytes_customerapp;
 
+import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -41,6 +42,8 @@ public class Menu_Product_Fragment extends Fragment {
     int PRODUCT_ID=-1;
     String category;
     String orderAddOnsName ="";
+
+    Dialog addToCartDialog;
 
     TextView soloStringPrice;
     TextView b1t1StringPrice;
@@ -177,6 +180,12 @@ public class Menu_Product_Fragment extends Fragment {
         soloStringPrice = view.findViewById(R.id.soloPrice);
         b1t1StringPrice = view.findViewById(R.id.b1t1Price);
 
+        addToCartDialog = new Dialog(getActivity());
+        addToCartDialog.setContentView(R.layout.added_to_cart_dialog);
+        addToCartDialog.getWindow().setBackgroundDrawable(getActivity().getDrawable(R.drawable.dialog_background));
+        addToCartDialog.setCancelable(false);
+        addToCartDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
 
 
         //quantity changing
@@ -280,19 +289,10 @@ public class Menu_Product_Fragment extends Fragment {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment fragment = null;
 
-                switch(category){
-                    case "shawarma":
-                        fragment = new MenuShawarmaFragment();
-                        break;
-                    case "bowl":
-                        fragment = new MenuBowlFragment();
-                }
+                addToCartDialog.show();
 
-                fm.replace(R.id.menu_container,fragment).commit();
-                Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Added to Cart!", Toast.LENGTH_SHORT).show();
                 String finalName = txtItemTitle.getText().toString();
                 String finalTotal = mealTotal.getText().toString();
                 String finalQty = qtyTxt.getText().toString();
@@ -338,6 +338,26 @@ public class Menu_Product_Fragment extends Fragment {
                 fm.replace(R.id.menu_container,fragment).commit();
             }
         });
+
+        Button addToCartDialogButton = addToCartDialog.findViewById(R.id.btn_go_back);
+        addToCartDialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCartDialog.dismiss();
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+
+                switch(category){
+                    case "shawarma":
+                        fragment = new MenuShawarmaFragment();
+                        break;
+                    case "bowl":
+                        fragment = new MenuBowlFragment();
+                }
+                fm.replace(R.id.menu_container,fragment).commit();
+            }
+        });
+
 
 
 

@@ -45,7 +45,10 @@ public class PendingOrderSumListAdapter extends ArrayAdapter<PendingOrderSumList
             txtPendOrderPrice_.setText(newPriceString);
         }else{
             if(getItem(position).getFlavors()!=null){
-                txtOrderAddOns.setText(getItem(position).getFlavors());
+                String FlavorAll = getItem(position).getFlavors();
+                FlavorAll = FlavorAll.substring(0,FlavorAll.length()-1);
+                FlavorAll = FlavorAll.replaceAll("_","\n");
+                txtOrderAddOns.setText(FlavorAll);
             }else{
                 txtOrderAddOns.setText(add_on);
             }
