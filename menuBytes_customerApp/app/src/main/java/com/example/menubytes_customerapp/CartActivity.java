@@ -38,7 +38,7 @@ public class CartActivity extends AppCompatActivity {
     private int ORDER_ID;
     private OrderListAdapter orderListAdapter;
     private LoadingDialog loadingDialog;;
-    Dialog editDialog;
+    Dialog editDialog, placeOrderDialog;
 
     int updateFlavorCount=0,updateFlavorLimit=1;
     Button updateAddQty, updateMinusQty, updateMeal, cancelChanges;
@@ -98,11 +98,24 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
+
+
         loadingDialog = new LoadingDialog(this);
         cartView = findViewById(R.id.orderListViewHistory);
         subTotal = findViewById(R.id.subTotal);
         btnPlaceOrder = findViewById(R.id.btnPlaceOrder);
         notifyOrders = findViewById(R.id.notifyOrders);
+
+        if (orders.size()==0) {
+            btnPlaceOrder.setEnabled(false);
+        } else {
+            btnPlaceOrder.setEnabled(true);
+        }
+        placeOrderDialog = new Dialog(this);
+        placeOrderDialog.setContentView(R.layout.placed_order_dialog);
+        placeOrderDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        placeOrderDialog.setCancelable(false);
+        placeOrderDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         if(!(Utils.getInstance().getOrders().isEmpty())){
             notifyOrders.setVisibility(View.GONE);
@@ -139,43 +152,65 @@ public class CartActivity extends AppCompatActivity {
                         Task placeOrderStatus = new Task(Task.INSERT_INTO_ORDER_STATUS);
 
                         placeOrderStatus.execute(String.valueOf(order_id),Utils.getInstance().getUser_id());
-                            for(int index = 0; index < orders.size(); index++){
-                                if(index == orders.size()-1){
-                                    Toast.makeText(CartActivity.this, "Your order is placed.", Toast.LENGTH_SHORT).show();
-                                    loadingDialog.dismissDialog();
-                                }
-                                Task placeOrderItems = new Task(Task.INSERT_INTO_ORDER_ITEMS);
-                                placeOrderItems.execute(String.valueOf(order_id),
-                                        String.valueOf(orders.get(index).getProductID()),
-                                        orders.get(index).getOrderQty(),
-                                        String.valueOf(orders.get(index).isOrderBundle()),
-                                        String.valueOf(orders.get(index).isHas_addons()),
-                                        orders.get(index).getFlavors());
-                            /*Check if order has Add-Ons
-                            * */
-                                if(orders.get(index).isHas_addons()){
-                                    Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
-                                    placeOrderAddons.execute(
-                                            String.valueOf(order_id),
-                                            "Shawarma All Meat",
-                                            orders.get(index).getOrderQty()
-                                            );
-                                }
-
+                        for(int index = 0; index < orders.size(); index++){
+                            if(index == orders.size()-1){
+                                Toast.makeText(CartActivity.this, "Your order is placed.", Toast.LENGTH_SHORT).show();
+                                loadingDialog.dismissDialog();
                             }
+                            Task placeOrderItems = new Task(Task.INSERT_INTO_ORDER_ITEMS);
+                            placeOrderItems.execute(String.valueOf(order_id),
+                                    String.valueOf(orders.get(index).getProductID()),
+                                    orders.get(index).getOrderQty(),
+                                    String.valueOf(orders.get(index).isOrderBundle()),
+                                    String.valueOf(orders.get(index).isHas_addons()),
+                                    orders.get(index).getFlavors());
+                            /*Check if order has Add-Ons
+                             * */
+                            if(orders.get(index).isHas_addons()){
+                                Task placeOrderAddons = new Task(Task.INSERT_ADDONS_INTO_ORDER_ITEMS);
+                                placeOrderAddons.execute(
+                                        String.valueOf(order_id),
+                                        "Shawarma All Meat",
+                                        orders.get(index).getOrderQty()
+                                );
+                            }
+
+                        }
                         Utils.getInstance().removeAll();
                         orders.clear();
+                        placeOrderDialog.show();
                         refreshActivity();
                         overridePendingTransition(0,0);
                     }
                 });
                 placeOrderTask.execute(subTotal.getText().toString(),Utils.getInstance().getUser_id());
-
             }
         });
 
         View layoutCartView = findViewById(R.id.CartElementLayout);
         View editOrderView = findViewById(R.id.EditOrderLayout);
+
+        Button goToPending = placeOrderDialog.findViewById(R.id.btn_go_to_pending);
+        Button goToMenu = placeOrderDialog.findViewById(R.id.btn_go_to_menu);
+        
+        goToPending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = null;
+                fragment = new Orders_Pending_Fragment();
+                layoutCartView.setVisibility(cartView.INVISIBLE);
+                getSupportFragmentManager().beginTransaction().replace(R.id.EditOrderLayout, fragment).commit();
+            }
+        });
+        goToMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),MenuActivity.class));
+            }
+        });
+
+
+
 
         //DIALOG NEEDED CODES
         editDialog = new Dialog(this);
@@ -566,6 +601,11 @@ public class CartActivity extends AppCompatActivity {
                     total_price += price;
                 }
                 subTotal.setText(String.valueOf(total_price)+"0");
+                if (orders.size()==0) {
+                    btnPlaceOrder.setEnabled(false);
+                } else {
+                    btnPlaceOrder.setEnabled(true);
+                }
                 return false;
             }
         });

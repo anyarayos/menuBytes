@@ -1,5 +1,6 @@
 package com.example.menubytes_customerapp;
 
+import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -45,6 +46,8 @@ public class Menu_WingsProd_Fragment extends Fragment {
     private Button btnAddToCart;
     private ConstraintLayout constraintLayout;
     private String category;
+
+    Dialog addToCartDialog;
 
     private double priceTotal=0,addonsTotal=0, tempIntQty=0,price=0;
 
@@ -167,6 +170,12 @@ public class Menu_WingsProd_Fragment extends Fragment {
         btnAddToCart = view.findViewById(R.id.btnUpdateOrder);
         FlavorPcs = view.findViewById(R.id.flavorPcs);
 
+
+        addToCartDialog = new Dialog(getActivity());
+        addToCartDialog.setContentView(R.layout.added_to_cart_dialog);
+        addToCartDialog.getWindow().setBackgroundDrawable(getActivity().getDrawable(R.drawable.dialog_background));
+        addToCartDialog.setCancelable(false);
+        addToCartDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
 
 
@@ -358,10 +367,6 @@ public class Menu_WingsProd_Fragment extends Fragment {
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment fragment = null;
-                fragment = new MenuWingsFragment();
-                fm.replace(R.id.menu_container,fragment).commit();
 
 
                 String finalName = txtItemTitle.getText().toString();
@@ -402,8 +407,8 @@ public class Menu_WingsProd_Fragment extends Fragment {
                         finalFlavors);
 
                 Utils.getInstance().addToOrders(order);
-
-                Toast.makeText(getActivity(), finalTest, Toast.LENGTH_SHORT).show();
+                addToCartDialog.show();
+                //Toast.makeText(getActivity(), finalTest, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -418,6 +423,17 @@ public class Menu_WingsProd_Fragment extends Fragment {
             }
         });
 
+        Button addToCartDialogButton = addToCartDialog.findViewById(R.id.btn_go_back);
+        addToCartDialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCartDialog.dismiss();
+                FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = null;
+                fragment = new MenuWingsFragment();
+                fm.replace(R.id.menu_container,fragment).commit();
+            }
+        });
 
         return view;
     }
