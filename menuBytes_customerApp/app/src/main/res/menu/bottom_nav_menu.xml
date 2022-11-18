@@ -21,7 +21,7 @@
         android:title="Payment"/>
 
     <item
-        android:id="@+id/Settings"
-        android:icon="@drawable/settingslogo"
-        android:title="Settings"/>
+        android:id="@+id/Account"
+        android:icon="@drawable/accountlogo"
+        android:title="Account" />
 </menu>

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,10 +16,9 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.mysql.jdbc.Util;
 
 public class SettingsActivity extends AppCompatActivity {
-    Dialog loginDialog;
+    Dialog loginDialog, logoutDialog;
     BottomNavigationView bottomNavigationView;
     private TextView userName;
 
@@ -35,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
             userName.setText(Utils.getInstance().getTable_name());
         }
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.Settings);
+        bottomNavigationView.setSelectedItemId(R.id.Account);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -56,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.Settings:
+                    case R.id.Account:
                         return true;
                 }
                 return false;
@@ -77,10 +75,15 @@ public class SettingsActivity extends AppCompatActivity {
         loginDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
         loginDialog.setCancelable(false);
         loginDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        logoutDialog = new Dialog(this);
+        logoutDialog.setContentView(R.layout.log_out_dialog);
+        logoutDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        logoutDialog.setCancelable(false);
+        logoutDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
 
-        Button OutLoginBtn = findViewById(R.id.outLoginBtn);
-        OutLoginBtn.setOnClickListener(new View.OnClickListener() {
+        Button ChangeLoginBtn = findViewById(R.id.changeAccountBtn);
+        ChangeLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loginDialog.show();
@@ -126,11 +129,35 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-        Button ClearBtn = findViewById(R.id.clearBtn);
-        ClearBtn.setOnClickListener(new View.OnClickListener() {
+        Button logoutBtn = findViewById(R.id.logoutBtn);
+        TextView dialogUserName = logoutDialog.findViewById(R.id.logOutName);
+        Button logoutProceed = logoutDialog.findViewById(R.id.logoutButton);
+        Button logoutCancel = logoutDialog.findViewById(R.id.cancelButton);
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderListContainer OC = new OrderListContainer(true);
+                dialogUserName.setText(userName.getText().toString());
+                logoutDialog.show();
+            }
+        });
+        logoutProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                if () {
+                    startActivity(new Intent(getApplicationContext(),IntroActivity.class));
+                }
+                else{
+                    Toast.makeText(SettingsActivity.this, "Incorrect Password!" + Utils.getInstance().getUser_id(), Toast.LENGTH_SHORT).show();
+                }
+                */
+            }
+        });
+
+        logoutCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog.dismiss();
             }
         });
     }

@@ -157,11 +157,16 @@ public class Orders_Pending_Fragment extends Fragment {
                 Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
                     @Override
                     public void onFinish(Object output) {
+                        pendingOrderSumArrayList.clear();
+                        pendingOrderSumListAdapter = new PendingOrderSumListAdapter(getActivity(),R.layout.list_pending_order_sum,
+                                pendingOrderSumArrayList);
                         if(output==null){
                             notifyIfEmpty.setVisibility(View.VISIBLE);
                             pendingArrayList.clear();
                             pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
                             pendingListView.setAdapter(pendingListAdapter);
+                            pendingOrderSumLV.setAdapter(pendingOrderSumListAdapter);
+
                         }
                         if(output!=null){
                             notifyIfEmpty.setVisibility(View.GONE);

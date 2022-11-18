@@ -42,7 +42,7 @@ public class Payment_Validate_Gcash_Activity extends AppCompatActivity {
                             /*Show E-Receipt*/
                             Toast.makeText(Payment_Validate_Gcash_Activity.this, "Your payment was successful.", Toast.LENGTH_SHORT).show();
                             finish();
-                            Intent intent = new Intent(Payment_Validate_Gcash_Activity.this, MainActivity.class);
+                            Intent intent = new Intent(Payment_Validate_Gcash_Activity.this, ElectronicReceiptActivity.class);
                             startActivity(intent);
                         }else{
 
