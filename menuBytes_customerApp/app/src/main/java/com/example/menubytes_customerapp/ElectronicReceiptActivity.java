@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
     private int count = 0;
 
     private TextView notifyItemsPayment;
+    Button btn_go_back2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,15 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_electronic_receipt);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getSupportActionBar().hide();
+
+        btn_go_back2 = findViewById(R.id.btn_go_back2);
+        btn_go_back2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ElectronicReceiptActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         notifyItemsPayment = findViewById(R.id.notifyItemsPayment);
 
@@ -45,16 +56,18 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         taxVatTV = findViewById(R.id.taxVat);
         completedOrdersListView = findViewById(R.id.orderListViewHistory);
 
+        update();
+
     }
 
     private void update() {
-        Toast.makeText(this, "refreshed", Toast.LENGTH_SHORT).show();
 
         //Populate the arraylist
         Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
                 if (output == null) {
+                    Toast.makeText(ElectronicReceiptActivity.this, "NULL", Toast.LENGTH_SHORT).show();
                     notifyItemsPayment.setVisibility(View.VISIBLE);
                     completedOrdersArrayList.clear();
                     orderListAdapter = new OrderListAdapter(ElectronicReceiptActivity.this, R.layout.list_cart, completedOrdersArrayList);
@@ -62,6 +75,7 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
 
                 }
                 if (output != null) {
+                    Toast.makeText(ElectronicReceiptActivity.this, "NOT NULL", Toast.LENGTH_SHORT).show();
                     notifyItemsPayment.setVisibility(View.GONE);
                     completedOrdersArrayList = (ArrayList<OrderListClass>) output;
                     orderListAdapter = new OrderListAdapter(ElectronicReceiptActivity.this, R.layout.list_cart, completedOrdersArrayList);
@@ -93,6 +107,10 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         });
         paymentTask.execute();
 
+        Task updatePaymentTableName = new Task(Task.UPDATE_PAYMENT_TABLE_NAME);
+        updatePaymentTableName.execute(Utils.getInstance().getPayment_id());
 
+        Task updateOrdersTableName = new Task(Task.UPDATE_ORDERS_TABLE_NAME);
+        updateOrdersTableName.execute(Utils.getInstance().getUser_id());
     }
 }

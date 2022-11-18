@@ -53,7 +53,10 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String CHECK_USER_NAME_PASSWORD = "checkUsernamePassword";
     public static final String SET_TABLE_NAME = "setTableName" ;
     public static final String UPDATE_LOGIN_TIME = " updateLogInTime" ;
-    private static final String UPDATE_LOGOUT_TIME = "updateLogOutTime";
+    public static final String UPDATE_LOGOUT_TIME = "updateLogOutTime";
+    public static final String CHECK_PASSWORD = "checkPassword";
+    public static final String UPDATE_PAYMENT_TABLE_NAME = "updatePaymentTableName";
+    public static final String UPDATE_ORDERS_TABLE_NAME = "updateOrdersTableName";
 
     public Task(String method) {
         this.method = method;
@@ -75,7 +78,7 @@ public class Task extends AsyncTask<String, String, Object> {
             Class.forName("com.mysql.jdbc.Driver");
                 //connection = DriverManager.getConnection("jdbc:mysql://aws-simplified.ccnp1cnd7apy.ap-northeast-1.rds.amazonaws.com:3306/menubytes", "admin", "P0Y9aixM7jUZr6Cg");
                 //connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
-                connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
+                connection = DriverManager.getConnection("jdbc:mysql://192.168.1.6:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -403,9 +406,9 @@ public class Task extends AsyncTask<String, String, Object> {
                     resultSet = statement.executeQuery();
 
                     if (!resultSet.isBeforeFirst()) {
-                        Log.d(TAG, "NO DATA FOUND");
+                        Log.d(TAG, "DISPLAY_COMPLETED_ORDERS: NO DATA FOUND");
                     } else {
-                        Log.d(TAG, "DATA FOUND");
+                        Log.d(TAG, "DISPLAY_COMPLETED_ORDERS: DATA FOUND");
                         while (resultSet.next()) {
                             completedOrdersArrayList.add(new OrderListClass(
                                     resultSet.getString(1),
@@ -549,6 +552,41 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement = connection.prepareStatement(sqlStatements.getUpdateLogOutTime());
                     String user_id = params[0];
                     statement.setString(1,user_id);
+                    statement.executeUpdate();
+                }
+
+                if(method.equals(CHECK_PASSWORD)){
+                    statement = connection.prepareStatement(sqlStatements.getCheckPassword());
+                    String user_id = null;
+                    String user_id_input = params[0];
+                    String password = params[1];
+                    statement.setString(1, user_id_input);
+                    statement.setString(2, password);
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "CHECK_PASSWORD) : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "CHECK_PASSWORD): DATA FOUND");
+                        while (resultSet.next()) {
+                            user_id = resultSet.getString(1);
+                        }
+                        return user_id;
+                    }
+                }
+
+                if(method.equals(UPDATE_PAYMENT_TABLE_NAME)){
+                    statement = connection.prepareStatement(sqlStatements.getUpdatePaymentTableName());
+                    String payment_id = params[0];
+                    statement.setString(1,payment_id);
+                    Log.d(TAG, "doInBackground: UPDATE_PAYMENT_TABLE_NAME");
+                    statement.executeUpdate();
+                }
+
+                if(method.equals(UPDATE_ORDERS_TABLE_NAME)){
+                    statement = connection.prepareStatement(sqlStatements.getUpdateOrdersTableName());
+                    String user_id = params[0];
+                    statement.setString(1,user_id);
+                    Log.d(TAG, "doInBackground: UPDATE_ORDERS_TABLE_NAME");
                     statement.executeUpdate();
                 }
 

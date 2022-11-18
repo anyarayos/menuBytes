@@ -157,8 +157,10 @@ public class SqlStatements {
         "            INNER JOIN\n" +
         "            order_status ON order_items.order_id = order_status.order_id\n" +
         "            WHERE\n" +
-        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_items.product_id != ((SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\")) AND order_status = \"COMPLETED\";";
-//    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity, \n" +
+        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_items.product_id != ((SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\")) " +
+            "AND order_status = \"COMPLETED\";";
+
+    //    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity, \n" +
 //        "IF(order_items.product_bundle,(CONCAT(\"B1G1\",product.product_name)),product.product_name) AS NAME,\n" +
 //        "IF(order_items.product_bundle,\n" +
 //        "\tIF(order_items.has_addons,(product.product_bundle+20),(product.product_bundle)),\n" +
@@ -216,6 +218,35 @@ public class SqlStatements {
             "SET log_out = current_timestamp()\n" +
             "WHERE user_id = (?)\n" +
             ";";
+
+    private String checkPassword = "SELECT user_id\n" +
+            "FROM user \n" +
+            "WHERE user_id = (?) AND password = (?) AND user_type = \"customer\";";
+
+    private String updatePaymentTableName ="UPDATE payment\n" +
+            "SET \n" +
+            "created_by = concat(created_by, \"_\") \n" +
+            "WHERE \n" +
+            "payment_id = (?) and payment_status = \"COMPLETE\";";
+
+    private String updateOrdersTableName = "UPDATE orders\n" +
+            "SET \n" +
+            "created_by = concat(created_by, \"_\") ,\n" +
+            "modified_at = current_timestamp()\n" +
+            "WHERE\n" +
+            "created_by = (SELECT user_name FROM user WHERE user_id = (?));";
+
+    public String getUpdatePaymentTableName() {
+        return updatePaymentTableName;
+    }
+
+    public String getUpdateOrdersTableName() {
+        return updateOrdersTableName;
+    }
+
+    public String getCheckPassword() {
+        return checkPassword;
+    }
 
     public String getUpdateLogInTime() {
         return updateLogInTime;

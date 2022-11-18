@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     private TextView userName;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         EditText textfieldUser = loginDialog.findViewById(R.id.textfieldUser);
+        EditText textFieldPass = loginDialog.findViewById(R.id.textFieldPass);
         Button inDialogLogin = loginDialog.findViewById(R.id.loginBtn);
         Button inDialogCancel = loginDialog.findViewById(R.id.cancelBtn);
 
@@ -98,26 +100,45 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String user_field = textfieldUser.getText().toString();
-                user_field.replaceAll("\\s","");
-                if(user_field.equals("table_1")){
-                    Utils.getInstance().setUser_id("3");
-                    Utils.getInstance().setTable_name("Table 1");
-                    userName.setText(Utils.getInstance().getTable_name());
-                }
-                if(user_field.equals("table_2")){
-                    Utils.getInstance().setUser_id("4");
-                    Utils.getInstance().setTable_name("Table 2");
-                    userName.setText(Utils.getInstance().getTable_name());
-                }
-                if(user_field.equals("table_3")){
-                    Utils.getInstance().setUser_id("5");
-                    Utils.getInstance().setTable_name("Table 3");
-                    userName.setText(Utils.getInstance().getTable_name());
+                String user_name = textfieldUser.getText().toString();
+                String password = textFieldPass.getText().toString();
+
+                if(user_name.equals("")||password.equals("")){
+                    Toast.makeText(SettingsActivity.this, "Do not leave any fields blank.", Toast.LENGTH_SHORT).show();
+                }else{
+                    Task checkUserNameExistence = new Task(Task.CHECK_USER_NAME_EXISTENCE, new AsyncResponse() {
+                        @Override
+                        public void onFinish(Object output) {
+                            if(output!=null){
+                                Task checkUserNamePassword = new Task(Task.CHECK_USER_NAME_PASSWORD, new AsyncResponse() {
+                                    @Override
+                                    public void onFinish(Object output) {
+                                        if(output!=null){
+                                            Utils.getInstance().setUser_id((String)output);
+                                            Task setTableName = new Task(Task.SET_TABLE_NAME, new AsyncResponse() {
+                                                @Override
+                                                public void onFinish(Object output) {
+                                                    if(output!=null){
+                                                        Utils.getInstance().setTable_name((String)output);
+                                                        loginDialog.dismiss();
+                                                        finish();
+                                                        startActivity(getIntent());
+                                                    }
+                                                }
+                                            });setTableName.execute((String)output);
+//
+                                        } else{
+                                            Toast.makeText(SettingsActivity.this, "Incorrect password!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });checkUserNamePassword.execute(user_name,password);
+                            }else{
+                                Toast.makeText(SettingsActivity.this, "Username does not exist!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });checkUserNameExistence.execute(user_name);
                 }
 
-                Toast.makeText(SettingsActivity.this, "Successfully Login!"+ Utils.getInstance().getUser_id(), Toast.LENGTH_SHORT).show();
-                loginDialog.dismiss();
             }
         });
 
@@ -131,6 +152,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         Button logoutBtn = findViewById(R.id.logoutBtn);
         TextView dialogUserName = logoutDialog.findViewById(R.id.logOutName);
+        EditText textFieldPassLogout = logoutDialog.findViewById(R.id.textFieldPass);
+
         Button logoutProceed = logoutDialog.findViewById(R.id.logoutButton);
         Button logoutCancel = logoutDialog.findViewById(R.id.cancelButton);
         logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -138,19 +161,25 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialogUserName.setText(userName.getText().toString());
                 logoutDialog.show();
+
             }
         });
+
         logoutProceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                if () {
-                    startActivity(new Intent(getApplicationContext(),IntroActivity.class));
-                }
-                else{
-                    Toast.makeText(SettingsActivity.this, "Incorrect Password!" + Utils.getInstance().getUser_id(), Toast.LENGTH_SHORT).show();
-                }
-                */
+                String password = textFieldPassLogout.getText().toString();
+                Task checkPassword = new Task(Task.CHECK_PASSWORD, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        if(output!=null){
+                            startActivity(new Intent(getApplicationContext(),IntroActivity.class));
+                        }else{
+                            Toast.makeText(SettingsActivity.this, "Incorrect Password!" + Utils.getInstance().getUser_id(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });checkPassword.execute(Utils.getInstance().getUser_id(),password);
+
             }
         });
 
