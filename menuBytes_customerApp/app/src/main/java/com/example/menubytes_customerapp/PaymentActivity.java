@@ -312,7 +312,7 @@ public class PaymentActivity extends AppCompatActivity {
                         return true;
                     case R.id.Payment:
                         return true;
-                    case R.id.Settings:
+                    case R.id.Account:
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
                         overridePendingTransition(0,0);
                         return true;

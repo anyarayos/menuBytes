@@ -3,7 +3,6 @@ package com.example.menubytes_customerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Dialog;
@@ -12,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +24,6 @@ import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView notifyOrders3;
     private Timer autoUpdate;
     private TextView txtGreeting;
+    Dialog notifyDialog;
+    Button assitanceBtn;
     @Override
     public void onResume() {
         super.onResume();
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                             overridePendingTransition(0,0);
 
                         return true;
-                    case R.id.Settings:
+                    case R.id.Account:
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
                         overridePendingTransition(0,0);
                         return true;
@@ -225,5 +226,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        notifyDialog = new Dialog(this);
+        notifyDialog.setContentView(R.layout.need_assistance_dialog);
+        notifyDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        notifyDialog.setCancelable(false);
+        notifyDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        assitanceBtn = findViewById(R.id.assitanceButton);
+        assitanceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyDialog.show();
+            }
+        });
+        Button backToHome = notifyDialog.findViewById(R.id.btn_go_back1);
+        backToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifyDialog.dismiss();
+            }
+        });
     }
 }

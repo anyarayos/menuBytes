@@ -144,42 +144,42 @@ public class SqlStatements {
 //            "WHERE\n" +
 //            "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_status = \"COMPLETED\";";
 
-//    private String retrieveAllCompletedOrdersByTable = "\n" +
-//        "SELECT order_items.quantity, \n" +
-//        "            IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
-//        "            ,IF(order_items.product_bundle,product.product_bundle,product.product_price),\n" +
-//        "            (cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,product.product_bundle,product.product_price)))\n" +
-//        "            ,order_items.has_addons, order_items.flavors FROM order_items\n" +
-//        "            INNER JOIN\n" +
-//        "            product ON order_items.product_id = product.product_id\n" +
-//        "            INNER JOIN\n" +
-//        "            orders ON order_items.order_id = orders.order_id\n" +
-//        "            INNER JOIN\n" +
-//        "            order_status ON order_items.order_id = order_status.order_id\n" +
-//        "            WHERE\n" +
-//        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_items.product_id != ((SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\")) AND order_status = \"COMPLETED\";";
-    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity, \n" +
-        "IF(order_items.product_bundle,(CONCAT(\"B1G1\",product.product_name)),product.product_name) AS NAME,\n" +
-        "IF(order_items.product_bundle,\n" +
-        "\tIF(order_items.has_addons,(product.product_bundle+20),(product.product_bundle)),\n" +
-        "\tIF(order_items.has_addons,(product.product_price+10),(product.product_price))) AS PRICE,\n" +
-        "(cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,\n" +
-        "\tIF(order_items.has_addons,(product.product_bundle+20),(product.product_bundle)),\n" +
-        "\tIF(order_items.has_addons,(product.product_price+10),(product.product_price))))) AS TOTAL_PRICE\n" +
-        ",order_items.has_addons \n" +
-        "FROM order_items\n" +
-        "INNER JOIN\n" +
-        "product ON order_items.product_id = product.product_id\n" +
-        "INNER JOIN\n" +
-        "orders ON order_items.order_id = orders.order_id\n" +
-        "INNER JOIN\n" +
-        "order_status ON order_items.order_id = order_status.order_id\n" +
-        "WHERE\n" +
-        "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) \n" +
-        "AND \n" +
-        "order_status = \"COMPLETED\"\n" +
-        "AND \n" +
-        "order_items.product_id != (SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\");";
+    private String retrieveAllCompletedOrdersByTable = "\n" +
+        "SELECT order_items.quantity, \n" +
+        "            IF(order_items.product_bundle,(CONCAT(\"B1G1 \",product.product_name)),product.product_name)\n" +
+        "            ,IF(order_items.product_bundle,product.product_bundle,product.product_price),\n" +
+        "            (cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,product.product_bundle,product.product_price)))\n" +
+        "            ,order_items.has_addons, order_items.flavors FROM order_items\n" +
+        "            INNER JOIN\n" +
+        "            product ON order_items.product_id = product.product_id\n" +
+        "            INNER JOIN\n" +
+        "            orders ON order_items.order_id = orders.order_id\n" +
+        "            INNER JOIN\n" +
+        "            order_status ON order_items.order_id = order_status.order_id\n" +
+        "            WHERE\n" +
+        "            orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) AND order_items.product_id != ((SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\")) AND order_status = \"COMPLETED\";";
+//    private String retrieveAllCompletedOrdersByTable = "SELECT order_items.quantity, \n" +
+//        "IF(order_items.product_bundle,(CONCAT(\"B1G1\",product.product_name)),product.product_name) AS NAME,\n" +
+//        "IF(order_items.product_bundle,\n" +
+//        "\tIF(order_items.has_addons,(product.product_bundle+20),(product.product_bundle)),\n" +
+//        "\tIF(order_items.has_addons,(product.product_price+10),(product.product_price))) AS PRICE,\n" +
+//        "(cast((order_items.quantity) AS DECIMAL)*(IF(order_items.product_bundle,\n" +
+//        "\tIF(order_items.has_addons,(product.product_bundle+20),(product.product_bundle)),\n" +
+//        "\tIF(order_items.has_addons,(product.product_price+10),(product.product_price))))) AS TOTAL_PRICE\n" +
+//        ",order_items.has_addons \n" +
+//        "FROM order_items\n" +
+//        "INNER JOIN\n" +
+//        "product ON order_items.product_id = product.product_id\n" +
+//        "INNER JOIN\n" +
+//        "orders ON order_items.order_id = orders.order_id\n" +
+//        "INNER JOIN\n" +
+//        "order_status ON order_items.order_id = order_status.order_id\n" +
+//        "WHERE\n" +
+//        "orders.created_by = ((SELECT user_name FROM user WHERE user_id = (?))) \n" +
+//        "AND \n" +
+//        "order_status = \"COMPLETED\"\n" +
+//        "AND \n" +
+//        "order_items.product_id != (SELECT product_id FROM product WHERE product_name = \"Shawarma All Meat\");";
 
     private String retrieveOrderBreakdownUsingOrderID = "SELECT IF((order_items.product_bundle),CONCAT(\"B1G1 \",product.product_name),product.product_name) AS name,\n" +
             "IF((order_items.product_bundle),product.product_bundle,product.product_price)\n" +

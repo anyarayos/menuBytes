@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:text="Settings"
+            android:text="Account"
             android:textColor="#FFC61D25"
             android:textSize="35sp"
             app:fontFamily="@font/bungee"
@@ -44,70 +44,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/poweredbylogo" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="About Us"
-            app:layout_constraintBottom_toTopOf="@+id/textView9"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="38dp"
-            android:text="Feedback and Suppport"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <Button
-            android:id="@+id/clearBtn"
-            android:layout_width="93dp"
-            android:layout_height="41dp"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/purple_500"
-            android:text="clear"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.406"
-            app:layout_constraintStart_toEndOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/outLoginBtn" />
-
-        <Button
-            android:id="@+id/outLoginBtn"
+            android:id="@+id/logoutBtn"
             android:layout_width="308dp"
             android:layout_height="42dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/purple_500"
-            android:text="log in account"
+            android:text="Log Out Account"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/changeAccountBtn" />
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="161dp"
-            android:layout_height="49dp"
+        <Button
+            android:id="@+id/changeAccountBtn"
+            android:layout_width="308dp"
+            android:layout_height="42dp"
             android:layout_marginTop="30dp"
-            android:text="Clear ALL unwanted/idle orders"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toStartOf="@+id/clearBtn"
+            android:backgroundTint="@color/purple_500"
+            android:text="Change Account"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/outLoginBtn" />
+            app:layout_constraintTop_toBottomOf="@+id/userName" />
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
             android:layout_marginTop="25dp"
-            android:text="Account Login:"
+            android:text="Account Currently Login:"
             android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtGreeting" />
 
@@ -115,12 +85,12 @@
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="30dp"
             android:text="NULL"
             android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/txtGreeting" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

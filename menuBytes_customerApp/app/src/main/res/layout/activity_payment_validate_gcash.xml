@@ -10,17 +10,42 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="CASHIER IS VALIDATING YOUR REFERENCE NO. PLEASE WAIT A A WHILE."
-            android:textSize="30dp"
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/poweredbylogo" />
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/gifimage"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            android:layout_marginTop="125dp"
+            android:src="@drawable/validatingimage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="CASHIER IS VALIDATING YOUR REFERENCE NO. PLEASE WAIT A A WHILE."
+            android:textColor="#000000"
+            android:textSize="35dp"
+            app:fontFamily="@font/bungee"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gifimage" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

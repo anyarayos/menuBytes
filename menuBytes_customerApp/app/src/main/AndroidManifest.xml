@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MenuBytes_customerApp">
-        <activity android:name=".Payment_Validate_Cash_Activity"></activity>
+        <activity android:name=".ElectronicReceiptActivity"></activity>
+        <activity android:name=".Payment_Validate_Cash_Activity" />
         <activity android:name=".Payment_Validate_Gcash_Activity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".PaymentActivity" />
