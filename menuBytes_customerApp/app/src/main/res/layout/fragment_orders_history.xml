@@ -33,7 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/orderListViewHistory" />
+            app:layout_constraintTop_toBottomOf="@+id/orderListViewReceipt" />
 
         <TextView
             android:id="@+id/notifyOrders3"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
         <com.baoyz.swipemenulistview.SwipeMenuListView
-            android:id="@+id/orderListViewHistory"
+            android:id="@+id/orderListViewReceipt"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginTop="7dp"

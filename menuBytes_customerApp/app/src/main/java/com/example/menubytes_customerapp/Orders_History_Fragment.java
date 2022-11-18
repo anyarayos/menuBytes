@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +82,7 @@ public class Orders_History_Fragment extends Fragment {
         notifyOrderExistence = view.findViewById(R.id.notifyOrders3);
 
                 //Initialize the listview
-        completedOrdersListView = view.findViewById(R.id.orderListViewHistory);
+        completedOrdersListView = view.findViewById(R.id.orderListViewReceipt);
 
 
 

@@ -236,6 +236,17 @@ public class SqlStatements {
             "WHERE\n" +
             "created_by = (SELECT user_name FROM user WHERE user_id = (?));";
 
+    private String getAmountAndChange = "SELECT\n" +
+            "payment_amount,\n" +
+            "payment_change\n" +
+            "FROM payment\n" +
+            "WHERE\n" +
+            "payment_id = (?);";
+
+    public String getGetAmountAndChange() {
+        return getAmountAndChange;
+    }
+
     public String getUpdatePaymentTableName() {
         return updatePaymentTableName;
     }

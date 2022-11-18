@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Task extends AsyncTask<String, String, Object> {
-
     private AsyncResponse asyncResponse;
     private String method;
     private Connection connection;
@@ -46,9 +45,9 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String CHECK_PAYMENT_COUNT = "checkPaymentCount";
     public static final String CHECK_PENDING_COUNT = "checkPendingCount" ;
     public static final String CHECK_COMPLETED_COUNT = "checkCompletedCount" ;
-   public static final String RETRIEVE_ORDER_BREAKDOWN = "retrieveOrderBreakdownUsingOrderID";
-   public static final String VALIDATE_PAYMENT_COMPLETE = "validateGcashComplete";
-   public static final String VALIDATE_PAYMENT_REJECTED = "validatePaymentRejected";
+    public static final String RETRIEVE_ORDER_BREAKDOWN = "retrieveOrderBreakdownUsingOrderID";
+    public static final String VALIDATE_PAYMENT_COMPLETE = "validateGcashComplete";
+    public static final String VALIDATE_PAYMENT_REJECTED = "validatePaymentRejected";
     public static final String CHECK_USER_NAME_EXISTENCE = "checkUsernameExistence";
     public static final String CHECK_USER_NAME_PASSWORD = "checkUsernamePassword";
     public static final String SET_TABLE_NAME = "setTableName" ;
@@ -57,6 +56,7 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String CHECK_PASSWORD = "checkPassword";
     public static final String UPDATE_PAYMENT_TABLE_NAME = "updatePaymentTableName";
     public static final String UPDATE_ORDERS_TABLE_NAME = "updateOrdersTableName";
+    public static final String GET_AMOUNT_CHANGE = "getAmountChange";
 
     public Task(String method) {
         this.method = method;
@@ -588,6 +588,25 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement.setString(1,user_id);
                     Log.d(TAG, "doInBackground: UPDATE_ORDERS_TABLE_NAME");
                     statement.executeUpdate();
+                }
+
+                if(method.equals(GET_AMOUNT_CHANGE)){
+                    statement = connection.prepareStatement(sqlStatements.getGetAmountAndChange());
+                    ArrayList<Payment> payments = new ArrayList<>();
+                    String payment_id = params[0];
+                    statement.setString(1, payment_id);
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "GET_AMOUNT_CHANGE : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "GET_AMOUNT_CHANGE: DATA FOUND");
+                        while (resultSet.next()) {
+                            payments.add(new Payment(resultSet.getString(1),
+                                    resultSet.getString(2))
+                            );
+                        }
+                        return payments;
+                    }
                 }
 
                 disconnect(resultSet,statement,connection);

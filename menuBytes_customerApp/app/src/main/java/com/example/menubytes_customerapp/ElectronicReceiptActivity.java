@@ -3,8 +3,6 @@ package com.example.menubytes_customerapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +14,13 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Timer;
 
 public class ElectronicReceiptActivity extends AppCompatActivity {
 
     private TextView subTotalTV, totalSumTV, beforeTaxTV, taxVatTV;
     private double beforeTax, tax;
+    private TextView AmountText, changeText;
+
 
     private ListView completedOrdersListView;
     private ArrayList<OrderListClass> completedOrdersArrayList = new ArrayList<>();
@@ -29,7 +28,6 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
 
     private int count = 0;
 
-    private TextView notifyItemsPayment;
     Button btn_go_back2;
 
     @Override
@@ -38,6 +36,12 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_electronic_receipt);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getSupportActionBar().hide();
+
+        AmountText = findViewById(R.id.AmountText);
+        changeText = findViewById(R.id.changeText);
+
+        //Initialize the listview
+        completedOrdersListView = findViewById(R.id.orderListViewReceipt);
 
         btn_go_back2 = findViewById(R.id.btn_go_back2);
         btn_go_back2.setOnClickListener(new View.OnClickListener() {
@@ -48,13 +52,12 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
             }
         });
 
-        notifyItemsPayment = findViewById(R.id.notifyItemsPayment);
+
 
         subTotalTV = findViewById(R.id.subTotal);
         totalSumTV = findViewById(R.id.totalSum);
         beforeTaxTV = findViewById(R.id.beforeTax);
         taxVatTV = findViewById(R.id.taxVat);
-        completedOrdersListView = findViewById(R.id.orderListViewHistory);
 
         update();
 
@@ -67,16 +70,14 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
             @Override
             public void onFinish(Object output) {
                 if (output == null) {
-                    Toast.makeText(ElectronicReceiptActivity.this, "NULL", Toast.LENGTH_SHORT).show();
-                    notifyItemsPayment.setVisibility(View.VISIBLE);
+                    Toast.makeText(ElectronicReceiptActivity.this, "NO QUERIED DATA", Toast.LENGTH_SHORT).show();
                     completedOrdersArrayList.clear();
                     orderListAdapter = new OrderListAdapter(ElectronicReceiptActivity.this, R.layout.list_cart, completedOrdersArrayList);
                     completedOrdersListView.setAdapter(orderListAdapter);
 
                 }
                 if (output != null) {
-                    Toast.makeText(ElectronicReceiptActivity.this, "NOT NULL", Toast.LENGTH_SHORT).show();
-                    notifyItemsPayment.setVisibility(View.GONE);
+                    Toast.makeText(ElectronicReceiptActivity.this, "QUERY SUCCESS", Toast.LENGTH_SHORT).show();
                     completedOrdersArrayList = (ArrayList<OrderListClass>) output;
                     orderListAdapter = new OrderListAdapter(ElectronicReceiptActivity.this, R.layout.list_cart, completedOrdersArrayList);
                     completedOrdersListView.setAdapter(orderListAdapter);
@@ -84,7 +85,6 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
             }
         });
         task.execute();
-
         //Update Total Amount
         Task paymentTask = new Task(Task.RETRIEVE_TOTAL_AMOUNT, new AsyncResponse() {
             @Override
@@ -106,6 +106,18 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
             }
         });
         paymentTask.execute();
+
+        Task getAmountChange = new Task(Task.GET_AMOUNT_CHANGE, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                ArrayList<Payment> payments = new ArrayList<>();
+                if(output!=null){
+                    payments = (ArrayList<Payment>) output;
+                    AmountText.setText(payments.get(0).getPayment_amount());
+                    changeText.setText(payments.get(0).getPayment_change());
+                }
+            }
+        });getAmountChange.execute(Utils.getInstance().getPayment_id());
 
         Task updatePaymentTableName = new Task(Task.UPDATE_PAYMENT_TABLE_NAME);
         updatePaymentTableName.execute(Utils.getInstance().getPayment_id());

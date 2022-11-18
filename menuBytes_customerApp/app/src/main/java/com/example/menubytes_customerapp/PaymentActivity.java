@@ -61,7 +61,7 @@ public class PaymentActivity extends AppCompatActivity {
         taxVatTV = findViewById(R.id.taxVat);
 
         //Initialize the listview
-        completedOrdersListView = findViewById(R.id.orderListViewHistory);
+        completedOrdersListView = findViewById(R.id.orderListViewReceipt);
 
         builder = new AlertDialog.Builder(this);
 

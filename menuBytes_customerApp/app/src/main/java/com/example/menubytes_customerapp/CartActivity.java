@@ -102,7 +102,7 @@ public class CartActivity extends AppCompatActivity {
 
 
         loadingDialog = new LoadingDialog(this);
-        cartView = findViewById(R.id.orderListViewHistory);
+        cartView = findViewById(R.id.orderListViewReceipt);
         subTotal = findViewById(R.id.subTotal);
         btnPlaceOrder = findViewById(R.id.btnPlaceOrder);
         notifyOrders = findViewById(R.id.notifyOrders);
@@ -122,7 +122,7 @@ public class CartActivity extends AppCompatActivity {
 //            Toast.makeText(this, "orders.isEmpty()", Toast.LENGTH_SHORT).show();
             }else{
 //            Toast.makeText(this, "orders has values.", Toast.LENGTH_SHORT).show();
-                cartView = findViewById(R.id.orderListViewHistory);
+                cartView = findViewById(R.id.orderListViewReceipt);
                 orderListAdapter = new OrderListAdapter(this,R.layout.list_cart, orders);
                 cartView.setAdapter(orderListAdapter);
 
