@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Task extends AsyncTask<String, String, Object> {
+
     private AsyncResponse asyncResponse;
     private String method;
     private Connection connection;
@@ -57,6 +58,7 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String UPDATE_PAYMENT_TABLE_NAME = "updatePaymentTableName";
     public static final String UPDATE_ORDERS_TABLE_NAME = "updateOrdersTableName";
     public static final String GET_AMOUNT_CHANGE = "getAmountChange";
+    public static final String ASK_ASSISTANCE = "askAssistance" ;
 
     public Task(String method) {
         this.method = method;
@@ -79,6 +81,7 @@ public class Task extends AsyncTask<String, String, Object> {
                 //connection = DriverManager.getConnection("jdbc:mysql://aws-simplified.ccnp1cnd7apy.ap-northeast-1.rds.amazonaws.com:3306/menubytes", "admin", "P0Y9aixM7jUZr6Cg");
                 //connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
                 connection = DriverManager.getConnection("jdbc:mysql://192.168.1.6:3306/menubytes", "admin", "admin");
+//            connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -607,6 +610,14 @@ public class Task extends AsyncTask<String, String, Object> {
                         }
                         return payments;
                     }
+                }
+
+                if(method.equals(ASK_ASSISTANCE)){
+                    statement = connection.prepareStatement(sqlStatements.getAskAssistance());
+                    String user_id = Utils.getInstance().getUser_id();
+                    statement.setString(1,user_id);
+                    Log.d(TAG, "ASK_ASSISTANCE");
+                    statement.executeUpdate();
                 }
 
                 disconnect(resultSet,statement,connection);

@@ -198,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
         task.execute();
 
 
-
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.mainActivityRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -236,6 +235,8 @@ public class MainActivity extends AppCompatActivity {
         assitanceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Task askAssistance = new Task(Task.ASK_ASSISTANCE);
+                askAssistance.execute();
                 notifyDialog.show();
             }
         });

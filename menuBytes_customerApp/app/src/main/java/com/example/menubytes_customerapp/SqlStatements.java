@@ -242,6 +242,16 @@ public class SqlStatements {
             "FROM payment\n" +
             "WHERE\n" +
             "payment_id = (?);";
+    private String askAssistance = "INSERT INTO assistance (user_id, assistance_status, created_at)\n" +
+            "VALUES(\n" +
+            "(?),\n" +
+            "true,\n" +
+            "current_timestamp()\n" +
+            ");";
+
+    public String getAskAssistance() {
+        return askAssistance;
+    }
 
     public String getGetAmountAndChange() {
         return getAmountAndChange;
