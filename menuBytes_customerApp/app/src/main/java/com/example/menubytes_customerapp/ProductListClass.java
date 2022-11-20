@@ -7,7 +7,9 @@ public class ProductListClass {
     String Price;
     String Description;
     String productBundle;
+    byte[] bytes;
 
+    /*By Category*/
     public ProductListClass(int id, String image, String name, String price, String des, String productBundle) {
         this.id = id;
         Image = image;
@@ -17,12 +19,38 @@ public class ProductListClass {
         this.productBundle = productBundle;
     }
 
+    public ProductListClass(int id, byte[] bytes, String name, String price, String des, String productBundle) {
+        this.id = id;
+        this.bytes = bytes;
+        Name = name;
+        Price = price;
+        Description = des;
+        this.productBundle = productBundle;
+    }
+
+    /*By ID*/
     public ProductListClass(String image, String name, String price, String des, String productBundle) {
         Image = image;
         Name = name;
         Price = price;
         Description = des;
         this.productBundle = productBundle;
+    }
+
+    public ProductListClass(byte[] bytes, String name, String price, String des, String productBundle) {
+        this.bytes = bytes;
+        Name = name;
+        Price = price;
+        Description = des;
+        this.productBundle = productBundle;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
     }
 
     public int getId() {

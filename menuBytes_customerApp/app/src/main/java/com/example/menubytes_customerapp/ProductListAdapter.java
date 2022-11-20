@@ -1,6 +1,8 @@
 package com.example.menubytes_customerapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,11 +35,10 @@ public class ProductListAdapter extends ArrayAdapter<ProductListClass> {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         convertView = layoutInflater.inflate(mResource,parent,false);
         ImageView imageView = convertView.findViewById(R.id.imageShawarma);
-        try {
-            imageView.setImageDrawable(getDrawableFromAssets(getItem(position).getImage()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+//            imageView.setImageDrawable(getDrawableFromAssets(getItem(position).getImage()));
+            imageView.setImageBitmap(decodeBlobType(getItem(position).getBytes()));
+
         TextView txtName = convertView.findViewById(R.id.txtNameShawarma);
         txtName.setText(getItem(position).getName());
         TextView txtPrice = convertView.findViewById(R.id.txtPriceShawarma);
@@ -46,6 +48,7 @@ public class ProductListAdapter extends ArrayAdapter<ProductListClass> {
         return convertView;
     }
 
+    //TODO: CHANGE to Bitmap
     public Drawable getDrawableFromAssets(String fileName) throws IOException {
         try {
             // get input stream
@@ -57,5 +60,16 @@ public class ProductListAdapter extends ArrayAdapter<ProductListClass> {
             Log.d("Drawable.createFromStream", "Error: " + ex.toString());
             return null;
         }
+    }
+
+    public Bitmap decodeBlobType(byte[] bytes_from_database){
+
+        byte[] bytes = bytes_from_database;
+
+        InputStream is = new ByteArrayInputStream(bytes);
+
+        Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+        return bitmap;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.menubytes_customerapp;
 
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -23,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -91,12 +94,13 @@ public class Menu_WingsProd_Fragment extends Fragment {
         int product_id = PRODUCT_ID;
 
         if(product_id!=-1 && product_id!=-0){
-            Task task = new Task(Task.RETRIEVE_PRODUCTS_BY_ID, new AsyncResponse() {
+            Task task = new Task(Task.RETRIEVE_PRODUCTS_BY_ID2, new AsyncResponse() {
                 @Override
                 public void onFinish(Object output) {
                     ArrayList <ProductListClass> productListClassArrayList = (ArrayList<ProductListClass>)output;
-                    try {
-                        imgViewItemMenu.setImageDrawable(getDrawableFromAssets(productListClassArrayList.get(0).getImage()));
+
+//                        imgViewItemMenu.setImageDrawable(getDrawableFromAssets(productListClassArrayList.get(0).getImage()));
+                    imgViewItemMenu.setImageBitmap(decodeBlobType(productListClassArrayList.get(0).getBytes()));
                         txtItemTitle.setText(productListClassArrayList.get(0).getName());
                         txtItemDescription.setText(productListClassArrayList.get(0).getDescription());
                         mealTotalText.setText(productListClassArrayList.get(0).getPrice());
@@ -119,9 +123,7 @@ public class Menu_WingsProd_Fragment extends Fragment {
 
                         constraintLayout.setVisibility(View.VISIBLE);
                         loadingDialog.dismissDialog();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             });
 
@@ -132,6 +134,17 @@ public class Menu_WingsProd_Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    public Bitmap decodeBlobType(byte[] bytes_from_database){
+
+        byte[] bytes = bytes_from_database;
+
+        InputStream is = new ByteArrayInputStream(bytes);
+
+        Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+        return bitmap;
     }
 
     public Drawable getDrawableFromAssets(String fileName) throws IOException {

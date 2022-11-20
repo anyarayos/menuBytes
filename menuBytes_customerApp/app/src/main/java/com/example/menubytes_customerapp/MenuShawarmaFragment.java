@@ -56,7 +56,7 @@ public class MenuShawarmaFragment extends Fragment {
         loadingDialog.startLoadingDialog();
         //creating list for shawarma
         ListView listViewShawarma = (ListView) view.findViewById(R.id.productsListView);
-        Task task = new Task(getContext(),Task.RETRIEVE_PRODUCTS_BY_CATEGORY, new AsyncResponse() {
+        Task task = new Task(getContext(),Task.RETRIEVE_PRODUCTS_BY_CATEGORY2, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
                 loadingDialog.dismissDialog();
