@@ -2,12 +2,20 @@ package com.example.menubytes_customerapp;
 
 public class SqlStatements {
 
-    private String retrieveProductsByID = "SELECT PRODUCT_IMG, PRODUCT_NAME, PRODUCT_PRICE, " +
+    private String retrieveProductsByID2 = "SELECT product_image, PRODUCT_NAME, PRODUCT_PRICE, " +
             "PRODUCT_DESCRIPTION, PRODUCT_BUNDLE FROM product WHERE PRODUCT_ID = (?)";
 
-    private String retrieveProductsByCategory = "SELECT PRODUCT_ID, PRODUCT_IMG, PRODUCT_NAME, " +
+    public String getRetrieveProductsByID2() {
+        return retrieveProductsByID2;
+    }
+
+    private String retrieveProductsByCategory2 = "SELECT PRODUCT_ID, product_image, PRODUCT_NAME, " +
             "PRODUCT_PRICE, PRODUCT_DESCRIPTION, PRODUCT_BUNDLE FROM product WHERE PRODUCT_CATEGORY = (?)AND \n" +
             "product_name != \"Shawarma All Meat\" AND product_availability = \"available\"";
+
+    public String getRetrieveProductsByCategory2() {
+        return retrieveProductsByCategory2;
+    }
 
     private String insertIntoOrders = "INSERT INTO orders(user_id, total, created_at, created_by) \n" +
             "VALUES(\n" +
@@ -348,14 +356,6 @@ public class SqlStatements {
 
     public String getInsertIntoOrderStatus() {
         return insertIntoOrderStatus;
-    }
-
-    public String getRetrieveProductsByCategory() {
-        return retrieveProductsByCategory;
-    }
-
-    public String getRetrieveProductsByID() {
-        return retrieveProductsByID;
     }
 
     public String getInsertIntoOrders() {

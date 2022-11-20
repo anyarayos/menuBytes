@@ -61,7 +61,7 @@ public class MenuWingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product_item_list,null);
         loadingDialog.startLoadingDialog();
         ListView listViewProducts = (ListView) view.findViewById(R.id.productsListView);
-        Task task = new Task(getContext(),Task.RETRIEVE_PRODUCTS_BY_CATEGORY, new AsyncResponse() {
+        Task task = new Task(getContext(),Task.RETRIEVE_PRODUCTS_BY_CATEGORY2, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
                 loadingDialog.dismissDialog();

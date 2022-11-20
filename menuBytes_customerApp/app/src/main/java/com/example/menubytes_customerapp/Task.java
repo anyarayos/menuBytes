@@ -30,13 +30,12 @@ public class Task extends AsyncTask<String, String, Object> {
     private ArrayList<OrderListClass> orderList = new ArrayList<>();
     private int order_id;
 
-    public final static String RETRIEVE_PRODUCTS_BY_CATEGORY="retrieveProductsByCategory";
-    public final static String RETRIEVE_PRODUCTS_BY_ID = "retrieveProductsByID";
+    public final static String RETRIEVE_PRODUCTS_BY_CATEGORY2="retrieveProductsByCategory2";
+    public final static String RETRIEVE_PRODUCTS_BY_ID2 = "retrieveProductsByID2";
     public final static String INSERT_INTO_ORDERS = "insertIntoOrders";
     public final static String INSERT_INTO_ORDER_STATUS = "insertIntoOrderStatus";
     public final static String INSERT_INTO_ORDER_ITEMS = "insertIntoOrderItems";
     public final static String INSERT_ADDONS_INTO_ORDER_ITEMS = "insertAddOnsIntoOrderItems";
-    public final static String RETRIEVE_ORDERS_USING_ID_STATUS = "retrieveOrderItemsUsingIdStatus";
     public final static String RETRIEVE_TOTAL_AMOUNT = "RetrieveTotalAmount";
     public final static String INSERT_GCASH_PAYMENT = "InsertGcashPayment";
     public final static String INSERT_GCASH_PAYMENT2 = "InsertGcashPayment2";
@@ -81,7 +80,7 @@ public class Task extends AsyncTask<String, String, Object> {
                 //connection = DriverManager.getConnection("jdbc:mysql://aws-simplified.ccnp1cnd7apy.ap-northeast-1.rds.amazonaws.com:3306/menubytes", "admin", "P0Y9aixM7jUZr6Cg");
                 //connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
                 connection = DriverManager.getConnection("jdbc:mysql://192.168.1.6:3306/menubytes", "admin", "admin");
-//            connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
+                //connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -115,8 +114,8 @@ public class Task extends AsyncTask<String, String, Object> {
 
         if(connection!=null){
             try {
-                if (method.equals(RETRIEVE_PRODUCTS_BY_CATEGORY)) {
-                    statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByCategory());
+                if (method.equals(RETRIEVE_PRODUCTS_BY_CATEGORY2)) {
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByCategory2());
                     String category =params[0];
                     statement.setString(1,category);
                     resultSet = statement.executeQuery();
@@ -127,7 +126,7 @@ public class Task extends AsyncTask<String, String, Object> {
                         while (resultSet.next()) {
                             productListClassArrayList.add(new ProductListClass(
                                     resultSet.getInt(1),
-                                    resultSet.getString(2),
+                                    resultSet.getBytes(2),
                                     resultSet.getString(3),
                                     resultSet.getString(4),
                                     resultSet.getString(5),
@@ -137,8 +136,9 @@ public class Task extends AsyncTask<String, String, Object> {
                         return productListClassArrayList;
                     }
                 }
-                if (method.equals(RETRIEVE_PRODUCTS_BY_ID)) {
-                    statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByID());
+
+                if (method.equals(RETRIEVE_PRODUCTS_BY_ID2)) {
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveProductsByID2());
                     int id =Integer.valueOf(params[0]);
                     statement.setInt(1,id);
                     resultSet = statement.executeQuery();
@@ -148,7 +148,7 @@ public class Task extends AsyncTask<String, String, Object> {
                     } else {
                         Log.d(TAG, "DATA FOUND");
                         while (resultSet.next()) {
-                            productListClassArrayList.add(new ProductListClass(resultSet.getString(1),
+                            productListClassArrayList.add(new ProductListClass(resultSet.getBytes(1),
                                     resultSet.getString(2),
                                     resultSet.getString(3),
                                     resultSet.getString(4),
