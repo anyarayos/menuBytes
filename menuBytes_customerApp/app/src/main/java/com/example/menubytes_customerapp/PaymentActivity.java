@@ -307,10 +307,12 @@ public class PaymentActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Cart:
-                        startActivity(new Intent(getApplicationContext(),CartActivity.class));
+                        startActivity(new Intent(getApplicationContext(), CartActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Payment:
+                        startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.Account:
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));

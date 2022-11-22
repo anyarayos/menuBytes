@@ -83,12 +83,14 @@
 
     <TextView
         android:id="@+id/txtItemTitle_edit_prod"
-        style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:text="Item Name"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/imgViewItemMenu_edit_prod"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -159,7 +161,7 @@
     <RadioGroup
         android:id="@+id/typeRadioGroup_edit_prod"
         android:layout_width="235dp"
-        android:layout_height="102dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5">

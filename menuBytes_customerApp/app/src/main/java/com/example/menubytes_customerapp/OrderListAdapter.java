@@ -29,7 +29,9 @@ public class OrderListAdapter extends ArrayAdapter<OrderListClass> {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         convertView = layoutInflater.inflate(mResource,parent,false);
         TextView orderName = convertView.findViewById(R.id.txtOrderName);
-        orderName.setText(getItem(position).getOrderName());
+        String nameTemp = getItem(position).getOrderName();
+        nameTemp = nameTemp.replaceAll("_"," ");
+        orderName.setText(nameTemp);
 
         TextView orderQty = convertView.findViewById(R.id.txtOrderQty);
         orderQty.setText(getItem(position).getOrderQty());

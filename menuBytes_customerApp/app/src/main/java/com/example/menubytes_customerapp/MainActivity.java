@@ -112,20 +112,20 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.Home:
+                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.Menu:
                         startActivity(new Intent(getApplicationContext(), MenuActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.fab:
-                        startActivity(new Intent(getApplicationContext(),CartActivity.class));
+                    case R.id.Cart:
+                        startActivity(new Intent(getApplicationContext(), CartActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Payment:
-
-                            startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
-                            overridePendingTransition(0,0);
-
+                        startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.Account:
                         startActivity(new Intent(getApplicationContext(),SettingsActivity.class));
