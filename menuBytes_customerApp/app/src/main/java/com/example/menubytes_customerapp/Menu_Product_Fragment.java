@@ -1,6 +1,7 @@
 package com.example.menubytes_customerapp;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -368,7 +369,14 @@ public class Menu_Product_Fragment extends Fragment {
             }
         });
 
-
+        Button goToCart = addToCartDialog.findViewById(R.id.btn_go_cart);
+        goToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),CartActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         return view;

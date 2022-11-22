@@ -330,6 +330,25 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
+
+        Dialog noGcashDialog;
+        noGcashDialog = new Dialog(this);
+        noGcashDialog.setContentView(R.layout.no_gcash_dialog);
+        noGcashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        noGcashDialog.setCancelable(false);
+        noGcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        //INSERT THIS
+        noGcashDialog.show();
+
+        Button backToHome2 = noGcashDialog.findViewById(R.id.btn_confirm);
+        backToHome2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                noGcashDialog.dismiss();
+            }
+        });
+
     }
 
     @Override
