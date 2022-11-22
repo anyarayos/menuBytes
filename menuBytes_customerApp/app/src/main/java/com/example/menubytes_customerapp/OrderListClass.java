@@ -43,7 +43,7 @@ public class OrderListClass {
         OrderCategory = orderCategory;
         OrderBundle = orderBundle;
         if(orderBundle){
-            OrderName = "B1G1 " + orderName;
+            OrderName = "B1G1_" + orderName;
         }
         OrderAddOnName = orderAddOnName;
         if(has_addons){
@@ -73,6 +73,11 @@ public class OrderListClass {
 
     public boolean isOrderBundle() {
         return OrderBundle;
+    }
+
+    public void setOrderBundle(boolean has_orderBundle) {
+
+        OrderBundle = has_orderBundle;
     }
 
     public int getProductID() {

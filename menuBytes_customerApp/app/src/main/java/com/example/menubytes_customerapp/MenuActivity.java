@@ -37,9 +37,11 @@ public class MenuActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Menu:
+                        startActivity(new Intent(getApplicationContext(), MenuActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.Cart:
-                        startActivity(new Intent(getApplicationContext(),CartActivity.class));
+                        startActivity(new Intent(getApplicationContext(), CartActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Payment:

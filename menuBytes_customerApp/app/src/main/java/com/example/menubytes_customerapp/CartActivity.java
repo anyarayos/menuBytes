@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +48,12 @@ public class CartActivity extends AppCompatActivity {
     Button updateAddQty, updateMinusQty, updateMeal, cancelChanges;
     String tempQty;
     double basePrice, priceTotal = 0 ,addOnsTotal = 0, tempDoubleQty, mealFormula;
-    TextView updateQtyText, updateMealTotalText, updateItemName, updateItemDescription, updateFlavorLimitText;
+    TextView updateQtyText, updateMealTotalText, updateItemName, updateItemDescription, updateFlavorLimitText, updateSoloPrice_edit_prod, updateB1t1Price_edit_prod;
     CheckBox updateCheckBoxParmesan, updateCheckBoxBuffalo, updateCheckBoxSoy, updateCheckBoxSalted, updateCheckBoxBulgogi, updateCheckBoxHoney;
+    RadioGroup updateRadioGroup_edit_prod;
+    RadioButton updateSoloRadioButton_edit_prod, updateB1t1RadioButton_edit_prod;
+
+    private  boolean productBundle_edit_checked = false;
 
 
     public ArrayList<OrderListClass> orders = new ArrayList<>();
@@ -85,6 +91,8 @@ public class CartActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Cart:
+                        startActivity(new Intent(getApplicationContext(), CartActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.Payment:
                         startActivity(new Intent(getApplicationContext(),PaymentActivity.class));
@@ -236,7 +244,11 @@ public class CartActivity extends AppCompatActivity {
         updateMealTotalText = editDialog.findViewById(R.id.mealTotalText_edit_prod);
         updateItemName = editDialog.findViewById(R.id.txtItemTitle_edit_prod);
         updateItemDescription = editDialog.findViewById(R.id.txtItemDescription_edit_prod);
-
+        updateSoloRadioButton_edit_prod = editDialog.findViewById(R.id.soloRadioButton_edit_prod);
+        updateB1t1RadioButton_edit_prod = editDialog.findViewById(R.id.b1t1RadioButton_edit_prod);
+        updateSoloPrice_edit_prod = editDialog.findViewById(R.id.soloPrice_edit_prod);
+        updateB1t1Price_edit_prod = editDialog.findViewById(R.id.b1t1Price_edit_prod);
+        updateRadioGroup_edit_prod = editDialog.findViewById(R.id.typeRadioGroup_edit_prod);
 
 
         
@@ -244,9 +256,56 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int prodID = orders.get(position).getProductID();
-                //Toast.makeText(CartActivity.this, Integer.toString(prodID), Toast.LENGTH_SHORT).show();
-                if ((prodID<=4 && prodID >=1) || prodID==11 || prodID==12 || prodID==16 || prodID==17) {
-                    //
+                Toast.makeText(CartActivity.this, Integer.toString(prodID), Toast.LENGTH_SHORT).show();
+                if ((prodID<=4 && prodID >=1) || (prodID<=12 && prodID >=10) || prodID==16 || prodID==17) {
+                    String nameTemp = orders.get(position).getOrderName();
+                    String [] nameTempSplit;
+                    Toast.makeText(CartActivity.this, Integer.toString(prodID), Toast.LENGTH_SHORT).show();
+                    if (nameTemp.charAt(4)=='_') {
+                        nameTempSplit = nameTemp.split("_");
+                        updateItemName.setText(nameTempSplit[1]);
+                        //insert condition that b1g1 button is enabled
+                    } else {
+                        updateItemName.setText(nameTemp);
+                    }
+                    if ((prodID<=12 && prodID >=10) || prodID == 17) {
+                        updateB1t1RadioButton_edit_prod.setVisibility(View.GONE);
+                        updateB1t1Price_edit_prod.setVisibility(View.GONE);
+                    } else {
+                        if (orders.get(position).isOrderBundle()) {
+                            updateB1t1RadioButton_edit_prod.setChecked(true);
+                            updateSoloRadioButton_edit_prod.setChecked(false);
+                        }
+                    }
+
+                    updateRadioGroup_edit_prod.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(RadioGroup group, int checkedId) {
+                            switch (checkedId) {
+                                case R.id.b1t1RadioButton_edit_prod:
+                                    productBundle_edit_checked = false;
+                                    break;
+                                case R.id.soloRadioButton_edit_prod:
+                                    productBundle_edit_checked = true;
+                                    break;
+                            }
+                        }
+                    });
+
+
+
+
+                    if (prodID == 1 || prodID == 2) {
+                        updateItemDescription.setText("Ground beef, cucumber, onion, tomato w/ garlic sauce & cheese sauce in pita.");
+                    } else if (prodID == 4 || prodID == 10) {
+                        updateItemDescription.setText("Java Rice topped with marinated ground beef, cucumber, onion, tomato drizzled with garlic sauce and cheese sauce.");
+                    } else if (prodID == 3 || prodID == 11) {
+                        updateItemDescription.setText("Lettuce topped with marinated ground beef, cucumber, onion, tomato drizzled with garlic sauce and cheese sauce.");
+                    } else if (prodID == 16 || prodID == 17) {
+                        updateItemDescription.setText("Lettuce topped with beef or Pork Samgyup meat, kimchi, lettuce drizzled with garlic sauce and cheese sauce.");
+                    } else {
+                        updateItemDescription.setText("Nacho chips with tomato, cucumber, onion, with marinated ground beef drizzled with garlic sauce and cheese sauce.");
+                    }
                 }
                 else if (prodID<=7 && prodID >=5) {
                     editDialog.setContentView(R.layout.dialog_edit_cart_wingsprod);
@@ -265,6 +324,9 @@ public class CartActivity extends AppCompatActivity {
                     updateCheckBoxSalted = editDialog.findViewById(R.id.cbSaltedEgg_edit_wingsprod);
                     updateCheckBoxBulgogi = editDialog.findViewById(R.id.cbBulgogi_edit_wingsprod);
                     updateCheckBoxHoney = editDialog.findViewById(R.id.cbSesameHoneyGlazed_edit_wingsprod);
+
+
+                    updateItemName.setText(orders.get(position).getOrderName());
                     updateItemDescription.setText("Available in six different flavors: Garlic Parmesan, Salted Egg, Buffalo, Bulgogi, Soy Garlic and Sesame Honey Glazed");
                     String flavorAllTemp;
                     flavorAllTemp = orders.get(position).getFlavors();
@@ -457,6 +519,11 @@ public class CartActivity extends AppCompatActivity {
                     updateMealTotalText = editDialog.findViewById(R.id.mealTotalText_edit_bevadd);
                     updateItemName = editDialog.findViewById(R.id.txtItemTitle_edit_bevadd);
                     updateItemDescription = editDialog.findViewById(R.id.txtItemDescription_edit_bevadd);
+
+
+                    updateItemName.setText(orders.get(position).getOrderName());
+
+
                     if (prodID == 8){
                         updateItemDescription.setText("Lemon water mixed with blueberry syrup for extraordinary taste.");
                         basePrice = 62;
@@ -480,11 +547,14 @@ public class CartActivity extends AppCompatActivity {
                 }
 
 
+                if ((prodID<=4 && prodID >=1) || (prodID<=12 && prodID >=10) || prodID==16 || prodID==17) {
+                    //set meal total price here
+                } else {
+                    priceTotal = basePrice * Double.parseDouble(orders.get(position).getOrderQty());
+                    updateMealTotalText.setText(Double.toString(priceTotal) +"0");
+                }
 
 
-                priceTotal = basePrice * Double.parseDouble(orders.get(position).getOrderQty());
-                updateMealTotalText.setText(Double.toString(priceTotal) +"0");
-                updateItemName.setText(orders.get(position).getOrderName());
                 updateQtyText.setText(orders.get(position).getOrderQty());
 
                 int x = Integer.parseInt(updateQtyText.getText().toString());
