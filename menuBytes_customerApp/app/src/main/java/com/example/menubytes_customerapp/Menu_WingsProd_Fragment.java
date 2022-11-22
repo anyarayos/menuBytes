@@ -1,6 +1,7 @@
 package com.example.menubytes_customerapp;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -445,6 +446,15 @@ public class Menu_WingsProd_Fragment extends Fragment {
                 Fragment fragment = null;
                 fragment = new MenuWingsFragment();
                 fm.replace(R.id.menu_container,fragment).commit();
+            }
+        });
+
+        Button goToCart = addToCartDialog.findViewById(R.id.btn_go_cart);
+        goToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),CartActivity.class);
+                startActivity(intent);
             }
         });
 

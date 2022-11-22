@@ -3,6 +3,7 @@ package com.example.menubytes_customerapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,15 +44,6 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         //Initialize the listview
         completedOrdersListView = findViewById(R.id.orderListViewReceipt);
 
-        btn_go_back2 = findViewById(R.id.btn_go_back2);
-        btn_go_back2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ElectronicReceiptActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
 
         subTotalTV = findViewById(R.id.subTotal);
@@ -60,6 +52,41 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         taxVatTV = findViewById(R.id.taxVat);
 
         update();
+
+        Dialog needOrDialog;
+        needOrDialog = new Dialog(this);
+        needOrDialog.setContentView(R.layout.need_or_dialog);
+        needOrDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        needOrDialog.setCancelable(false);
+        needOrDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        Button finishedTransactionOnDialog = needOrDialog.findViewById(R.id.btn_go_back1);
+        Button finishTransaction = findViewById(R.id.btn_go_back2);
+        Button requestOR = findViewById(R.id.btn_go_back4);
+
+        finishTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ElectronicReceiptActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        requestOR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                needOrDialog.show();
+            }
+        });
+
+        finishedTransactionOnDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                needOrDialog.dismiss();
+                Intent intent = new Intent(ElectronicReceiptActivity.this,MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
     }
 
@@ -124,5 +151,7 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
 
         Task updateOrdersTableName = new Task(Task.UPDATE_ORDERS_TABLE_NAME);
         updateOrdersTableName.execute(Utils.getInstance().getUser_id());
+
+
     }
 }
