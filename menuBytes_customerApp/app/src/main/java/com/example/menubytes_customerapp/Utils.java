@@ -10,6 +10,8 @@ public class Utils {
 
     private String payment_id;
 
+    private boolean hasGcash=true;
+
     public String getPayment_id() {
         return payment_id;
     }
@@ -56,6 +58,13 @@ public class Utils {
             }
         }
 
+    public boolean isHasGcash() {
+        return hasGcash;
+    }
+
+    public void setHasGcash(boolean hasGcash) {
+        this.hasGcash = hasGcash;
+    }
 
     public boolean addToOrders (OrderListClass order) {
         return orders.add(order);

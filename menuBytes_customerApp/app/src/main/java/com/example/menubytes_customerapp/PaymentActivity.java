@@ -8,12 +8,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +30,7 @@ import java.util.Timer;
 
 public class PaymentActivity extends AppCompatActivity {
 
+    private boolean hasGCash=true;
     private String beforeTaxString, taxString;
     private Button gcashButton,cashButton;
     private TextView subTotalTV, totalSumTV, beforeTaxTV, taxVatTV;
@@ -77,6 +81,36 @@ public class PaymentActivity extends AppCompatActivity {
         gcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         Button gcashProceedToPayment = gcashDialog.findViewById(R.id.btn_proceed_gcash);
         Button gcashBackToPaymentForm = gcashDialog.findViewById(R.id.btn_cancel_gcash);
+        ImageView queueOrKitchen = gcashDialog.findViewById(R.id.queueOrKitchen);
+
+        Dialog noGcashDialog;
+        noGcashDialog = new Dialog(this);
+        noGcashDialog.setContentView(R.layout.no_gcash_dialog);
+        noGcashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        noGcashDialog.setCancelable(false);
+        noGcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        Button backToHome2 = noGcashDialog.findViewById(R.id.btn_confirm);
+        backToHome2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                noGcashDialog.dismiss();
+            }
+        });
+
+        Task checkGcashStatus = new Task(Task.CHECK_GCASH_AVAILABLE, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output!=null){
+                    hasGCash = true;
+                    queueOrKitchen.setImageBitmap(decodeBlobType((byte[])output));
+                }else{
+                    noGcashDialog.show();
+                    hasGCash = false;
+                    gcashButton.setEnabled(false);
+                }
+            }
+        });checkGcashStatus.execute();
 
         TextView totalAmountToPayGcash = gcashDialog.findViewById(R.id.textView3);
 
@@ -175,15 +209,6 @@ public class PaymentActivity extends AppCompatActivity {
             public void onFinish(Object output) {
                 count = (int) output;
                 if(count>0){
-//                    builder.setMessage("You cannot pay while we prepare your orders.")
-//                            .setCancelable(true).setNegativeButton("close", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    //  Action for 'NO' Button
-//                                    dialog.cancel();
-//                                }
-//                            });
-//                    AlertDialog alert = builder.create();
-//                    alert.show();
                     gcashButton.setEnabled(false);
                     cashButton.setEnabled(false);
                 }else{
@@ -194,7 +219,9 @@ public class PaymentActivity extends AppCompatActivity {
                             count = (int)output;
                             if(output!=null){
                                 if(count>0){
-                                    gcashButton.setEnabled(true);
+                                    if(hasGCash) {
+                                        gcashButton.setEnabled(true);
+                                    }
                                     cashButton.setEnabled(true);
                                 }
                             }
@@ -272,15 +299,10 @@ public class PaymentActivity extends AppCompatActivity {
         paymentTask.execute();
 
 
-
-
         gcashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gcashDialog.show();
-                //TODO: change to get reference #
-//                Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT);
-//                gCashPayment.execute(totalSumTV.getText().toString());
             }
         });
 
@@ -288,8 +310,6 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cashDialog.show();
-                //Toast.makeText(PaymentActivity.this, "Cashier will be here to receive payment.", Toast.LENGTH_LONG).show();
-
             }
         });
 
@@ -333,23 +353,23 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
 
-        Dialog noGcashDialog;
-        noGcashDialog = new Dialog(this);
-        noGcashDialog.setContentView(R.layout.no_gcash_dialog);
-        noGcashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
-        noGcashDialog.setCancelable(false);
-        noGcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
-        //INSERT THIS
-        noGcashDialog.show();
-
-        Button backToHome2 = noGcashDialog.findViewById(R.id.btn_confirm);
-        backToHome2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                noGcashDialog.dismiss();
-            }
-        });
+//        Dialog noGcashDialog;
+//        noGcashDialog = new Dialog(this);
+//        noGcashDialog.setContentView(R.layout.no_gcash_dialog);
+//        noGcashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+//        noGcashDialog.setCancelable(false);
+//        noGcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+//
+//        //INSERT THIS
+////        noGcashDialog.show();
+//
+//        Button backToHome2 = noGcashDialog.findViewById(R.id.btn_confirm);
+//        backToHome2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                noGcashDialog.dismiss();
+//            }
+//        });
 
     }
 
@@ -418,7 +438,10 @@ public class PaymentActivity extends AppCompatActivity {
                             count = (int)output;
                             if(output!=null){
                                 if(count>0){
-                                    gcashButton.setEnabled(true);
+                                    if(hasGCash){
+                                        gcashButton.setEnabled(true);
+                                    }
+
                                     cashButton.setEnabled(true);
                                 }
                             }
@@ -474,6 +497,18 @@ public class PaymentActivity extends AppCompatActivity {
                 pullToRefresh.setRefreshing(true);
             }
         });
+
+    }
+
+    public Bitmap decodeBlobType(byte[] bytes_from_database){
+
+        //get bytes from database
+        byte[] bytes = bytes_from_database;
+
+        //byte to bitmap
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+        return bitmap;
 
     }
 

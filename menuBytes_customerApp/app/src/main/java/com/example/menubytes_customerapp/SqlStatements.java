@@ -257,6 +257,28 @@ public class SqlStatements {
             "current_timestamp()\n" +
             ");";
 
+    private String checkGcashAvailability = "SELECT payment_qr FROM payment_method\n" +
+            "WHERE \n" +
+            "payment_availability = \"AVAILABLE\"\n" +
+            "AND\n" +
+            "payment_method = \"GCASH\";";
+
+    private String askForOR = "INSERT INTO or_request (user_id, assistance_status, created_at)\n" +
+            "VALUES\n" +
+            "(\n" +
+            "(?),\n" +
+            "true,\n" +
+            "current_timestamp()\n" +
+            ")";
+
+    public String getAskForOR() {
+        return askForOR;
+    }
+
+    public String getCheckGcashAvailability() {
+        return checkGcashAvailability;
+    }
+
     public String getAskAssistance() {
         return askAssistance;
     }

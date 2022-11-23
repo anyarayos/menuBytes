@@ -61,7 +61,7 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         needOrDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         Button finishedTransactionOnDialog = needOrDialog.findViewById(R.id.btn_go_back1);
         Button finishTransaction = findViewById(R.id.btn_go_back2);
-        Button requestOR = findViewById(R.id.btn_go_back4);
+        Button requestOR = findViewById(R.id.btnAskOr);
 
         finishTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +74,8 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         requestOR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Task askForOr = new Task(Task.ASK_FOR_OR);
+                askForOr.execute();
                 needOrDialog.show();
             }
         });

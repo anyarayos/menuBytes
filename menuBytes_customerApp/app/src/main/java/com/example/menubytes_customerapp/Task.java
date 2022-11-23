@@ -58,6 +58,8 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String UPDATE_ORDERS_TABLE_NAME = "updateOrdersTableName";
     public static final String GET_AMOUNT_CHANGE = "getAmountChange";
     public static final String ASK_ASSISTANCE = "askAssistance" ;
+    public static final String CHECK_GCASH_AVAILABLE = "checkGCashAvailable";
+    public static final String ASK_FOR_OR = "askForOR";
 
     public Task(String method) {
         this.method = method;
@@ -79,7 +81,7 @@ public class Task extends AsyncTask<String, String, Object> {
             Class.forName("com.mysql.jdbc.Driver");
                 //connection = DriverManager.getConnection("jdbc:mysql://aws-simplified.ccnp1cnd7apy.ap-northeast-1.rds.amazonaws.com:3306/menubytes", "admin", "P0Y9aixM7jUZr6Cg");
                 //connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
-                connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
+                connection = DriverManager.getConnection("jdbc:mysql://192.168.1.6:3306/menubytes", "admin", "admin");
                 //connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
@@ -620,8 +622,33 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement.executeUpdate();
                 }
 
+                if(method.equals(ASK_FOR_OR)){
+                    statement = connection.prepareStatement(sqlStatements.getAskForOR());
+                    String user_id = Utils.getInstance().getUser_id();
+                    statement.setString(1,user_id);
+                    Log.d(TAG, "ASK_FOR_OR");
+                    statement.executeUpdate();
+                }
+
+                if(method.equals(CHECK_GCASH_AVAILABLE)){
+                    statement = connection.prepareStatement(sqlStatements.getCheckGcashAvailability());
+                    byte[] bytes = null;
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "CHECK_GCASH_AVAILABLE) : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "CHECK_GCASH_AVAILABLE) : DATA FOUND");
+                        while (resultSet.next()) {
+                            bytes = resultSet.getBytes(1);
+                        }
+                        return bytes;
+                    }
+                }
+
                 disconnect(resultSet,statement,connection);
             }
+
+
             catch (SQLException e) {
                 e.printStackTrace();
             }

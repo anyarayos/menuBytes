@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView notifyOrders3;
     private Timer autoUpdate;
     private TextView txtGreeting;
+    private  boolean notify_switch = true;
     Dialog notifyDialog;
     Button assitanceBtn;
     @Override
@@ -255,8 +256,20 @@ public class MainActivity extends AppCompatActivity {
         noGcashDialog.setCancelable(false);
         noGcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
-        //INSERT THIS
-        noGcashDialog.show();
+
+
+        Task checkGcashAvailable = new Task(Task.CHECK_GCASH_AVAILABLE, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                if(output==null){
+                    if(Utils.getInstance().isHasGcash()){
+                        noGcashDialog.show();
+                        Utils.getInstance().setHasGcash(false);//display once upon start_up
+                    }
+                }
+            }
+        });checkGcashAvailable.execute();
+
 
         Button backToHome2 = noGcashDialog.findViewById(R.id.btn_confirm);
         backToHome2.setOnClickListener(new View.OnClickListener() {
