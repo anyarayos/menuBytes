@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
     private SwipeMenuListView cartView;
+
     private TextView subTotal;
     private Button btnPlaceOrder,proceedPaymentButton;
     private TextView notifyOrders;

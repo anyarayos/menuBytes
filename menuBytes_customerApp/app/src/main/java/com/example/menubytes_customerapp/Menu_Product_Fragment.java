@@ -105,8 +105,6 @@ public class Menu_Product_Fragment extends Fragment {
                             loadingDialog.dismissDialog();
                         }
                         ArrayList <ProductListClass> productListClassArrayList = (ArrayList<ProductListClass>)output;
-
-//                            imgViewItemMenu.setImageDrawable(getDrawableFromAssets(productListClassArrayList.get(0).getImage()));
                         imgViewItemMenu.setImageBitmap(decodeBlobType(productListClassArrayList.get(0).getBytes()));
                             txtItemTitle.setText(productListClassArrayList.get(0).getName());
                             txtItemDescription.setText(productListClassArrayList.get(0).getDescription());
@@ -147,20 +145,6 @@ public class Menu_Product_Fragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-
-    public Drawable getDrawableFromAssets(String fileName) throws IOException {
-        try {
-            // get input stream
-            InputStream ims = getContext().getAssets().open(fileName);
-            // load image as Drawable
-            Drawable d = Drawable.createFromStream(ims, null);
-            return d;
-        } catch (Exception ex) {
-            Log.d("Drawable.createFromStream", "Error: " + ex.toString());
-            return null;
         }
     }
 

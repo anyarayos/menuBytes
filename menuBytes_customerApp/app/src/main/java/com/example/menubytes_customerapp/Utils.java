@@ -58,9 +58,7 @@ public class Utils {
             }
         }
 
-    public boolean isHasGcash() {
-        return hasGcash;
-    }
+    public boolean isHasGcash() {return hasGcash;}
 
     public void setHasGcash(boolean hasGcash) {
         this.hasGcash = hasGcash;

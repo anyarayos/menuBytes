@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -382,15 +383,15 @@ public class PaymentActivity extends AppCompatActivity {
 //            public void run() {
 //                runOnUiThread(new Runnable() {
 //                    public void run() {
-////                        update();
+//                        update();
 //                    }
 //                });
 //            }
-//        }, 0, 5000); // updates each 5 secs
+//        }, 0, 2); // updates each 5 secs
     }
 
     private void update(){
-        Toast.makeText(this, "refreshed", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "refreshed", Toast.LENGTH_SHORT).show();
 
         //Populate the arraylist
         Task task = new Task(Task.DISPLAY_COMPLETED_ORDERS, new AsyncResponse() {
@@ -419,15 +420,6 @@ public class PaymentActivity extends AppCompatActivity {
             public void onFinish(Object output) {
                 count = (int) output;
                 if(count>0){
-//                    builder.setMessage("You cannot pay while we prepare your orders.")
-//                            .setCancelable(true).setNegativeButton("close", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    //  Action for 'NO' Button
-//                                    dialog.cancel();
-//                                }
-//                            });
-//                    AlertDialog alert = builder.create();
-//                    alert.show();
                     gcashButton.setEnabled(false);
                     cashButton.setEnabled(false);
                 }else{
