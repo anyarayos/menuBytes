@@ -271,6 +271,31 @@ public class SqlStatements {
             "current_timestamp()\n" +
             ")";
 
+    //TODO: update status
+    private String check_login_status = "SELECT status FROM menubytes.user\n" +
+            "WHERE user_id = (?)\n" +
+            ";";
+
+    private String set_status_true = "UPDATE user\n" +
+            "SET status = true\n" +
+            "WHERE user_id = (?);";
+
+    private String set_status_false = "UPDATE user\n" +
+            "SET status = false\n" +
+            "WHERE user_id = (?);";
+
+    public String getSet_status_true() {
+        return set_status_true;
+    }
+
+    public String getSet_status_false() {
+        return set_status_false;
+    }
+
+    public String getCheck_login_status() {
+        return check_login_status;
+    }
+
     public String getAskForOR() {
         return askForOR;
     }

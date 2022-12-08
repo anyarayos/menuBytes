@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -175,6 +176,12 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onFinish(Object output) {
                         if(output!=null){
+                            //TODO: update status
+                            Task set_to_logged_out = new Task(Task.SET_STATUS_LOGGEDOUT);
+                            set_to_logged_out.execute(Utils.getInstance().getUser_id());
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                            SharedPreferences.Editor editor = pref.edit();
+                            editor.putString("status_logged", "0");editor.commit();
                             startActivity(new Intent(getApplicationContext(),IntroActivity.class));
                         }else{
                             Toast.makeText(SettingsActivity.this, "Incorrect Password!" + Utils.getInstance().getUser_id(), Toast.LENGTH_SHORT).show();

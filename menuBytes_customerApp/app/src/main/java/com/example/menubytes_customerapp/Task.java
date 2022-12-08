@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 public class Task extends AsyncTask<String, String, Object> {
 
+
+
     private AsyncResponse asyncResponse;
     private String method;
     private Connection connection;
@@ -60,6 +62,9 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String ASK_ASSISTANCE = "askAssistance" ;
     public static final String CHECK_GCASH_AVAILABLE = "checkGCashAvailable";
     public static final String ASK_FOR_OR = "askForOR";
+    public static final String CHECK_LOGIN_STATUS = "CHECK_LOGIN_STATUS";
+    public static final String SET_STATUS_LOGGEDIN = "LOGGEDIN";
+    public static final String SET_STATUS_LOGGEDOUT = "LOGGEDOUT";
 
     public Task(String method) {
         this.method = method;
@@ -640,6 +645,39 @@ public class Task extends AsyncTask<String, String, Object> {
                         }
                         return bytes;
                     }
+                }
+
+                //TODO: update status
+                if(method.equals(CHECK_LOGIN_STATUS)){
+                    statement = connection.prepareStatement(sqlStatements.getCheck_login_status());
+                    String user_id = params[0];
+                    statement.setString(1, user_id);
+                    String status = null;
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "CHECK_LOGIN_STATUS) : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "CHECK_LOGIN_STATUS) : DATA FOUND");
+                        while (resultSet.next()) {
+                            status = resultSet.getString(1);
+                        }
+                        Log.d(TAG, "CHECK_LOGIN_STATUS:  " + status);
+                        return status;
+                    }
+                }
+
+                if(method.equals(SET_STATUS_LOGGEDIN)){
+                    statement = connection.prepareStatement(sqlStatements.getSet_status_true());
+                    String user_id = params[0];
+                    statement.setString(1, user_id);
+                    statement.executeUpdate();
+                }
+
+                if(method.equals(SET_STATUS_LOGGEDOUT)){
+                    statement = connection.prepareStatement(sqlStatements.getSet_status_false());
+                    String user_id = params[0];
+                    statement.setString(1, user_id);
+                    statement.executeUpdate();
                 }
 
                 disconnect(resultSet,statement,connection);
