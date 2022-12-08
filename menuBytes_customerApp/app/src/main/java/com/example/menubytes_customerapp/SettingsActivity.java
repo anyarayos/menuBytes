@@ -117,12 +117,26 @@ public class SettingsActivity extends AppCompatActivity {
                                     @Override
                                     public void onFinish(Object output) {
                                         if(output!=null){
+                                            /*Logout the previous user first*/
+                                            Task set_to_logged_out = new Task(Task.SET_STATUS_LOGGEDOUT);
+                                            set_to_logged_out.execute(Utils.getInstance().getUser_id());
+
                                             Utils.getInstance().setUser_id((String)output);
+
+                                            /*Update LogIn Status of current user*/
+                                            Task set_to_logged_in = new Task(Task.SET_STATUS_LOGGEDIN);
+                                            set_to_logged_in.execute(Utils.getInstance().getUser_id());
+                                            
                                             Task setTableName = new Task(Task.SET_TABLE_NAME, new AsyncResponse() {
                                                 @Override
                                                 public void onFinish(Object output) {
                                                     if(output!=null){
                                                         Utils.getInstance().setTable_name((String)output);
+                                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                                        SharedPreferences.Editor editor = pref.edit();
+                                                        editor.putString("USER_ID",Utils.getInstance().getUser_id());
+                                                        editor.putString("TABLE_NAME",(String)output);
+                                                        editor.commit();
                                                         loginDialog.dismiss();
                                                         finish();
                                                         startActivity(getIntent());
@@ -181,7 +195,7 @@ public class SettingsActivity extends AppCompatActivity {
                             set_to_logged_out.execute(Utils.getInstance().getUser_id());
                             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                             SharedPreferences.Editor editor = pref.edit();
-                            editor.putString("status_logged", "0");editor.commit();
+                            editor.putString("STATUS", "0");editor.commit();
                             startActivity(new Intent(getApplicationContext(),IntroActivity.class));
                         }else{
                             Toast.makeText(SettingsActivity.this, "Incorrect Password!" + Utils.getInstance().getUser_id(), Toast.LENGTH_SHORT).show();

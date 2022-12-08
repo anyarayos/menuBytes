@@ -30,22 +30,22 @@ public class IntroActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.loginBtn);
 
 
-//        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-//        String login_status = pref.getString("status_logged",null);
-//        if(pref.contains("status_logged")){
-//            if(login_status.equals("1")){
-//                Utils.getInstance().setTable_name(pref.getString("table_name",null));
-//                Utils.getInstance().setUser_id(pref.getString("user_id",null));
-//                Task set_to_logged_in = new Task(Task.SET_STATUS_LOGGEDIN);
-//                set_to_logged_in.execute(Utils.getInstance().getUser_id());
-//                Intent i = new Intent(IntroActivity.this, MainActivity.class);
-//                startActivity(i);
-//                finish();
-//            }
-//
-//        }else{
-//
-//        }
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        if(pref.contains("STATUS")){
+            String login_status = pref.getString("STATUS",null);
+            if(login_status.equals("1")){
+                Utils.getInstance().setTable_name(pref.getString("TABLE_NAME",null));
+                Utils.getInstance().setUser_id(pref.getString("USER_ID",null));
+                Task set_to_logged_in = new Task(Task.SET_STATUS_LOGGEDIN);
+                set_to_logged_in.execute(Utils.getInstance().getUser_id());
+                Intent i = new Intent(IntroActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
+            }
+
+        }else{
+
+        }
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,30 +76,18 @@ public class IntroActivity extends AppCompatActivity {
                                                                 SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
                                                                 SharedPreferences.Editor editor = pref.edit();
                                                                 Log.d("TAG", "onFinish: " + String.valueOf(output));
-                                                                
+
                                                                     if(String.valueOf(output).equals("1")){
-//                                                                        if(pref.getString("status_logged",null).equals("1")){
-//                                                                            Utils.getInstance().setTable_name(table_name);
-//                                                                            Task set_to_logged_in = new Task(Task.SET_STATUS_LOGGEDIN);
-//                                                                            set_to_logged_in.execute(Utils.getInstance().getUser_id());
-//
-//                                                                            editor.putString("status_logged", "1");editor.commit();
-//                                                                            editor.putString("table_name", table_name);
-//                                                                            editor.putString("user_id",Utils.getInstance().getUser_id());
-//
-//                                                                            Intent i = new Intent(IntroActivity.this, MainActivity.class);
-//                                                                            startActivity(i);
-//                                                                            finish();
-//                                                                        }else{
-//                                                                            Toast.makeText(IntroActivity.this, "User logged in from another device.", Toast.LENGTH_SHORT).show();
-//                                                                        }
                                                                         Toast.makeText(IntroActivity.this, "User logged in from another device.", Toast.LENGTH_SHORT).show();
                                                                     }
                                                                     else{
                                                                         Utils.getInstance().setTable_name(table_name);
                                                                         Task set_to_logged_in = new Task(Task.SET_STATUS_LOGGEDIN);
                                                                         set_to_logged_in.execute(Utils.getInstance().getUser_id());
-                                                                        editor.putString("status_logged", "1");
+                                                                        editor.putString("STATUS", "1");
+                                                                        editor.putString("USER_ID",Utils.getInstance().getUser_id());
+                                                                        editor.putString("TABLE_NAME",table_name);
+                                                                        editor.commit();
                                                                         Intent i = new Intent(IntroActivity.this, MainActivity.class);
                                                                         startActivity(i);
                                                                         finish();
