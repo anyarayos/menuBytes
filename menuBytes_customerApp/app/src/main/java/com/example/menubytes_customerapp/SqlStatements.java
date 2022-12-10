@@ -222,6 +222,9 @@ public class SqlStatements {
             "SET log_in = current_timestamp()\n" +
             "WHERE user_id = (?)\n" +
             ";";
+
+
+
     private String updateLogOutTime = "UPDATE user\n" +
             "SET log_out = current_timestamp()\n" +
             "WHERE user_id = (?)\n" +

@@ -118,28 +118,5 @@ public class IntroActivity extends AppCompatActivity {
 
             }
         });
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent i = new Intent(IntroActivity.this, MainActivity.class);
-//                startActivity(i);
-//                finish();
-//            }
-//        },3000);
-
-
-
-
-        /*
-        READ THIS!!!!!
-        
-        SWR = Shawarma Wrap Regular
-        SWL = Shawarma Wrap Large
-        SSBR = Shawarma Salad Bowl Regular
-        SSBL = Shawarma Salad Bowl Large
-        SRBR = Shawarma Rice Bowl Regular
-        SRBL = Shawarma Rice Bowl Large
-        SNL = Shawarma Nachos Large
-         */
     }
 }

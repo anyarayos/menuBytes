@@ -128,24 +128,27 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String RefNoString = RefNoEditText.getText().toString();
-                //TODO: GET PAYMENT ID
-                Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT2, new AsyncResponse() {
-                    @Override
-                    public void onFinish(Object output) {
-                        if(output!=null){
-                            Utils.getInstance().setPayment_id((String) output);
-                            startActivity(new Intent(PaymentActivity.this,Payment_Validate_Gcash_Activity.class));
-                        }else{
-                            Toast.makeText(PaymentActivity.this, "Payment unsuccessful, please try again.", Toast.LENGTH_SHORT).show();
+                double refNoTemp = Double.parseDouble(RefNoEditText.getText().toString());
+                if (refNoTemp >0) {
+
+                    //TODO: GET PAYMENT ID
+                    Task gCashPayment = new Task(Task.INSERT_GCASH_PAYMENT2, new AsyncResponse() {
+                        @Override
+                        public void onFinish(Object output) {
+                            if(output!=null){
+                                Utils.getInstance().setPayment_id((String) output);
+                                startActivity(new Intent(PaymentActivity.this,Payment_Validate_Gcash_Activity.class));
+                            }else{
+                                Toast.makeText(PaymentActivity.this, "Payment unsuccessful, please try again.", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
-
-                    }
-                });
-                gCashPayment.execute(totalSumTV.getText().toString(),RefNoString);
-
-
-                //overridePendingTransition(0,0);
-                gcashDialog.dismiss();
+                    });
+                    gCashPayment.execute(totalSumTV.getText().toString(),RefNoString);
+                    gcashDialog.dismiss();
+                } else {
+                    Toast.makeText(PaymentActivity.this, "The reference number you enter is invalid.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -179,21 +182,26 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String cashAmountString = cashAmountEditText.getText().toString();
-                Task CashPayment = new Task(Task.INSERT_CASH_PAYMENT, new AsyncResponse() {
-                    @Override
-                    public void onFinish(Object output) {
-                        if(output!=null){
-                            Utils.getInstance().setPayment_id((String) output);
-                            startActivity(new Intent(PaymentActivity.this,Payment_Validate_Cash_Activity.class));
-                        }else{
-                            Toast.makeText(PaymentActivity.this, "Payment unsuccessful, please try again.", Toast.LENGTH_SHORT).show();
+                double paymentTemp = Double.parseDouble(cashAmountEditText.getText().toString());
+                double amountTemp = Double.parseDouble(totalSumTV.getText().toString());
+                if (paymentTemp>=amountTemp) {
+                    Task CashPayment = new Task(Task.INSERT_CASH_PAYMENT, new AsyncResponse() {
+                        @Override
+                        public void onFinish(Object output) {
+                            if(output!=null){
+                                Utils.getInstance().setPayment_id((String) output);
+                                startActivity(new Intent(PaymentActivity.this,Payment_Validate_Cash_Activity.class));
+                            }
+                            else{
+                                Toast.makeText(PaymentActivity.this, "Payment unsuccessful, please try again.", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
-                CashPayment.execute(totalSumTV.getText().toString(), cashAmountString);
-
-                //overridePendingTransition(0,0);
-                cashDialog.dismiss();
+                    });
+                    CashPayment.execute(totalSumTV.getText().toString(), cashAmountString);
+                    cashDialog.dismiss();
+                } else {
+                    Toast.makeText(PaymentActivity.this, "The amount you enter is invalid.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -485,8 +493,8 @@ public class PaymentActivity extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Pull to refresh code here
                 pullToRefresh.setRefreshing(true);
+                pullToRefresh.setRefreshing(false);
             }
         });
 

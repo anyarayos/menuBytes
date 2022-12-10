@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -117,6 +118,9 @@ public class SettingsActivity extends AppCompatActivity {
                                     @Override
                                     public void onFinish(Object output) {
                                         if(output!=null){
+
+
+
                                             /*Logout the previous user first*/
                                             Task set_to_logged_out = new Task(Task.SET_STATUS_LOGGEDOUT);
                                             set_to_logged_out.execute(Utils.getInstance().getUser_id());
@@ -131,15 +135,39 @@ public class SettingsActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onFinish(Object output) {
                                                     if(output!=null){
-                                                        Utils.getInstance().setTable_name((String)output);
-                                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-                                                        SharedPreferences.Editor editor = pref.edit();
-                                                        editor.putString("USER_ID",Utils.getInstance().getUser_id());
-                                                        editor.putString("TABLE_NAME",(String)output);
-                                                        editor.commit();
-                                                        loginDialog.dismiss();
-                                                        finish();
-                                                        startActivity(getIntent());
+                                                        Task checkUserStatus = new Task(Task.CHECK_LOGIN_STATUS, new AsyncResponse() {
+                                                            @Override
+                                                            public void onFinish(Object output) {
+                                                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                                                                SharedPreferences.Editor editor = pref.edit();
+                                                                Log.d("TAG", "onFinish: " + String.valueOf(output));
+
+                                                                if(String.valueOf(output).equals("1")){
+                                                                    Toast.makeText(SettingsActivity.this, "User logged in from another device.", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                                else{
+                                                                    Utils.getInstance().setTable_name((String)output);
+                                                                    editor.putString("USER_ID",Utils.getInstance().getUser_id());
+                                                                    editor.putString("TABLE_NAME",(String)output);
+                                                                    editor.commit();
+                                                                    loginDialog.dismiss();
+                                                                    finish();
+                                                                    startActivity(getIntent());
+                                                                }
+
+
+                                                            }
+                                                        });checkUserStatus.execute(Utils.getInstance().getUser_id());
+
+//                                                        Utils.getInstance().setTable_name((String)output);
+//                                                        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+//                                                        SharedPreferences.Editor editor = pref.edit();
+//                                                        editor.putString("USER_ID",Utils.getInstance().getUser_id());
+//                                                        editor.putString("TABLE_NAME",(String)output);
+//                                                        editor.commit();
+//                                                        loginDialog.dismiss();
+//                                                        finish();
+//                                                        startActivity(getIntent());
                                                     }
                                                 }
                                             });setTableName.execute((String)output);
@@ -191,6 +219,9 @@ public class SettingsActivity extends AppCompatActivity {
                     public void onFinish(Object output) {
                         if(output!=null){
                             //TODO: update status
+                            Task updateLogOutTime = new Task(Task.UPDATE_LOGOUT_TIME);
+                            updateLogOutTime.execute(Utils.getInstance().getUser_id());
+
                             Task set_to_logged_out = new Task(Task.SET_STATUS_LOGGEDOUT);
                             set_to_logged_out.execute(Utils.getInstance().getUser_id());
                             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode

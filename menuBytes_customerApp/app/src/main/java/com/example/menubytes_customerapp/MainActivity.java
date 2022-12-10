@@ -24,6 +24,7 @@ import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,22 +40,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-//        autoUpdate = new Timer();
-//        autoUpdate.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                runOnUiThread(new Runnable() {
-//                    public void run() {
-////                        update();
-//                    }
-//                });
-//            }
-//        }, 0, 5000); // updates each 5 secs
+        autoUpdate = new Timer();
+        autoUpdate.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        update();
+                    }
+                });
+            }
+        }, 0, 5000); // updates each 5 secs
     }
 
     private void update(){
         // your logic here
-        Toast.makeText(context, "refreshed", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "refreshed", Toast.LENGTH_SHORT).show();
         Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-//        autoUpdate.cancel();
+        autoUpdate.cancel();
         super.onPause();
     }
 

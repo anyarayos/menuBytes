@@ -88,7 +88,7 @@ public class Orders_Pending_Fragment extends Fragment {
         pendingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
                 Task pendingTask = new Task(Task.RETRIEVE_ORDER_BREAKDOWN, new AsyncResponse() {
                     @Override
                     public void onFinish(Object output) {
@@ -111,34 +111,37 @@ public class Orders_Pending_Fragment extends Fragment {
         });
 
 
-//        final Handler refreshHandler = new Handler();
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                // do updates
-//                Toast.makeText(getActivity(), "pending orders refreshed", Toast.LENGTH_SHORT).show();
-//                Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
-//                    @Override
-//                    public void onFinish(Object output) {
-//                        if(output==null){
-//                            notifyIfEmpty.setVisibility(View.VISIBLE);
-//                            pendingArrayList.clear();
-//                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
-//                            pendingListView.setAdapter(pendingListAdapter);
-//                        }
-//                        if(output!=null){
-//                            notifyIfEmpty.setVisibility(View.GONE);
-//                            pendingArrayList = (ArrayList<PendingListClass>) output;
-//                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
-//                            pendingListView.setAdapter(pendingListAdapter);
-//                        }
-//                    }
-//                });
-//                task.execute();
-//                refreshHandler.postDelayed(this, 3 * 1000);
-//            }
-//        };
-//        refreshHandler.postDelayed(runnable, 3 * 1000);
+        final Handler refreshHandler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        pendingOrderSumArrayList.clear();
+                        pendingOrderSumListAdapter = new PendingOrderSumListAdapter(getActivity(),R.layout.list_pending_order_sum,
+                                pendingOrderSumArrayList);
+                        if(output==null){
+                            notifyIfEmpty.setVisibility(View.VISIBLE);
+                            pendingArrayList.clear();
+                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+                            pendingListView.setAdapter(pendingListAdapter);
+                            pendingOrderSumLV.setAdapter(pendingOrderSumListAdapter);
+
+                        }
+                        if(output!=null){
+                            notifyIfEmpty.setVisibility(View.GONE);
+                            pendingArrayList = (ArrayList<PendingListClass>) output;
+                            pendingListAdapter = new PendingListAdapter(getActivity(),R.layout.list_pending,pendingArrayList);
+                            pendingListView.setAdapter(pendingListAdapter);
+                        }
+                    }
+                });
+                task.execute();
+                refreshHandler.postDelayed(this, 3 * 1000);
+            }
+        };
+        refreshHandler.postDelayed(runnable, 3 * 1000);
 
         Button backToCart = view.findViewById(R.id.BacktoCartBtn2);
         backToCart.setOnClickListener(new View.OnClickListener() {

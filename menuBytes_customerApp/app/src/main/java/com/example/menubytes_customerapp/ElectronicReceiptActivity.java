@@ -99,14 +99,14 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
             @Override
             public void onFinish(Object output) {
                 if (output == null) {
-                    Toast.makeText(ElectronicReceiptActivity.this, "NO QUERIED DATA", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ElectronicReceiptActivity.this, "NO QUERIED DATA", Toast.LENGTH_SHORT).show();
                     completedOrdersArrayList.clear();
                     orderListAdapter = new OrderListAdapter(ElectronicReceiptActivity.this, R.layout.list_cart, completedOrdersArrayList);
                     completedOrdersListView.setAdapter(orderListAdapter);
 
                 }
                 if (output != null) {
-                    Toast.makeText(ElectronicReceiptActivity.this, "QUERY SUCCESS", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ElectronicReceiptActivity.this, "QUERY SUCCESS", Toast.LENGTH_SHORT).show();
                     completedOrdersArrayList = (ArrayList<OrderListClass>) output;
                     orderListAdapter = new OrderListAdapter(ElectronicReceiptActivity.this, R.layout.list_cart, completedOrdersArrayList);
                     completedOrdersListView.setAdapter(orderListAdapter);
