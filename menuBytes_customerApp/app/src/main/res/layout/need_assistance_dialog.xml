@@ -21,7 +21,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="An Employee is on their Way. Please Wait a while!"
+        android:text="An Employee is on their way. Please wait for a while."
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="20dp"
