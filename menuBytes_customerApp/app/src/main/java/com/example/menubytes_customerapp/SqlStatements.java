@@ -10,8 +10,8 @@ public class SqlStatements {
     }
 
     private String retrieveProductsByCategory2 = "SELECT PRODUCT_ID, product_image, PRODUCT_NAME, " +
-            "PRODUCT_PRICE, PRODUCT_DESCRIPTION, PRODUCT_BUNDLE FROM product WHERE PRODUCT_CATEGORY = (?)AND \n" +
-            "product_name != \"Shawarma All Meat\" AND product_availability = \"available\"";
+            "PRODUCT_PRICE, PRODUCT_DESCRIPTION, PRODUCT_BUNDLE, product_availability FROM product WHERE PRODUCT_CATEGORY = (?)AND \n" +
+            "product_name != \"Shawarma All Meat\"";
 
     public String getRetrieveProductsByCategory2() {
         return retrieveProductsByCategory2;

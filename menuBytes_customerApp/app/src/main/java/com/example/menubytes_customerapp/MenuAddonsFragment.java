@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -63,10 +64,16 @@ public class MenuAddonsFragment extends Fragment {
                 listViewProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
-                        Fragment fragment = null;
-                        fragment = new Menu_BevAddProd_Fragment(productListClassArrayList.get(position).getId(),category);
-                        fm.replace(R.id.menu_container, fragment).commit();
+                        String availability = productListClassArrayList.get(position).getAvailability();
+                        if(availability.equals("unavailable")){
+                            Toast.makeText(getActivity(), "Sorry, this product is currently unavailable.", Toast.LENGTH_SHORT).show();
+                        }else{
+                            FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+                            Fragment fragment = null;
+                            fragment = new Menu_BevAddProd_Fragment(productListClassArrayList.get(position).getId(),category);
+                            fm.replace(R.id.menu_container, fragment).commit();
+                        }
+
                     }
                 });
             }

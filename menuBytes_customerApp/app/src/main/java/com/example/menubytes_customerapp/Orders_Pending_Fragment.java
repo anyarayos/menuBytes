@@ -24,6 +24,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class Orders_Pending_Fragment extends Fragment {
+    Handler refreshHandler;
+    Runnable runnable;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -84,6 +86,35 @@ public class Orders_Pending_Fragment extends Fragment {
         });
         task.execute();
 
+        Task checkPendingCount = new Task(Task.CHECK_PENDING_COUNT, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                int count = (int) output;
+                if(count==0){
+                    /*Enter handling code*/
+                    /*Check if there are existing completed orders*/
+                    Task checkCompletedCount = new Task(Task.CHECK_COMPLETED_COUNT, new AsyncResponse() {
+                        @Override
+                        public void onFinish(Object output) {
+                            int count = 0;
+                            count = (int)output;
+                            if(output!=null){
+                                if(count>0){
+                                    /*Enter handling code*/
+                                    Toast.makeText(getActivity(), "Your orders are completed!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });checkCompletedCount.execute();
+
+                }else{
+
+
+                }
+            }
+        });
+        checkPendingCount.execute();
+
 
         pendingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,8 +142,8 @@ public class Orders_Pending_Fragment extends Fragment {
         });
 
 
-        final Handler refreshHandler = new Handler();
-        Runnable runnable = new Runnable() {
+        refreshHandler = new Handler();
+        runnable = new Runnable() {
             @Override
             public void run() {
                 Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
@@ -138,10 +169,40 @@ public class Orders_Pending_Fragment extends Fragment {
                     }
                 });
                 task.execute();
+                Task checkPendingCount = new Task(Task.CHECK_PENDING_COUNT, new AsyncResponse() {
+                    @Override
+                    public void onFinish(Object output) {
+                        int count = (int) output;
+                        if(count==0){
+                            /*Enter handling code*/
+                            /*Check if there are existing completed orders*/
+                            Task checkCompletedCount = new Task(Task.CHECK_COMPLETED_COUNT, new AsyncResponse() {
+                                @Override
+                                public void onFinish(Object output) {
+                                    int count = 0;
+                                    count = (int)output;
+                                    if(output!=null){
+                                        if(count>0){
+                                            /*Enter handling code*/
+                                            Toast.makeText(getActivity(), "Your orders are completed!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            });checkCompletedCount.execute();
+
+                        }else{
+
+
+                        }
+                    }
+                });
+                checkPendingCount.execute();
                 refreshHandler.postDelayed(this, 3 * 1000);
             }
         };
         refreshHandler.postDelayed(runnable, 3 * 1000);
+//        refreshHandler.removeCallbacks(runnable);
+
 
         Button backToCart = view.findViewById(R.id.BacktoCartBtn2);
         backToCart.setOnClickListener(new View.OnClickListener() {
@@ -187,5 +248,11 @@ public class Orders_Pending_Fragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        refreshHandler.removeCallbacks(runnable);
     }
 }

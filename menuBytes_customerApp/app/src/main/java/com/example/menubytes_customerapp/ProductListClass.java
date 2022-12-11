@@ -8,6 +8,7 @@ public class ProductListClass {
     String Description;
     String productBundle;
     byte[] bytes;
+    String availability;
 
     /*By Category*/
     public ProductListClass(int id, String image, String name, String price, String des, String productBundle) {
@@ -19,13 +20,14 @@ public class ProductListClass {
         this.productBundle = productBundle;
     }
 
-    public ProductListClass(int id, byte[] bytes, String name, String price, String des, String productBundle) {
+    public ProductListClass(int id, byte[] bytes, String name, String price, String des, String productBundle, String availability) {
         this.id = id;
         this.bytes = bytes;
         Name = name;
         Price = price;
         Description = des;
         this.productBundle = productBundle;
+        this.availability = availability;
     }
 
     /*By ID*/
@@ -43,6 +45,10 @@ public class ProductListClass {
         Price = price;
         Description = des;
         this.productBundle = productBundle;
+    }
+
+    public String getAvailability() {
+        return availability;
     }
 
     public byte[] getBytes() {

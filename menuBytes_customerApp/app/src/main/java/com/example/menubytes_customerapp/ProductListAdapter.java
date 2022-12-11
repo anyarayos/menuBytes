@@ -3,6 +3,7 @@ package com.example.menubytes_customerapp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -44,9 +46,23 @@ public class ProductListAdapter extends ArrayAdapter<ProductListClass> {
         TextView txtPrice = convertView.findViewById(R.id.txtPriceShawarma);
         txtPrice.setText(getItem(position).getPrice());
         TextView txtDes = convertView.findViewById(R.id.txtDesShawarma);
-        txtDes.setText(getItem(position).getDescription());
+        /*condition for availability*/
+        String availability = getItem(position).getAvailability();
+            if(availability.equals("unavailable")){
+//                isEnabled(position);
+                txtName.setTextColor(Color.GRAY);
+                txtPrice.setTextColor(Color.GRAY);
+                txtDes.setTextColor(Color.GRAY);
+                txtDes.setText("UNAVAILABLE");
+
+            }else{
+                txtDes.setText(getItem(position).getDescription());
+            }
+
         return convertView;
     }
+
+
 
     //TODO: CHANGE to Bitmap
     public Drawable getDrawableFromAssets(String fileName) throws IOException {

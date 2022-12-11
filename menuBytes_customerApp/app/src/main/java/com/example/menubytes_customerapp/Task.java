@@ -84,7 +84,7 @@ public class Task extends AsyncTask<String, String, Object> {
     private void setConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://192.168.254.131:3306/menubytes", "admin", "admin");
+                connection = DriverManager.getConnection("jdbc:mysql://192.168.43.47:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -134,7 +134,8 @@ public class Task extends AsyncTask<String, String, Object> {
                                     resultSet.getString(3),
                                     resultSet.getString(4),
                                     resultSet.getString(5),
-                                    resultSet.getString(6)
+                                    resultSet.getString(6),
+                                    resultSet.getString(7)
                             ));
                         }
                         return productListClassArrayList;

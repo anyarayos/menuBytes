@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
         autoUpdate = new Timer();
         autoUpdate.schedule(new TimerTask() {
             @Override
@@ -56,6 +57,34 @@ public class MainActivity extends AppCompatActivity {
     private void update(){
         // your logic here
         //Toast.makeText(context, "refreshed", Toast.LENGTH_SHORT).show();
+        Task checkPendingCount = new Task(Task.CHECK_PENDING_COUNT, new AsyncResponse() {
+            @Override
+            public void onFinish(Object output) {
+                int count = (int) output;
+                if(count==0){
+                    /*Enter handling code*/
+                    /*Check if there are existing completed orders*/
+                    Task checkCompletedCount = new Task(Task.CHECK_COMPLETED_COUNT, new AsyncResponse() {
+                        @Override
+                        public void onFinish(Object output) {
+                            int count = 0;
+                            count = (int)output;
+                            if(output!=null){
+                                if(count>0){
+                                    /*Enter handling code*/
+                                    Toast.makeText(MainActivity.this, "Your orders are completed!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });checkCompletedCount.execute();
+
+                }else{
+
+
+                }
+            }
+        });
+        checkPendingCount.execute();
         Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
