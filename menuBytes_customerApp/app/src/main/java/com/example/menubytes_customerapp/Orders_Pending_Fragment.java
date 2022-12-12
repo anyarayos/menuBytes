@@ -2,10 +2,8 @@ package com.example.menubytes_customerapp;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -14,12 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -72,6 +67,34 @@ public class Orders_Pending_Fragment extends Fragment {
         pendingOrderSumLV = view.findViewById(R.id.pendingOrderSumListView);
 
 
+        Dialog orderCompleteDialog;
+        orderCompleteDialog = new Dialog(getActivity());
+        orderCompleteDialog.setContentView(R.layout.dialog_complete_order);
+        orderCompleteDialog.getWindow().setBackgroundDrawable(getActivity().getDrawable(R.drawable.dialog_background));
+        orderCompleteDialog.setCancelable(false);
+        orderCompleteDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        Button dialogGoToMenu = orderCompleteDialog.findViewById(R.id.btn_got_to_menu);
+        Button dialogGoToPayment = orderCompleteDialog.findViewById(R.id.btn_got_to_payment);
+
+        dialogGoToMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderCompleteDialog.dismiss();
+                Intent intent = new Intent(getActivity(),MenuActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        dialogGoToPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderCompleteDialog.dismiss();
+                Intent intent = new Intent(getActivity(),PaymentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         //populate arraylist
         Task task = new Task(Task.DISPLAY_PENDING_ORDERS, new AsyncResponse() {
             @Override
@@ -101,7 +124,7 @@ public class Orders_Pending_Fragment extends Fragment {
                             if(output!=null){
                                 if(count>0){
                                     /*Enter handling code*/
-                                    Toast.makeText(getActivity(), "Your orders are completed!", Toast.LENGTH_SHORT).show();
+                                    orderCompleteDialog.show();
                                 }
                             }
                         }
@@ -184,7 +207,7 @@ public class Orders_Pending_Fragment extends Fragment {
                                     if(output!=null){
                                         if(count>0){
                                             /*Enter handling code*/
-                                            Toast.makeText(getActivity(), "Your orders are completed!", Toast.LENGTH_SHORT).show();
+                                            orderCompleteDialog.show();
                                         }
                                     }
                                 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,216 +7,277 @@
     tools:context=".PaymentActivity"
     android:id="@+id/paymentActivityRefresh">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/notifyItemsPayment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="You do not have any completed orders!"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/orderListViewReceipt" />
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="275dp"
-                android:text="Grand Total:"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-            <TextView
-                android:id="@+id/totalSum"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="25dp"
-                android:text="0.00"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/taxVat" />
-
-            <TextView
-                android:id="@+id/taxVat"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="25dp"
-                android:text="0.00"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/beforeTax" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="275dp"
-                android:text="Tax VAT:"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="275dp"
-                android:text="Before Tax:"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <TextView
-                android:id="@+id/beforeTax"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="25dp"
-                android:text="0.00"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/subTotal" />
-
-            <TextView
-                android:id="@+id/subTotal"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="25dp"
-                android:textColor="#000000"
-                android:text="0.00"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/orderListViewReceipt" />
-
-            <TextView
-                android:id="@+id/txtGreeting"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:text="Completed Orders"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="275dp"
-                android:text="Sub Total:"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/orderListViewReceipt" />
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="125dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/mainlogo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ListView
-                android:id="@+id/orderListViewReceipt"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="275dp"
-                android:layout_marginTop="30dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtGreeting">
+                android:layout_height="match_parent">
 
-            </ListView>
+                <TextView
+                    android:id="@+id/notifyItemsPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="You do not have any completed orders!"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/orderListViewReceipt" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="220dp"
+                    android:text="Grand Total:"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+                <TextView
+                    android:id="@+id/textView28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="25dp"
+                    android:text=""
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cashButton" />
+
+                <TextView
+                    android:id="@+id/totalSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="80dp"
+                    android:text="0.00"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/discountTotal" />
+
+                <TextView
+                    android:id="@+id/taxVat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="80dp"
+                    android:text="0.00"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/beforeTax" />
+
+                <TextView
+                    android:id="@+id/discountTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="80dp"
+                    android:text="0.00"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/taxVat" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="220dp"
+                    android:text="Tax VAT:"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Discount ("
+                    app:layout_constraintEnd_toStartOf="@+id/textViewDiscountLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                <TextView
+                    android:id="@+id/textViewDiscountLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:text="None"
+                    app:layout_constraintEnd_toStartOf="@+id/textView26"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="220dp"
+                    android:text="):"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="220dp"
+                    android:text="Before Tax:"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+                <TextView
+                    android:id="@+id/beforeTax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="80dp"
+                    android:text="0.00"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subTotal" />
+
+                <TextView
+                    android:id="@+id/subTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="80dp"
+                    android:text="0.00"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderListViewReceipt" />
+
+                <TextView
+                    android:id="@+id/txtGreeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Completed Orders"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="220dp"
+                    android:text="Sub Total:"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/orderListViewReceipt" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="125dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/mainlogo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ListView
+                    android:id="@+id/orderListViewReceipt"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtGreeting">
+
+                </ListView>
 
 
-            <TextView
-                android:id="@+id/txtView31"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="30dp"
-                android:text="Product"
-                android:textSize="12dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                <TextView
+                    android:id="@+id/txtView31"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Product"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-            <TextView
-                android:id="@+id/txtView32"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="237dp"
-                android:layout_marginTop="30dp"
-                android:text="Qty."
-                android:textSize="12dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-            <TextView
-                android:id="@+id/txtView33"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="290dp"
-                android:layout_marginTop="30dp"
-                android:text="Price"
-                android:textSize="12dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                <TextView
+                    android:id="@+id/txtView32"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="237dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Qty."
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-            <TextView
-                android:id="@+id/txtView34"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="14dp"
-                android:text="Total"
-                android:textSize="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                <TextView
+                    android:id="@+id/txtView33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="290dp"
+                    android:layout_marginTop="30dp"
+                    android:text="Price"
+                    android:textSize="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-            <Button
-                android:id="@+id/gcashButton"
-                android:layout_width="165dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="5dp"
+                <TextView
+                    android:id="@+id/txtView34"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="14dp"
+                    android:text="Total"
+                    android:textSize="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-                android:text="G-CASH"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                <Button
+                    android:id="@+id/requestDiscButton"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Request Discount"
+                    android:textAllCaps="false"
+                    android:textColor="@color/purple_500"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
-            <Button
-                android:id="@+id/cashButton"
-                android:layout_width="165dp"
-                android:layout_height="70dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="25dp"
+                <Button
+                    android:id="@+id/gcashButton"
+                    android:layout_width="165dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="G-CASH"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/requestDiscButton" />
 
-                android:text="Cash"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/totalSum" />
+                <Button
+                    android:id="@+id/cashButton"
+                    android:layout_width="165dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Cash"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/requestDiscButton" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:layout_width="match_parent"
@@ -248,7 +309,5 @@
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

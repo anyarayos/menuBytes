@@ -3,7 +3,6 @@ package com.example.menubytes_customerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,10 +13,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,14 +28,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class PaymentActivity extends AppCompatActivity {
 
+
+    String labelDiscount;
+    TextView DiscountLabelTV;
+
     private boolean hasGCash=true;
     private String beforeTaxString, taxString;
-    private Button gcashButton,cashButton;
-    private TextView subTotalTV, totalSumTV, beforeTaxTV, taxVatTV;
+    private Button gcashButton,cashButton, requestDiscountButton;
+    private TextView subTotalTV, totalSumTV, beforeTaxTV, taxVatTV, discountTV;
     private AlertDialog.Builder builder;
     private double beforeTax, tax;
     private Dialog gcashDialog,cashDialog;
@@ -59,7 +63,7 @@ public class PaymentActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         notifyItemsPayment = findViewById(R.id.notifyItemsPayment);
-
+        discountTV = findViewById(R.id.discountTotal);
         subTotalTV = findViewById(R.id.subTotal);
         totalSumTV = findViewById(R.id.totalSum);
         beforeTaxTV = findViewById(R.id.beforeTax);
@@ -75,6 +79,10 @@ public class PaymentActivity extends AppCompatActivity {
         gcashButton.setEnabled(false);
         cashButton.setEnabled(false);
 
+
+
+
+
         gcashDialog = new Dialog(this);
         gcashDialog.setContentView(R.layout.dialog_payment_gcash);
         gcashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
@@ -83,6 +91,8 @@ public class PaymentActivity extends AppCompatActivity {
         Button gcashProceedToPayment = gcashDialog.findViewById(R.id.btn_proceed_gcash);
         Button gcashBackToPaymentForm = gcashDialog.findViewById(R.id.btn_cancel_gcash);
         ImageView queueOrKitchen = gcashDialog.findViewById(R.id.queueOrKitchen);
+
+
 
         Dialog noGcashDialog;
         noGcashDialog = new Dialog(this);
@@ -236,11 +246,67 @@ public class PaymentActivity extends AppCompatActivity {
                             }
                         }
                     });checkCompletedCount.execute();
-
                 }
-
             }
         });
+        DiscountLabelTV = findViewById(R.id.textViewDiscountLabel);
+        labelDiscount="None";
+
+        Dialog discountRequestDialog;
+        discountRequestDialog = new Dialog(this);
+        discountRequestDialog.setContentView(R.layout.dialog_disc);
+        discountRequestDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
+        discountRequestDialog.setCancelable(false);
+        discountRequestDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        Button btnRequestDialog = discountRequestDialog.findViewById(R.id.btn_submit_disc);
+
+        requestDiscountButton = findViewById(R.id.requestDiscButton);
+        requestDiscountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discountRequestDialog.show();
+            }
+        });
+
+        RadioGroup radioGroupDiscountLabel = discountRequestDialog.findViewById(R.id.groupDiscLabel);
+        radioGroupDiscountLabel.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rbGovernment:
+                        labelDiscount = "Government";
+                        break;
+                    case R.id.rbPwd:
+                        labelDiscount = "PWD";
+                        break;
+                    case R.id.rbSenior:
+                        labelDiscount = "Senior Citizen";
+                        break;
+                }
+                Toast.makeText(getApplicationContext(), labelDiscount, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnRequestDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double subTotalDouble = Double.parseDouble(subTotalTV.getText().toString());
+                discountRequestDialog.dismiss();
+                DiscountLabelTV.setText(labelDiscount);
+
+                //arith exp
+                double discTemp = 0.20 * subTotalDouble;
+                String temp = Double.toString(discTemp);
+                discountTV.setText(temp+"0");
+                double grandTotal = subTotalDouble - discTemp;
+                temp = Double.toString(grandTotal);
+                totalSumTV.setText(temp+"0");
+                //INSERT DISCOUNT CODES HERE BELOW SELECT CONDITION ON WHAT labelDiscount IS
+            }
+        });
+
+
+
         checkPendingCount.execute();
 
         //Check if there's a payment already
@@ -360,26 +426,6 @@ public class PaymentActivity extends AppCompatActivity {
                 overridePendingTransition(0,0);
             }
         });
-
-
-//        Dialog noGcashDialog;
-//        noGcashDialog = new Dialog(this);
-//        noGcashDialog.setContentView(R.layout.no_gcash_dialog);
-//        noGcashDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.dialog_background));
-//        noGcashDialog.setCancelable(false);
-//        noGcashDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-//
-//        //INSERT THIS
-////        noGcashDialog.show();
-//
-//        Button backToHome2 = noGcashDialog.findViewById(R.id.btn_confirm);
-//        backToHome2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                noGcashDialog.dismiss();
-//            }
-//        });
-
     }
 
     @Override
@@ -474,30 +520,28 @@ public class PaymentActivity extends AppCompatActivity {
                 String total_amount = (String) output;
                 Log.d("TAG", "onFinish:####################################### "+ total_amount);
 
-
+                if (total_amount.equals("")) {
+                    total_amount = "0.00";
+                }
                 subTotalTV.setText(total_amount);
-                totalSumTV.setText(total_amount);
 
                 beforeTax = Double.parseDouble(subTotalTV.getText().toString());
                 beforeTax = beforeTax/1.12;
                 tax = beforeTax*0.12;
-                //beforeTaxString = Double.toString(beforeTax);
-                //taxString = Double.toString(tax);
+                if (DiscountLabelTV.getText().toString().equals("None")) {
+                    discountTV.setText("0.00");
+                } else {
+                    double discount =  0.20 * beforeTax;
+                    discountTV.setText(Double.toString(discount));
+                    double grandTotal = Double.parseDouble(total_amount) - discount;
+                    total_amount = Double.toString(grandTotal)+"0";
+                }
+                totalSumTV.setText(total_amount);
                 beforeTaxTV.setText(new DecimalFormat("##.##").format(beforeTax));
                 taxVatTV.setText(new DecimalFormat("##.##").format(tax));
             }
         });
         paymentTask.execute();
-
-        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.paymentActivityRefresh);
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                pullToRefresh.setRefreshing(true);
-                pullToRefresh.setRefreshing(false);
-            }
-        });
-
     }
 
     public Bitmap decodeBlobType(byte[] bytes_from_database){
