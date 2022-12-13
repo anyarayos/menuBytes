@@ -60,21 +60,47 @@ public class SqlStatements {
             "(SELECT user_name from user where user_id = (?))\n" +
             ");";
 
+//    private String insertGcashPaymentV2 = "INSERT INTO payment\n" +
+//            "(\n" +
+//            "payment_amount,\n" +
+//            "amount_due,\n" +
+//            "payment_method,\n" +
+//            "payment_status,\n" +
+//            "created_by,\n" +
+//            "remarks\n" +
+//            ")\n" +
+//            "VALUES(\n" +
+//            "(0),\n" +
+//            "(?),\n" +
+//            "(\"GCASH\"),\n" +
+//            "(\"PENDING\"),\n" +
+//            "(SELECT user_name from user where user_id = (?)),\n" +
+//            "(?)\n" +
+//            ");";
+
     private String insertGcashPaymentV2 = "INSERT INTO payment\n" +
             "(\n" +
             "payment_amount,\n" +
+            "subtotal,\n" +
             "amount_due,\n" +
             "payment_method,\n" +
             "payment_status,\n" +
             "created_by,\n" +
-            "remarks\n" +
+            "remarks,\n" +
+            "discount_id,\n" +
+            "discount_type,\n" +
+            "discount_amount\n" +
             ")\n" +
             "VALUES(\n" +
             "(0),\n" +
             "(?),\n" +
+            "(?),\n" +
             "(\"GCASH\"),\n" +
             "(\"PENDING\"),\n" +
             "(SELECT user_name from user where user_id = (?)),\n" +
+            "(?),\n" +
+            "(?),\n" +
+            "(?),\n" +
             "(?)\n" +
             ");";
 
@@ -82,23 +108,49 @@ public class SqlStatements {
         return insertGcashPaymentV2;
     }
 
-    private String InsertCashPayment = "INSERT INTO payment \n" +
-            "(\n" +
-            "amount_due,\n" +
-            "payment_amount,\n" +
-            "payment_method,\n" +
-            "payment_status,\n" +
-            "created_at,\n" +
-            "created_by)\n" +
-            "VALUES\n" +
-            "(\n" +
-            "(?),\n" +
-            "(?), \n" +
-            "\"CASH\",\n" +
-            "\"PENDING\",\n" +
-            "current_timestamp(),\n" +
-            "(SELECT user_name from user where user_id = (?))\n" +
-            ");";
+//    private String InsertCashPayment = "INSERT INTO payment \n" +
+//            "(\n" +
+//            "amount_due,\n" +
+//            "payment_amount,\n" +
+//            "payment_method,\n" +
+//            "payment_status,\n" +
+//            "created_at,\n" +
+//            "created_by)\n" +
+//            "VALUES\n" +
+//            "(\n" +
+//            "(?),\n" +
+//            "(?), \n" +
+//            "\"CASH\",\n" +
+//            "\"PENDING\",\n" +
+//            "current_timestamp(),\n" +
+//            "(SELECT user_name from user where user_id = (?))\n" +
+//            ");";
+private String InsertCashPayment = "INSERT INTO payment\n" +
+        "(\n" +
+        "subtotal,\n" +
+        "amount_due,\n" +
+        "payment_amount,\n" +
+        "payment_method,\n" +
+        "payment_status,\n" +
+        "created_at,\n" +
+        "created_by,\n" +
+        "discount_id,\n" +
+        "discount_type,\n" +
+        "discount_amount\n" +
+        ")\n" +
+        "VALUES\n" +
+        "(\n" +
+        "(?),\n" +
+        "(?),\n" +
+        "(?), \n" +
+        "\"CASH\",\n" +
+        "\"PENDING\",\n" +
+        "current_timestamp(),\n" +
+        "(SELECT user_name from user where user_id = (?)),\n" +
+        "(?),\n" +
+        "(?),\n" +
+        "(?)\n" +
+        ");";
 
     private String checkPaymentCount = "SELECT COUNT(payment_id) FROM payment\n" +
             "WHERE created_by = (SELECT user_name from user WHERE user_id = (?));";
@@ -122,6 +174,12 @@ public class SqlStatements {
             "WHERE order_status = \"COMPLETED\" \n" +
             "AND orders.created_by = (SELECT user_name from user WHERE user_id = (?)) \n" +
             "AND DATE(orders.created_at) = curdate();\n;";
+
+    private String retrieveGrandTotal = "SELECT subtotal, amount_due, discount_amount, discount_type FROM payment WHERE payment_id = (?); ";
+
+    public String getRetrieveGrandTotal() {
+        return retrieveGrandTotal;
+    }
 
     private String retrieveAllPendingOrdersByTable = "SELECT IF((order_status.order_status=\"PREPARING\"),\"IN THE KITCHEN\", " +
             "order_status.order_status)," +

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class ElectronicReceiptActivity extends AppCompatActivity {
 
-    private TextView subTotalTV, totalSumTV, beforeTaxTV, taxVatTV;
+    private TextView subTotalTV, totalSumTV, beforeTaxTV, taxVatTV,textViewDiscountName,discountTotal2;
     private double beforeTax, tax;
     private TextView AmountText, changeText;
 
@@ -51,6 +51,8 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         totalSumTV = findViewById(R.id.totalSum);
         beforeTaxTV = findViewById(R.id.beforeTax);
         taxVatTV = findViewById(R.id.taxVat);
+        textViewDiscountName = findViewById(R.id.textViewDiscountName);
+        discountTotal2 = findViewById(R.id.discountTotal2);
 
         update();
 
@@ -116,15 +118,24 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
         });
         task.execute();
         //Update Total Amount
-        Task paymentTask = new Task(Task.RETRIEVE_TOTAL_AMOUNT, new AsyncResponse() {
+        Task paymentTask = new Task(Task.GET_GRAND_TOTAL, new AsyncResponse() {
             @Override
             public void onFinish(Object output) {
-                String total_amount = (String) output;
-                Log.d("TAG", "onFinish:####################################### " + total_amount);
+//                String total_amount = (String) output;
+//                Log.d("TAG", "onFinish:####################################### " + total_amount);
+                ArrayList<Payment> payments = new ArrayList<>();
+                payments = (ArrayList<Payment>) output;
 
+//                subTotalTV.setText(total_amount);
+//                totalSumTV.setText(total_amount);
 
-                subTotalTV.setText(total_amount);
-                totalSumTV.setText(total_amount);
+                subTotalTV.setText(payments.get(0).getSubtotal());
+                totalSumTV.setText(payments.get(0).getAmount_due());
+                if(payments.get(0).getDiscount_amount() != null && payments.get(0).getDiscount_type() != null)
+                {
+                    textViewDiscountName.setText(payments.get(0).getDiscount_type());
+                    discountTotal2.setText(payments.get(0).getDiscount_amount());
+                }
 
                 beforeTax = Double.parseDouble(subTotalTV.getText().toString());
                 beforeTax = beforeTax / 1.12;
@@ -135,7 +146,7 @@ public class ElectronicReceiptActivity extends AppCompatActivity {
                 taxVatTV.setText(new DecimalFormat("##.##").format(tax));
             }
         });
-        paymentTask.execute();
+        paymentTask.execute(Utils.getInstance().getPayment_id());
 
         Task getAmountChange = new Task(Task.GET_AMOUNT_CHANGE, new AsyncResponse() {
             @Override

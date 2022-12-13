@@ -154,7 +154,15 @@ public class PaymentActivity extends AppCompatActivity {
 
                         }
                     });
-                    gCashPayment.execute(totalSumTV.getText().toString(),RefNoString);
+                    //subtotal,amount_due,remarks,discount_id,discount_type,discount_amount
+                    String subtotal = subTotalTV.getText().toString();
+                    String amount_due = totalSumTV.getText().toString();
+                    String remarks = RefNoString;
+                    String discount_id = "0";
+                    String discount_type = labelDiscount;
+                    String discount_amount = discountTV.getText().toString();
+
+                    gCashPayment.execute(subtotal,amount_due,remarks,discount_id,discount_type,discount_amount);
                     gcashDialog.dismiss();
                 } else {
                     Toast.makeText(PaymentActivity.this, "The reference number you enter is invalid.", Toast.LENGTH_SHORT).show();
@@ -207,7 +215,14 @@ public class PaymentActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    CashPayment.execute(totalSumTV.getText().toString(), cashAmountString);
+                    //subtotal,amount_due,payment_amount,discount_id,discount_type,discount_amount
+                    String subtotal = subTotalTV.getText().toString();
+                    String amount_due = totalSumTV.getText().toString();
+                    String payment_amount = cashAmountString;
+                    String discount_id = "0";
+                    String discount_type = labelDiscount;
+                    String discount_amount = discountTV.getText().toString();
+                    CashPayment.execute(subtotal,amount_due,payment_amount,discount_id,discount_type,discount_amount);
                     cashDialog.dismiss();
                 } else {
                     Toast.makeText(PaymentActivity.this, "The amount you enter is invalid.", Toast.LENGTH_SHORT).show();
@@ -274,13 +289,13 @@ public class PaymentActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rbGovernment:
-                        labelDiscount = "Government";
+                        labelDiscount = "government";
                         break;
                     case R.id.rbPwd:
-                        labelDiscount = "PWD";
+                        labelDiscount = "pwd";
                         break;
                     case R.id.rbSenior:
-                        labelDiscount = "Senior Citizen";
+                        labelDiscount = "senior";
                         break;
                 }
                 Toast.makeText(getApplicationContext(), labelDiscount, Toast.LENGTH_SHORT).show();

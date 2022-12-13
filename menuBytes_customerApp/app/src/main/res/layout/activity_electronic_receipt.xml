@@ -13,7 +13,7 @@
 
 
         <TextView
-            android:id="@+id/textViewDiscountLabel2"
+            android:id="@+id/textViewDiscountName"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:text="Senior Citizen"
@@ -37,7 +37,7 @@
             android:layout_height="0dp"
             android:text="Discount ("
             android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toStartOf="@+id/textViewDiscountLabel2"
+            app:layout_constraintEnd_toStartOf="@+id/textViewDiscountName"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
@@ -116,7 +116,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDiscountLabel2" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewDiscountName" />
 
         <TextView
             android:id="@+id/totalSum"

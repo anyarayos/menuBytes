@@ -65,6 +65,7 @@ public class Task extends AsyncTask<String, String, Object> {
     public static final String CHECK_LOGIN_STATUS = "CHECK_LOGIN_STATUS";
     public static final String SET_STATUS_LOGGEDIN = "LOGGEDIN";
     public static final String SET_STATUS_LOGGEDOUT = "LOGGEDOUT";
+    public static final String GET_GRAND_TOTAL = "getgrandtotal";
 
     public Task(String method) {
         this.method = method;
@@ -84,7 +85,7 @@ public class Task extends AsyncTask<String, String, Object> {
     private void setConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://192.168.254.126:3306/menubytes", "admin", "admin");
+                connection = DriverManager.getConnection("jdbc:mysql://192.168.1.6:3306/menubytes", "admin", "admin");
         } catch (Exception e) {
             Log.i("DATABASE CONNECTION:", e.toString());
         }
@@ -326,19 +327,52 @@ public class Task extends AsyncTask<String, String, Object> {
                     statement.executeUpdate();
                 }
 
-                //TODO: use to get reference #
+//                if(method.equals(INSERT_GCASH_PAYMENT2)){
+//                    statement = connection.prepareStatement(sqlStatements.getInsertGcashPaymentV2(), Statement.RETURN_GENERATED_KEYS);
+//                    String totalAmount = params[0];
+//                    String remarks = params[1];
+//                    String payment_id = null;
+//                    int user_id = 0;
+//                    if(Utils.getInstance().getUser_id()!=null){
+//                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+//                    }
+//                    statement.setDouble(1,Double.valueOf(totalAmount));
+//                    statement.setInt(2, user_id);
+//                    statement.setString(3,remarks);
+//                    statement.executeUpdate();
+//
+//                    resultSet = statement.getGeneratedKeys();
+//                    if (!resultSet.isBeforeFirst()) {
+//                        Log.d(TAG, "GCASH NO ID_DATA FOUND");
+//                    } else {
+//                        Log.d(TAG, "GCASH ID_DATA FOUND");}
+//                    if(resultSet.next()){
+//                        payment_id = resultSet.getString(1);
+//                    }
+//                    return payment_id;
+//                }
+                //subtotal,amount_due,remarks,discount_id,discount_type,discount_amount
                 if(method.equals(INSERT_GCASH_PAYMENT2)){
                     statement = connection.prepareStatement(sqlStatements.getInsertGcashPaymentV2(), Statement.RETURN_GENERATED_KEYS);
-                    String totalAmount = params[0];
-                    String remarks = params[1];
-                    String payment_id = null;
+                    String subtotal = params[0];
+                    String amount_due = params[1];
                     int user_id = 0;
                     if(Utils.getInstance().getUser_id()!=null){
                         user_id = Integer.valueOf(Utils.getInstance().getUser_id());
                     }
-                    statement.setDouble(1,Double.valueOf(totalAmount));
-                    statement.setInt(2, user_id);
-                    statement.setString(3,remarks);
+                    String remarks = params[2];
+                    String discount_id = params[3];
+                    String discount_type = params[4];
+                    String discount_amount = params[5];
+                    String payment_id = null;
+
+                    statement.setDouble(1,Double.valueOf(subtotal));
+                    statement.setDouble(2,Double.valueOf(amount_due));
+                    statement.setInt(3,Integer.valueOf(user_id));
+                    statement.setString(4,remarks);
+                    statement.setInt(5,Integer.valueOf(discount_id));
+                    statement.setString(6,discount_type);
+                    statement.setDouble(7, Double.valueOf(discount_amount));
                     statement.executeUpdate();
 
                     resultSet = statement.getGeneratedKeys();
@@ -352,18 +386,52 @@ public class Task extends AsyncTask<String, String, Object> {
                     return payment_id;
                 }
 
+//                if(method.equals(INSERT_CASH_PAYMENT)){
+//                    statement = connection.prepareStatement(sqlStatements.getInsertCashPayment(),Statement.RETURN_GENERATED_KEYS);
+//                    String totalAmount = params[0];
+//                    String paymentAmount = params[1];
+//                    String payment_id = null;
+//                    int user_id = 0;
+//                    if(Utils.getInstance().getUser_id()!=null){
+//                        user_id = Integer.valueOf(Utils.getInstance().getUser_id());
+//                    }
+//                    statement.setDouble(1,Double.valueOf(totalAmount));
+//                    statement.setDouble(2,Double.valueOf(paymentAmount));
+//                    statement.setInt(3, user_id);
+//                    statement.executeUpdate();
+//
+//                    resultSet = statement.getGeneratedKeys();
+//                    if (!resultSet.isBeforeFirst()) {
+//                        Log.d(TAG, "CASH PAYMENT NO ID_DATA FOUND");
+//                    } else {
+//                        Log.d(TAG, "CASH PAYMENT ID_DATA FOUND");}
+//                    if(resultSet.next()){
+//                        payment_id = resultSet.getString(1);
+//                    }
+//                    return payment_id;
+//                }
+
+                //subtotal,amount_due,payment_amount,discount_id,discount_type,discount_amount
                 if(method.equals(INSERT_CASH_PAYMENT)){
                     statement = connection.prepareStatement(sqlStatements.getInsertCashPayment(),Statement.RETURN_GENERATED_KEYS);
-                    String totalAmount = params[0];
-                    String paymentAmount = params[1];
+                    String subtotal = params[0];
+                    String amount_due = params[1];
+                    String payment_amount = params[2];
+                    String discount_id = params[3];
+                    String discount_type = params[4];
+                    String discount_amount = params[5];
                     String payment_id = null;
                     int user_id = 0;
                     if(Utils.getInstance().getUser_id()!=null){
                         user_id = Integer.valueOf(Utils.getInstance().getUser_id());
                     }
-                    statement.setDouble(1,Double.valueOf(totalAmount));
-                    statement.setDouble(2,Double.valueOf(paymentAmount));
-                    statement.setInt(3, user_id);
+                    statement.setDouble(1,Double.valueOf(subtotal));
+                    statement.setDouble(2,Double.valueOf(amount_due));
+                    statement.setDouble(3,Double.valueOf(payment_amount));
+                    statement.setInt(4, user_id);
+                    statement.setString(5,discount_id);
+                    statement.setString(6,discount_type);
+                    statement.setString(7,discount_amount);
                     statement.executeUpdate();
 
                     resultSet = statement.getGeneratedKeys();
@@ -611,6 +679,28 @@ public class Task extends AsyncTask<String, String, Object> {
                         while (resultSet.next()) {
                             payments.add(new Payment(resultSet.getString(1),
                                     resultSet.getString(2))
+                            );
+                        }
+                        return payments;
+                    }
+                }
+
+                if(method.equals(GET_GRAND_TOTAL)){
+                    statement = connection.prepareStatement(sqlStatements.getRetrieveGrandTotal());
+                    ArrayList<Payment> payments = new ArrayList<>();
+                    String payment_id = params[0];
+                    statement.setString(1, payment_id);
+                    resultSet = statement.executeQuery();
+                    if (!resultSet.isBeforeFirst()) {
+                        Log.d(TAG, "GET_GRAND_TOTAL : NO DATA FOUND");
+                    } else {
+                        Log.d(TAG, "GET_GRAND_TOTAL: DATA FOUND");
+                        while (resultSet.next()) {
+                            payments.add(new Payment(
+                                    resultSet.getString(1),
+                                    resultSet.getString(2),
+                                    resultSet.getString(3),
+                                    resultSet.getString(4))
                             );
                         }
                         return payments;
